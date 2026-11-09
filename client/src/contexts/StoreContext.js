@@ -1,115 +1,118 @@
 import axios from "axios";
-import { createContext, useContext, useEffect, useReducer, useState } from "react";
-import { Router, useNavigate } from "react-router-dom";
+import { createContext, useEffect, useReducer, useState } from "react";
 import { PORT } from "../constants";
 import { StoreReducer } from "../Reducers/StoreReducer";
 
-export const storeContext = createContext()
+export const storeContext = createContext();
 
-const StoreProvider=({children})=>{
-   const [storestate,dispath]=useReducer(StoreReducer,{
-       storeLoading:true,
-       listpost:"",
-       detail:[],
-       detaillCarLoading:true
-   })
-   const {listpost,storeLoading,detail,detaillCarLoading}=storestate
+const StoreProvider = ({ children }) => {
+  const [storestate, dispath] = useReducer(StoreReducer, {
+    storeLoading: true,
+    listpost: "",
+    detail: [],
+    detaillCarLoading: true
+  });
+  const { listpost, storeLoading, detail, detaillCarLoading } = storestate;
+  const [alert, setalert] = useState(null);
 
-
-  const [alert, setalert] = useState(null)
-   const send = async (data) => {
+  const send = async (data) => {
     try {
+      const response = await axios.post(`${PORT}store`, data);
       setTimeout(() => {
-        setalert(null)
-       getListStore()
+        setalert(null);
+        getListStore();
       }, 1000);
-      const res = await axios.post(`${PORT}store`, data)
+      return response.data;
     } catch (error) {
-      return setalert({message:"lỗi đăng tải"})
+      setalert({ message: "lỗi đăng tải" });
+      return { success: false, message: error.message };
     }
-  }
-  const getListStore =async()=>{
-      try {
-          const repose = await axios.get(`${PORT}store/getlistCart`)
-         dispath({type:"GET_LISTCART" ,payload:repose.data.list})
-          return repose.data
-      } catch (error) {
-          console.log("lỗi ");
-      }
-  }
+  };
+
+  const getListStore = async () => {
+    try {
+      const response = await axios.get(`${PORT}store/getlistCart`);
+      dispath({ type: "GET_LISTCART", payload: response.data.list });
+      return response.data;
+    } catch (error) {
+      console.error("Không thể tải danh sách sản phẩm:", error);
+      return { success: false, message: error.message };
+    }
+  };
+
   const detailcart = async (data) => {
     dispath({ type: "GET_DETAILCART2", payload: detaillCarLoading });
-    Findcartbyid(data._id || data.id);
-    console.log(data)
-  
+    return Findcartbyid(data._id || data.id);
   };
-  const getlistCartreturnguest =async()=>{
+
+  const getlistCartreturnguest = async () => {
     try {
-        const repose = await axios.get(`${PORT}store/getlistCartreturnguest`)
-       dispath({type:"GET_LISTCART" ,payload:repose.data.list})
-        return repose.data
+      const response = await axios.get(`${PORT}store/getlistCartreturnguest`);
+      dispath({ type: "GET_LISTCART", payload: response.data.list });
+      return response.data;
     } catch (error) {
-        console.log("lỗi ");
+      console.error("Không thể tải sản phẩm cho khách:", error);
+      return { success: false, message: error.message };
     }
-}
+  };
 
-const EditCartItem2=async(dataformEdit,data)=>{
-  console.log(dataformEdit);
-try {
-  const reponse = await axios.put(`${PORT}store/editcart/${dataformEdit._id}`,data)
-  setalert({type:"success",message:"Cập Nhật Thành công"})
-  setTimeout(() => {
-    setalert(null)
-    getListStore()
-  },2000);
+  const EditCartItem2 = async (dataformEdit, data) => {
+    try {
+      const response = await axios.put(`${PORT}store/editcart/${dataformEdit._id}`, data);
+      setalert({ type: "success", message: "Cập Nhật Thành công" });
+      setTimeout(() => {
+        setalert(null);
+        getListStore();
+      }, 2000);
+      return response.data;
+    } catch (error) {
+      console.error("Lỗi cập nhật sản phẩm:", error);
+      setalert({ type: "danger", message: "Không thể cập nhật sản phẩm" });
+      return { success: false, message: error.message };
+    }
+  };
 
-  if (reponse.data.succsess) {
-    return reponse.data
-  }
-} catch (error) {
-  console.log("lỗi upload từ StoreContext");
-}
-}
-//Tìm một sản phẩm chi tiết 
+  const Findcartbyid = async (id) => {
+    try {
+      const response = await axios.get(`${PORT}store/detailcart/${id}`);
+      dispath({ type: "GET_DETAILCART", payload: { detail: response.data.detail, id } });
+      return response.data;
+    } catch (error) {
+      console.error("Không thể tải chi tiết sản phẩm:", error);
+      return { success: false, message: error.message };
+    }
+  };
 
-const Findcartbyid =async(id)=>{
+  const deleteCartStore = async (id) => {
+    try {
+      const response = await axios.delete(`${PORT}store/deletecart/${id}`);
+      if (response.data.success) {
+        dispath({ type: "DELETE_CART", payload: response.data.deletecard });
+      }
+      return response.data;
+    } catch (error) {
+      console.error("Không thể xóa sản phẩm:", error);
+      return { success: false, message: error.message };
+    }
+  };
 
+  useEffect(() => {
+    getlistCartreturnguest();
+    // Initial public product list load.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
-  try {
-    const response = await axios.get(`${PORT}store/detailcart/${ id}`)
-    dispath({type:"GET_DETAILCART",payload:{detail:response.data.detail,id,}})
-  } catch (error) {
-    
-  }
-}
+  const storeData = {
+    detailcart, getlistCartreturnguest, getListStore, send, alert, setalert,
+    storeLoading, listpost, deleteCartStore, EditCartItem2, Findcartbyid,
+    detail, detaillCarLoading, dispath
+  };
 
+  return (
+    <storeContext.Provider value={storeData}>
+      {children}
+    </storeContext.Provider>
+  );
+};
 
-
- const deleteCartStore =async (id,newlist)=>{
- try {
-  const reponse = await axios.delete(`http://localhost:3000/store/deletecart/${id}`)
-   if(reponse.data.success)
-   dispath({type:"DELETE_CART",payload:reponse.data.deletecard})
-
-   return reponse.data
- } catch (error) {
-   console.log("lỗi");
- }
-
- }
-useEffect(()=>{getlistCartreturnguest()},[])
-
-
-   const storeData={detailcart,getlistCartreturnguest,getListStore,send,alert,setalert,storeLoading,listpost,deleteCartStore,EditCartItem2,Findcartbyid,detail,detaillCarLoading,dispath}
-
-
-   
-   return (
-       <storeContext.Provider value={storeData}>
-           {children}
-       </storeContext.Provider>
-   )
-
-}
-export default StoreProvider
-
+export default StoreProvider;

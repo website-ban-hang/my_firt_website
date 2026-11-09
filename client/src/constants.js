@@ -1,19 +1,20 @@
-// Set REACT_APP_API_URL in Vercel to the deployed backend URL,
-// including the /api prefix only if your backend is mounted under /api.
-const configuredApiUrl = process.env.REACT_APP_API_URL;
+// Set REACT_APP_API_URL in Vercel to the public backend URL.
+const configuredApiUrl = process.env.REACT_APP_API_URL || "";
+let normalizedApiUrl = configuredApiUrl;
+while (normalizedApiUrl.endsWith("/")) {
+  normalizedApiUrl = normalizedApiUrl.slice(0, -1);
+}
 
-export const PORT = configuredApiUrl
-  ? `${configuredApiUrl.replace(/\\/+$/, "")}/`
+export const PORT = normalizedApiUrl
+  ? `${normalizedApiUrl}/`
   : process.env.NODE_ENV === "development"
     ? "http://localhost:3000/"
     : "/";
 
-if (process.env.NODE_ENV === "production" && !configuredApiUrl) {
-  // This warning makes a missing Vercel environment variable easy to diagnose.
-  // Configure REACT_APP_API_URL to the public backend URL in Vercel.
+if (process.env.NODE_ENV === "production" && !normalizedApiUrl) {
   // eslint-disable-next-line no-console
   console.error(
-    "Missing REACT_APP_API_URL. Configure it in Vercel to connect this frontend to the backend."
+    "Missing REACT_APP_API_URL. Set it in Vercel to the deployed backend URL."
   );
 }
 

@@ -1,99 +1,102 @@
-const express = require('express')
-const app = express()
-const multer = require('multer')
-const router = express.Router()
-const upload = multer({
-    dest: "/tmp/uploads"
-});
-const fs = require("fs")
-const verifyToken = require("../middleware/auth")
-const Store = require("../models/Store")
+const Store = require("../models/Store");
 
+class StoreController {
+  async poststorage(req, res) {
+    if (!req.file) {
+      return res.status(400).json({ success: false, message: "Vui lòng chọn hình ảnh sản phẩm" });
+    }
 
-class storecontroller {
-    async poststorage(req, res) {
-        let filetype = req.file.mimetype.split("/")[1]
-        let newfileName = req.file.filename + "." + filetype
-        if(!filetype || !newfileName ) return res.json({ success: false, message: "Thiếu hình ảnh không được upload" })
-        fs.rename(`public/${req.file.filename}`, `public/${newfileName}`, (req, res) => {
-          console.log("thành côgn");
-        })
-        const { title, status, money } = req.body
-      
-        try {
-          const file = new Store({
-            title, status, img: newfileName, uer: req.userId, money
-          })
-          await file.save()
-          res.json({ success: true, message: "addcart thành công", file })
-      
-        } catch (error) {
-          res.json({ success: false, message: "lỗi upload" })
-        }
-      }
-      async getstorage(req, res) {
-        try {
-          const reponse = await Store.find({})
-          if (!reponse) return res.status(400).json({ success: false, message: "lỗi server" })
-          res.json({ success: true, list: reponse })
-        } catch (error) {
-          res.json({ success: false, message: "lỗi không chạy được" })
-        }
-      
-      }
-      async getkhachvanglai(req, res) {
-        try {
-          const reponse = await Store.find({})
-          if (!reponse) return res.status(400).json({ success: false, message: "lỗi server" })
-          res.json({ success: true, list: reponse })
-        } catch (error) {
-          res.json({ success: false, message: "lỗi không chạy được" })
-        }
-      
-      }
-      async deletestorage(req, res) {
-        try {
-          const optiondelete = { _id: req.params.id, user: req.userId }
-          const deletecart = await Store.findOneAndDelete(optiondelete)
-          if (!deletecart) return res.status(401).json({ success: false, message: "người dùng không hợp lệ" })
-          res.json({ success: true, message: "thành công ", deletecard: deletecart })
-        } catch (error) {
-      
-        }
-      }
-      async putstorage (req, res) {
-        let filetype = req.file.mimetype.split("/")[1]
-        let newfileName = req.file.filename + "." + filetype
-        fs.rename(`public/${req.file.filename}`, `public/${newfileName}`, (req, res) => {
-        })
-        const { title, status, money } = req.body
-        try {
-          const param = req.params.id
-          const data2 = await Store.findOne({ param })
-          const updatePost = {
-            title, status, img: newfileName, uer: req.userId, money
-          }
-          const postUpdateConditon = { _id: req.params.id, user: req.userId }
-          const editput = await Store.findOneAndUpdate(postUpdateConditon, updatePost, { new: true })
-          if (!editput)
-            return res.status(401).json({ succsess: false, messaage: "thất bại ở auth" })
-          res.json({ success: true, message: "addcart thành công", listpost: editput })
-        } catch (error) {
-          res.json({ success: false, message: "lỗi upload" })
-      
-        }
-      }
-      async detailstorage(req, res)  {
-        const params = req.params.id
-      
-        try {
-          const detailcart = await Store.find({ params })
-          if (detailcart)
-            res.json({ success: true, message: " Get thành công ", detail: detailcart })
-        } catch (error) {
-      
-        }
-      }
+    const { title, status, money } = req.body || {};
+    const price = Number(money);
+    if (!title || !Number.isFinite(price) || price < 0) {
+      return res.status(400).json({ success: false, message: "Tên hoặc giá sản phẩm không hợp lệ" });
+    }
 
+    try {
+      const file = await Store.create({
+        title,
+        status,
+        img: req.file.filename,
+        uer: req.userId,
+        money: price,
+      });
+      return res.status(201).json({ success: true, message: "Thêm sản phẩm thành công", file });
+    } catch (error) {
+      console.error("Create product error:", error);
+      return res.status(500).json({ success: false, message: "Không thể thêm sản phẩm" });
+    }
+  }
+
+  async getstorage(req, res) {
+    try {
+      const list = await Store.find({});
+      return res.json({ success: true, list });
+    } catch (error) {
+      console.error("Get products error:", error);
+      return res.status(500).json({ success: false, message: "Không thể tải danh sách sản phẩm" });
+    }
+  }
+
+  async getkhachvanglai(req, res) {
+    return this.getstorage(req, res);
+  }
+
+  async deletestorage(req, res) {
+    try {
+      // The existing Store schema uses the legacy field name "uer".
+      const deleted = await Store.findOneAndDelete({ _id: req.params.id, uer: req.userId });
+      if (!deleted) {
+        return res.status(404).json({ success: false, message: "Không tìm thấy sản phẩm hoặc bạn không có quyền xóa" });
+      }
+      return res.json({ success: true, message: "Xóa sản phẩm thành công", deletecard: deleted });
+    } catch (error) {
+      console.error("Delete product error:", error);
+      return res.status(500).json({ success: false, message: "Không thể xóa sản phẩm" });
+    }
+  }
+
+  async putstorage(req, res) {
+    const { title, status, money } = req.body || {};
+    const update = {};
+    if (title !== undefined) update.title = title;
+    if (status !== undefined) update.status = status;
+    if (money !== undefined) {
+      const price = Number(money);
+      if (!Number.isFinite(price) || price < 0) {
+        return res.status(400).json({ success: false, message: "Giá sản phẩm không hợp lệ" });
+      }
+      update.money = price;
+    }
+    if (req.file) update.img = req.file.filename;
+
+    try {
+      const updated = await Store.findOneAndUpdate(
+        { _id: req.params.id, uer: req.userId },
+        { $set: update },
+        { new: true, runValidators: true }
+      );
+      if (!updated) {
+        return res.status(404).json({ success: false, message: "Không tìm thấy sản phẩm hoặc bạn không có quyền sửa" });
+      }
+      return res.json({ success: true, message: "Cập nhật sản phẩm thành công", listpost: updated });
+    } catch (error) {
+      console.error("Update product error:", error);
+      return res.status(500).json({ success: false, message: "Không thể cập nhật sản phẩm" });
+    }
+  }
+
+  async detailstorage(req, res) {
+    try {
+      const detail = await Store.findById(req.params.id);
+      if (!detail) {
+        return res.status(404).json({ success: false, message: "Không tìm thấy sản phẩm" });
+      }
+      return res.json({ success: true, message: "Tải chi tiết thành công", detail: [detail] });
+    } catch (error) {
+      console.error("Get product detail error:", error);
+      return res.status(500).json({ success: false, message: "Không thể tải chi tiết sản phẩm" });
+    }
+  }
 }
-module.exports = new storecontroller;
+
+module.exports = new StoreController();

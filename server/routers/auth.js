@@ -4,7 +4,7 @@ const router = express.Router()
 const argon2 = require("argon2")
 const jwt = require("jsonwebtoken")
 const verifyToken = require("../middleware/auth")
-const AuthController = require("../controllers/authController")
+const AuthController = require("../controllers/AuthController")
 
 
 //router Post api/auth/register

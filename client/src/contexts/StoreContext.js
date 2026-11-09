@@ -98,8 +98,6 @@ const StoreProvider = ({ children }) => {
 
   useEffect(() => {
     getlistCartreturnguest();
-    // Initial public product list load.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const storeData = {

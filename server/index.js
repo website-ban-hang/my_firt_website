@@ -52,6 +52,16 @@ app.use(async (req, res, next) => {
   }
 });
 
+// Deployment health check: confirms MongoDB is reachable as well as the API process.
+app.get("/health", (req, res) => {
+  res.status(200).json({
+    success: true,
+    status: "ok",
+    database: mongoose.connection.readyState === 1 ? "connected" : "disconnected"
+  });
+});
+
+
 const authRouter = require("./routers/auth");
 const postRouter = require("./routers/Post");
 const storeRouter = require("./routers/Store");

@@ -1,21 +1,11 @@
-// Set REACT_APP_API_URL in Vercel to the public backend URL.
-const configuredApiUrl = process.env.REACT_APP_API_URL || "";
-let normalizedApiUrl = configuredApiUrl;
-while (normalizedApiUrl.endsWith("/")) {
-  normalizedApiUrl = normalizedApiUrl.slice(0, -1);
-}
+// The production fallback keeps the client pointed at the deployed API even
+// when REACT_APP_API_URL was not added to the Vercel build environment.
+const configuredApiUrl = process.env.REACT_APP_API_URL ||
+  (process.env.NODE_ENV === "production"
+    ? "https://my-firt-website-server.vercel.app"
+    : "http://localhost:3000");
 
-export const PORT = normalizedApiUrl
-  ? `${normalizedApiUrl}/`
-  : process.env.NODE_ENV === "development"
-    ? "http://localhost:3000/"
-    : "/";
-
-if (process.env.NODE_ENV === "production" && !normalizedApiUrl) {
-  // eslint-disable-next-line no-console
-  console.error(
-    "Missing REACT_APP_API_URL. Set it in Vercel to the deployed backend URL."
-  );
-}
+const normalizedApiUrl = configuredApiUrl.replace(/\/+$/, "");
+export const PORT = `${normalizedApiUrl}/`;
 
 export const LOCAL_STORAGE_TOKEN_NAME = "XUANHIEu";

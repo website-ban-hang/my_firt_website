@@ -3,6 +3,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
 const path = require("path");
+
 require("dotenv").config({
     path: path.join(__dirname, ".env")
 });
@@ -16,6 +17,60 @@ app.use(express.urlencoded({ extended: true }));
 
 // Hiển thị hình ảnh trong thư mục public
 app.use(express.static(path.join(__dirname, "public")));
+
+// Kiểm tra Server (không phụ thuộc MongoDB)
+app.get("/", (req, res) => {
+    res.status(200).send("Server đang hoạt động!");
+});
+
+// Quản lý kết nối MongoDB, tái sử dụng kết nối
+let cached = global.mongoose;
+
+if (!cached) {
+    cached = global.mongoose = {
+        conn: null,
+        promise: null
+    };
+}
+
+async function connectDB() {
+    if (cached.conn) {
+        return cached.conn;
+    }
+
+    if (!process.env.MONGODB_URI) {
+        throw new Error("Chưa cấu hình MONGODB_URI");
+    }
+
+    if (!cached.promise) {
+        cached.promise = mongoose.connect(process.env.MONGODB_URI)
+            .then((mongooseInstance) => mongooseInstance)
+            .catch((error) => {
+                cached.promise = null;
+                throw error;
+            });
+    }
+
+    cached.conn = await cached.promise;
+    return cached.conn;
+}
+
+// Kết nối MongoDB trước khi xử lý API
+app.use(async (req, res, next) => {
+    try {
+        await connectDB();
+        next();
+    } catch (error) {
+        console.error("Lỗi kết nối MongoDB:", error);
+
+        res.status(500).json({
+            message: "Không thể kết nối cơ sở dữ liệu",
+            error: process.env.NODE_ENV === "development"
+                ? error.message
+                : undefined
+        });
+    }
+});
 
 // Router
 const authRouter = require("./routers/auth");
@@ -31,30 +86,5 @@ app.use("/store", storeRouter);
 app.use("/storagecart", storageCartRouter);
 app.use("/theoder", theOderRouter);
 
-// Kiểm tra Server
-app.get("/", (req, res) => {
-    res.send("Server đang hoạt động!");
-});
-
-// Kết nối MongoDB và khởi chạy Server
-const PORT = process.env.PORT || 3000;
-
-async function startServer() {
-    try {
-        if (!process.env.MONGODB_URI) {
-            throw new Error("Chưa cấu hình MONGODB_URI trong file .env");
-        }
-
-        await mongoose.connect(process.env.MONGODB_URI);
-
-        console.log("MongoDB kết nối thành công!");
-
-        app.listen(PORT, () => {
-            console.log(`Server đang chạy tại http://localhost:${PORT}`);
-        });
-    } catch (error) {
-        console.error("Lỗi khởi chạy Server:", error.message);
-    }
-}
-
-startServer();
+// Xuất ứng dụng cho Vercel
+module.exports = app;

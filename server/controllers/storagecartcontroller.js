@@ -1,70 +1,79 @@
-const express = require("express")
-const router = express.Router()
-const verifyToken = require("../middleware/auth")
-const StorrageCart = require("../models/StorageCart")
+const StorrageCart = require("../models/StorageCart");
 
-class storagecartcontroller{
-    async getstorage (req, res){
+class StorageCartController {
+    async getstorage(req, res) {
         try {
-            const user = req.userId
-            console.log(user);
-            const response = await StorrageCart.find({user:req.userId})
-            console.log(typeof(response));
-            
-           res.json({success:true,message:"Get thành công",listStorage:response})
-          
+            const listStorage = await StorrageCart.find({ user: req.userId });
+            return res.json({ success: true, message: "Get thành công", listStorage });
         } catch (error) {
-            console.log("lỗi sever");
-        }
-      }
-      async poststorage(req, res)  {
-        const newuser= req.userId
-         const { status, img, title, quantily, money, address } = req.body
-         console.log(req.body);
-         const newquantily = ~~quantily
-         const newtoltalmoney = newquantily * money
-     
-         const data = { user: newuser, title: title, quantily: newquantily, toltalmoney: newtoltalmoney, address: address,img:img ,money:money}
-         console.log(data);
-         try {
-            
-             const newpostsorage = new StorrageCart(data)
-             await newpostsorage.save()
-             res.json({ success: true, message: "addstoragecart thành công", newpostsorage })
-     
-         }
-         catch {
-             res.json({ success: false, message: "addstoragecart thất bại" })
-     
-         }
-     }
-     async putstorage(req,res){
-        const quantily=req.body
-        console.log(quantily);
-        if(!quantily)
-        return res.status(400).json({success:false,message:"Không được để trống quantily"})
-      
-        try {
-            const updatePost = await StorrageCart.findByIdAndUpdate({ _id:req.params.id},quantily,{new:true})
-     
-            if(!updatePost) return res.json({ succsess: false, message: "tăng quantily thất bại", quantily:updatePost  })
-             res.json({ succsess: true, message: "addcart thành công", quantily:updatePost })
-            console.log(updatePost);
-        } catch (error) {
-            
-            console.log(error);
+            console.error("Get storage cart error:", error);
+            return res.status(500).json({ success: false, message: "Không thể tải giỏ hàng" });
         }
     }
-    async deletestorage(req,res){
-        try {
-            const storageDeleteCondition={_id:req.params.id,user:req.userId}
-            const deletesorage = await StorrageCart.findOneAndDelete(storageDeleteCondition)
-            if(!deletesorage) return res.status(401).json({success:false,message:"người dùng không hợp lệ"})
-            res.json({success:true,message:"thành công ",deletesorage})
-        } catch (error) {
-            console.log(error);
+
+    async poststorage(req, res) {
+        const { img, title, quantily, money, address } = req.body || {};
+        const quantity = Number(quantily);
+        const price = Number(money);
+        if (!title || !Number.isFinite(quantity) || quantity < 1 || !Number.isFinite(price) || price < 0) {
+            return res.status(400).json({ success: false, message: "Thông tin sản phẩm không hợp lệ" });
         }
-    
+        try {
+            const newpostsorage = await StorrageCart.create({
+                user: req.userId,
+                title,
+                quantily: quantity,
+                toltalmoney: quantity * price,
+                address,
+                img,
+                money: price
+            });
+            return res.status(201).json({ success: true, message: "Thêm vào giỏ hàng thành công", newpostsorage });
+        } catch (error) {
+            console.error("Add storage cart error:", error);
+            return res.status(500).json({ success: false, message: "Không thể thêm vào giỏ hàng" });
+        }
+    }
+
+    async putstorage(req, res) {
+        const quantity = Number(req.body && req.body.quantily);
+        const totalMoney = Number(req.body && req.body.toltalmoney);
+        if (!Number.isFinite(quantity) || quantity < 1) {
+            return res.status(400).json({ success: false, message: "Số lượng không hợp lệ" });
+        }
+        try {
+            const update = { quantily: quantity };
+            if (Number.isFinite(totalMoney) && totalMoney >= 0) update.toltalmoney = totalMoney;
+            const updatedCart = await StorrageCart.findOneAndUpdate(
+                { _id: req.params.id, user: req.userId },
+                { $set: update },
+                { new: true, runValidators: true }
+            );
+            if (!updatedCart) {
+                return res.status(404).json({ success: false, message: "Không tìm thấy sản phẩm trong giỏ hàng" });
+            }
+            return res.json({ success: true, message: "Cập nhật giỏ hàng thành công", quantily: updatedCart });
+        } catch (error) {
+            console.error("Update storage cart error:", error);
+            return res.status(500).json({ success: false, message: "Không thể cập nhật giỏ hàng" });
+        }
+    }
+
+    async deletestorage(req, res) {
+        try {
+            const deletesorage = await StorrageCart.findOneAndDelete({
+                _id: req.params.id,
+                user: req.userId
+            });
+            if (!deletesorage) {
+                return res.status(404).json({ success: false, message: "Không tìm thấy sản phẩm trong giỏ hàng" });
+            }
+            return res.json({ success: true, message: "Xóa thành công", deletesorage });
+        } catch (error) {
+            console.error("Delete storage cart error:", error);
+            return res.status(500).json({ success: false, message: "Không thể xóa sản phẩm" });
+        }
     }
 }
-module.exports = new storagecartcontroller;
+
+module.exports = new StorageCartController();

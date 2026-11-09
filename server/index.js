@@ -70,7 +70,7 @@ app.get("/health", async (req, res) => {
       database: "disconnected",
       error: error.name || "DatabaseConnectionError",
       code: error.code || error.codeName || null,
-      message: error.message || "Không thể kết nối cơ sở dữ liệu"
+      message: "Không thể kết nối cơ sở dữ liệu; xem Function Logs để biết chi tiết"
     });
   }
 });

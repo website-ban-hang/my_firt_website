@@ -7,13 +7,16 @@ require("dotenv").config({ path: path.join(__dirname, ".env") });
 
 const app = express();
 
-const allowedOrigins = (
-  process.env.CLIENT_URL ||
-  "https://my-firt-website-client.vercel.app,http://localhost:3000"
-)
-  .split(",")
+// Always keep the production frontend and local development origins allowed.
+// CLIENT_URL may contain one or more additional comma-separated origins.
+const defaultOrigins = [
+  "https://my-firt-website-client.vercel.app",
+  "http://localhost:3000"
+];
+const configuredOrigins = (process.env.CLIENT_URL || "").split(",");
+const allowedOrigins = [...new Set([...defaultOrigins, ...configuredOrigins]
   .map((origin) => origin.trim().replace(/\/+$/, ""))
-  .filter(Boolean);
+  .filter(Boolean))];
 
 app.use(cors({
   origin(origin, callback) {

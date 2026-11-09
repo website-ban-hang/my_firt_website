@@ -7,13 +7,12 @@ require("dotenv").config({ path: path.join(__dirname, ".env") });
 
 const app = express();
 
-// Set CLIENT_URL to the deployed frontend origin. Multiple origins may be comma-separated.
 const allowedOrigins = (process.env.CLIENT_URL || "http://localhost:3000")
-  .split(",").map((origin) => origin.trim().replace(/\/+$/, "")).filter(Boolean);
+  .split(",").map((origin) => origin.trim().replace(/\\/+$/, "")).filter(Boolean);
 
 app.use(cors({
   origin(origin, callback) {
-    if (!origin || allowedOrigins.includes(origin.replace(/\/+$/, ""))) return callback(null, true);
+    if (!origin || allowedOrigins.includes(origin.replace(/\\/+$/, ""))) return callback(null, true);
     return callback(new Error("Origin is not allowed by CORS"));
   },
   credentials: true,
@@ -22,51 +21,82 @@ app.use(cors({
 }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(express.static(path.join(__dirname, "public")));
 
+// These endpoints must remain reachable even when MongoDB is unavailable.
 app.get("/", (req, res) => res.status(200).send("Server đang hoạt động!"));
+app.get("/favicon.ico", (req, res) => res.status(204).end());
 
+// Keep one MongoDB connection across Vercel function invocations when possible.
 let cached = global.mongoose;
 if (!cached) cached = global.mongoose = { conn: null, promise: null };
 
 async function connectDB() {
-  if (cached.conn) return cached.conn;
-  if (!process.env.MONGODB_URI) throw new Error("Chưa cấu hình MONGODB_URI");
-  if (!cached.promise) {
-    cached.promise = mongoose.connect(process.env.MONGODB_URI)
-      .then((mongooseInstance) => mongooseInstance)
-      .catch((error) => { cached.promise = null; throw error; });
+  if (cached.conn && mongoose.connection.readyState === 1) return cached.conn;
+
+  if (!process.env.MONGODB_URI) {
+    throw new Error("Thiếu biến môi trường MONGODB_URI trên Vercel");
   }
+
+  if (!cached.promise) {
+    cached.promise = mongoose.connect(process.env.MONGODB_URI, {
+      serverSelectionTimeoutMS: 10000
+    })
+      .then((mongooseInstance) => mongooseInstance)
+      .catch((error) => {
+        cached.promise = null;
+        cached.conn = null;
+        throw error;
+      });
+  }
+
   cached.conn = await cached.promise;
   return cached.conn;
 }
 
-app.use(async (req, res, next) => {
-  try { await connectDB(); next(); }
-  catch (error) {
-    console.error("Lỗi kết nối MongoDB:", error);
-    res.status(500).json({
-      success: false, message: "Không thể kết nối cơ sở dữ liệu",
-      error: process.env.NODE_ENV === "development" ? error.message : undefined
+// Health check explicitly tests MongoDB and returns a useful, non-secret error code.
+app.get("/health", async (req, res) => {
+  try {
+    await connectDB();
+    return res.status(200).json({
+      success: true,
+      status: "ok",
+      database: "connected"
+    });
+  } catch (error) {
+    console.error("Health check - MongoDB connection failed:", error);
+    return res.status(503).json({
+      success: false,
+      status: "error",
+      database: "disconnected",
+      error: error.name || "DatabaseConnectionError",
+      code: error.code || error.codeName || null,
+      message: error.message || "Không thể kết nối cơ sở dữ liệu"
     });
   }
 });
 
-// Deployment health check: confirms MongoDB is reachable as well as the API process.
-app.get("/health", (req, res) => {
-  res.status(200).json({
-    success: true,
-    status: "ok",
-    database: mongoose.connection.readyState === 1 ? "connected" : "disconnected"
-  });
-});
+app.use(express.static(path.join(__dirname, "public")));
 
+// All API routes below this middleware require a working database.
+app.use(async (req, res, next) => {
+  try {
+    await connectDB();
+    next();
+  } catch (error) {
+    console.error("Lỗi kết nối MongoDB:", error);
+    res.status(503).json({
+      success: false,
+      message: "Không thể kết nối cơ sở dữ liệu"
+    });
+  }
+});
 
 const authRouter = require("./routers/auth");
 const postRouter = require("./routers/Post");
 const storeRouter = require("./routers/Store");
 const storageCartRouter = require("./routers/StorageCart");
 const theOderRouter = require("./routers/TheOderRouter");
+
 app.use("/auth", authRouter);
 app.use("/post", postRouter);
 app.use("/store", storeRouter);

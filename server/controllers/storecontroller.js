@@ -2,7 +2,9 @@ const express = require('express')
 const app = express()
 const multer = require('multer')
 const router = express.Router()
-const upload = multer({ dest: 'public' })
+const upload = multer({
+    dest: "/tmp/uploads"
+});
 const fs = require("fs")
 const verifyToken = require("../middleware/auth")
 const Store = require("../models/Store")

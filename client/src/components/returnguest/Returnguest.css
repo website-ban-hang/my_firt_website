@@ -215,3 +215,67 @@
   .guest-actions .guest-login { font-size: 0; gap: 0; }
   .guest-actions .guest-login svg { font-size: 16px; }
 }
+
+/* Electrical retail identity and mobile refinements */
+.guest-shop{--guest-ink:#172b3d;--guest-muted:#657789;--guest-green:#075b91;--guest-green-dark:#073d63;--guest-lime:#d8eaf5;--guest-cream:#f2f7fb;--guest-orange:#f59b23;background:#f8fafc;color:#172b3d}
+.guest-topline{background:#082f4c;color:#e7f4fc}
+.guest-header{max-width:100%;padding-inline:clamp(16px,5vw,76px);border-bottom:1px solid #e5edf3}
+.guest-brand-mark{background:#e4f1fa;color:#0874b7;border-radius:12px;transform:none}
+.guest-brand-name{color:#103b59;font-family:"DM Sans",sans-serif;font-size:18px;letter-spacing:.03em}
+.guest-brand-name>span{color:#f09a1b}
+.guest-brand-name small{letter-spacing:.08em;font-size:7px}
+.guest-nav a:hover,.guest-nav a.active,.guest-login{color:#0874b7}
+.guest-register,.guest-primary-btn{background:#0874b7;border-radius:8px}
+.guest-register:hover,.guest-primary-btn:hover{background:#064c7a}
+.guest-hero{max-width:100%;min-height:470px;background:linear-gradient(110deg,#f0f7fc 0%,#f8fafc 56%,#e5f1f8 100%);padding-inline:clamp(20px,9vw,140px)}
+.guest-hero h1{font-family:"DM Sans",sans-serif;font-weight:800;letter-spacing:-.045em;color:#103b59}
+.guest-hero h1 em{color:#0874b7}
+.guest-eyebrow{color:#0874b7}
+.guest-eyebrow>span{background:#f59b23}
+.guest-hero-art{min-height:340px}
+.guest-art-orbit{width:340px;height:340px;border:1px solid #b8d8ec}
+.guest-art-orbit:before{border-color:#c8dfed}
+.electrical-hero-illustration{position:relative;z-index:1;width:min(100%,390px);height:310px;border-radius:30px;background:linear-gradient(145deg,#d7eaf5,#fff);box-shadow:0 24px 55px rgba(13,69,105,.16);display:flex;align-items:center;justify-content:center;gap:22px;overflow:hidden}
+.electrical-hero-illustration:before{content:"";position:absolute;width:270px;height:270px;border:22px solid rgba(8,116,183,.09);border-radius:50%}
+.electrical-hero-bolt{position:absolute;top:20px;left:26px;font-size:46px;color:#f59b23}
+.electrical-pump{position:relative;width:170px;height:130px;border-radius:24px 16px 18px 24px;background:linear-gradient(135deg,#0c6ea8,#073d63);box-shadow:inset 0 -12px 0 rgba(0,0,0,.12),0 18px 25px rgba(7,61,99,.2);display:grid;place-items:center;color:#d9f1ff;font-size:68px}
+.electrical-pump:after{content:"";position:absolute;right:-28px;top:42px;width:32px;height:48px;border-radius:0 10px 10px 0;background:#f59b23}
+.electrical-pump small{position:absolute;bottom:12px;font-size:9px;letter-spacing:.14em;font-weight:800;color:white}
+.electrical-tools{display:flex;flex-direction:column;gap:12px;font-size:31px}
+.guest-art-sticker{background:#f59b23;box-shadow:0 10px 25px rgba(160,99,16,.2)}
+.guest-art-caption{border-color:#dbe8f0}
+.guest-art-caption strong{color:#075b91}
+.guest-hero-decoration{background:#dcecf6}
+.guest-benefits{max-width:1200px;border:1px solid #e5edf3;border-radius:16px;box-shadow:0 12px 30px rgba(18,57,83,.05)}
+.guest-benefit>span{background:#e7f2f9;color:#0874b7}
+.guest-benefit strong{color:#183c55}
+.guest-products-section{max-width:1320px}
+.guest-section-heading h2{font-family:"DM Sans",sans-serif;font-weight:800;color:#103b59}
+.guest-product-count strong{color:#0874b7}
+.guest-search,.guest-sort-label select{border-color:#dce7ef;border-radius:9px}
+.guest-product-card{border-color:#e2eaf0;border-radius:12px;box-shadow:0 8px 24px rgba(13,55,83,.04)}
+.guest-image-badge{color:#075b91}
+.guest-product-info h3{font-family:"DM Sans",sans-serif;color:#183c55;font-weight:700}
+.guest-product-bottom strong{color:#0874b7}
+.guest-product-bottom button{background:#e5f1f8;color:#0874b7}
+.guest-footer{background:#082f4c;color:#c7dce9}
+.guest-footer-brand{color:#fff}
+.guest-footer>div a{color:#d8eaf5}
+@media(max-width:680px){
+ .guest-header{padding:12px 4%;gap:8px}
+ .guest-hero{padding:36px 6% 28px}
+ .guest-hero-art{min-height:240px}
+ .electrical-hero-illustration{width:min(88%,330px);height:225px;gap:14px}
+ .electrical-pump{width:130px;height:100px;font-size:50px}
+ .electrical-pump:after{top:32px;height:36px}
+ .electrical-tools{font-size:24px}
+ .guest-art-orbit{width:245px;height:245px}
+ .guest-benefits{margin-inline:12px;border-radius:12px}
+ .guest-products-section{padding:42px 4% 52px}
+ .guest-product-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .guest-product-image{height:clamp(125px,39vw,180px)}
+ .guest-product-info h3{font-size:13px;overflow-wrap:anywhere}
+ .guest-footer>div{flex-wrap:wrap;justify-content:center}
+}
+@media(max-width:360px){.guest-product-grid{grid-template-columns:1fr}.guest-product-image{height:210px}.guest-brand-name{font-size:15px}}
+@media(prefers-reduced-motion:reduce){.guest-shop *{scroll-behavior:auto!important;transition:none!important}}

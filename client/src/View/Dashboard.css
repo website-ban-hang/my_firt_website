@@ -97,3 +97,52 @@
  .dashboard-product-bottom strong { font-size: .72rem; }
  .dashboard-footer-main { grid-template-columns: 1fr; }
 }
+
+/* Electrical store dashboard */
+.electrical-dashboard{background:#f7fafc;color:#172b3d}
+.electrical-dashboard-hero{max-width:1320px;min-height:430px;margin:1.5rem auto 0;padding:clamp(2rem,6vw,5rem);display:grid;grid-template-columns:1.05fr .95fr;align-items:center;gap:2rem;border-radius:28px;background:linear-gradient(120deg,#082f4c 0%,#075b91 62%,#d9edf8 62%,#edf6fb 100%);overflow:hidden}
+.electrical-dashboard-copy{max-width:580px}
+.electrical-dashboard-copy h1{margin:.9rem 0;color:#fff;font:800 clamp(2.2rem,5vw,4rem)/1.08 'DM Sans',sans-serif;letter-spacing:-.045em}
+.electrical-dashboard-copy h1 em{color:#ffbd59;font-style:normal}
+.electrical-dashboard-copy p{max-width:470px;color:#d7eaf5;font-size:1rem;line-height:1.8}
+.electrical-dashboard-copy .dashboard-eyebrow{color:#b9dff2}
+.electrical-dashboard-copy .dashboard-hero-cta{margin-top:1rem;background:#f59b23;color:#082f4c!important}
+.electrical-dashboard-art{position:relative;min-height:300px;display:flex;align-items:center;justify-content:center}
+.art-pump{position:relative;width:220px;height:165px;display:grid;place-items:center;border-radius:28px;background:linear-gradient(145deg,#0a78b6,#073d63);box-shadow:inset 0 -13px rgba(0,0,0,.12),0 25px 45px rgba(5,37,61,.24);color:#dff5ff;font-size:90px}
+.art-pump:after{content:"";position:absolute;right:-33px;top:55px;width:38px;height:55px;border-radius:0 10px 10px 0;background:#f59b23}
+.art-pump small{position:absolute;bottom:14px;color:white;font-size:10px;font-weight:800;letter-spacing:.18em}
+.art-bolt{position:absolute;top:0;left:12%;font-size:65px;color:#f59b23}
+.art-device{position:absolute;width:70px;height:70px;display:grid;place-items:center;border:1px solid rgba(255,255,255,.7);border-radius:20px;background:#fff;color:#075b91;font-size:36px;box-shadow:0 15px 30px rgba(5,37,61,.12)}
+.art-device-one{right:5%;top:15%}.art-device-two{left:4%;bottom:8%}
+.art-caption{position:absolute;bottom:0;right:5%;color:#075b91;font-size:10px;font-weight:900;letter-spacing:.18em}
+.electrical-dashboard .dashboard-benefits{border-color:#e1ebf2}
+.electrical-dashboard .benefit-icon{background:#e5f2fa;color:#0874b7}
+.electrical-dashboard .dashboard-kicker{color:#0874b7}
+.electrical-dashboard .dashboard-section-heading h2,.electrical-dashboard .dashboard-location h2{font-family:'DM Sans',sans-serif;font-weight:800;color:#103b59}
+.electrical-dashboard .dashboard-product-count{background:#e5f2fa;color:#0874b7}
+.electrical-dashboard .dashboard-search{border-color:#dce8f0}
+.electrical-dashboard .dashboard-product-card{border-color:#e2eaf0!important}
+.electrical-dashboard .dashboard-product-tag{color:#075b91;background:#f3f9fd}
+.electrical-dashboard .dashboard-product-bottom strong{color:#0874b7}
+.electrical-dashboard .dashboard-product-bottom span{background:#e5f2fa;color:#0874b7}
+.electrical-dashboard .dashboard-location{background:#eaf4fa;border-color:#dceaf3}
+.electrical-dashboard .dashboard-location-copy a{background:#0874b7}
+.electrical-contact-art{min-height:240px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;border-radius:18px;background:linear-gradient(135deg,#0b5c8c,#082f4c);color:#ffb84a;font-size:65px}
+.electrical-contact-art span{color:#fff;font-size:14px;font-weight:800;letter-spacing:.14em}
+.electrical-contact-art strong{color:#c5dfed;font-size:10px;letter-spacing:.16em}
+.electrical-dashboard .dashboard-footer{background:#082f4c}
+.electrical-dashboard .dashboard-footer-brand strong{color:#fff;font-size:1.3rem;letter-spacing:.06em}
+@media(max-width:767px){
+ .electrical-dashboard-hero{margin:.75rem .75rem 0;padding:2rem 1.2rem;grid-template-columns:1fr;gap:0;border-radius:18px;background:linear-gradient(155deg,#082f4c 0%,#075b91 66%,#d9edf8 66%,#edf6fb 100%)}
+ .electrical-dashboard-copy h1{font-size:clamp(2rem,9vw,2.8rem)}
+ .electrical-dashboard-copy p{font-size:.88rem}
+ .electrical-dashboard-art{min-height:225px;margin-top:1rem}
+ .art-pump{width:155px;height:115px;font-size:62px}
+ .art-pump:after{top:38px;height:38px;right:-25px;width:28px}
+ .art-device{width:52px;height:52px;font-size:26px;border-radius:14px}
+ .art-bolt{font-size:44px;left:5%}
+ .art-caption{font-size:8px;right:0}
+ .electrical-contact-art{min-height:180px;font-size:48px}
+ .electrical-contact-art span{font-size:11px}
+}
+@media(max-width:380px){.electrical-dashboard-hero{padding:1.5rem 1rem}.electrical-dashboard-art{min-height:195px}.art-pump{width:135px;height:100px}}

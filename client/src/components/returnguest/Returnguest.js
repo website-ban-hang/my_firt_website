@@ -5,7 +5,7 @@ import {
   FiCheck,
   FiChevronLeft,
   FiChevronRight,
-  FiHeart,
+  FiZap,
   FiPackage,
   FiSearch,
   FiShield,
@@ -16,7 +16,6 @@ import {
 import { Authcontext } from "../../contexts/Authcontext";
 import { storeContext } from "../../contexts/StoreContext";
 import { PORT } from "../../constants";
-import heroPet from "../../assets/thucung1.jpeg";
 import "./Returnguest.css";
 
 const PAGE_SIZE = 12;
@@ -32,7 +31,7 @@ const formatPrice = (value) => {
 };
 
 const getImageUrl = (image) => {
-  if (!image) return heroPet;
+  if (!image) return "";
   if (/^https?:\/\//i.test(image)) return image;
   return `${PORT}${String(image).replace(/^\/+/, "")}`;
 };
@@ -84,14 +83,14 @@ const Returnguest = () => {
   return (
     <main className="guest-shop">
       <div className="guest-topline">
-        <span>Yêu thương mỗi ngày, chăm sóc trọn từng khoảnh khắc</span>
+        <span>THIẾT BỊ ĐIỆN CHÍNH HÃNG · TƯ VẤN KỸ THUẬT TẬN TÂM</span>
         <span className="guest-topline-right"><FiTruck /> Giao hàng tiện lợi trên toàn quốc</span>
       </div>
 
       <header className="guest-header">
-        <Link to="/returnguest" className="guest-brand" aria-label="Pet House - Trang chủ">
-          <span className="guest-brand-mark"><FiHeart /></span>
-          <span className="guest-brand-name">PET<span>HOUSE</span><small>YÊU THƯƠNG TỪ ĐIỀU NHỎ NHẤT</small></span>
+        <Link to="/returnguest" className="guest-brand" aria-label="Điện Máy An Phát - Trang chủ">
+          <span className="guest-brand-mark"><FiZap /></span>
+          <span className="guest-brand-name">AN PHÁT<span>ĐIỆN MÁY</span><small>THIẾT BỊ ĐIỆN · MÁY BƠM · DÂN DỤNG</small></span>
         </Link>
         <nav className="guest-nav" aria-label="Điều hướng chính">
           <a className="active" href="#guest-home">Trang chủ</a>
@@ -106,20 +105,24 @@ const Returnguest = () => {
 
       <section className="guest-hero" id="guest-home">
         <div className="guest-hero-copy">
-          <div className="guest-eyebrow"><span /> CỬA HÀNG DÀNH CHO BÉ CƯNG</div>
-          <h1>Niềm vui của bé,<br /><em>hạnh phúc của bạn.</em></h1>
-          <p>Khám phá những sản phẩm được chọn lựa để mỗi ngày bên người bạn nhỏ đều trọn vẹn và đầy yêu thương.</p>
+          <div className="guest-eyebrow"><span /> GIẢI PHÁP ĐIỆN & NƯỚC CHO MỌI NHÀ</div>
+          <h1>Thiết bị chuẩn,<br /><em>vận hành an tâm.</em></h1>
+          <p>Máy bơm nước, thiết bị điện và vật dụng điện được tuyển chọn cho gia đình, cửa hàng và công trình.</p>
           <div className="guest-hero-buttons">
             <a href="#guest-products" className="guest-primary-btn">Khám phá sản phẩm <FiArrowRight /></a>
             <Link to="/register" className="guest-text-btn">Tham gia cùng chúng tôi</Link>
           </div>
-          <div className="guest-hero-note"><span className="guest-note-icon"><FiCheck /></span> Chọn lựa tận tâm · Mua sắm an tâm</div>
+          <div className="guest-hero-note"><span className="guest-note-icon"><FiCheck /></span> Đúng nhu cầu · Đúng thông số · Hỗ trợ tận tình</div>
         </div>
         <div className="guest-hero-art">
           <div className="guest-art-orbit" />
-          <img src={heroPet} alt="Người bạn thú cưng đáng yêu" />
-          <div className="guest-art-sticker"><FiHeart /><span>Made with<br /><strong>LOVE</strong></span></div>
-          <div className="guest-art-caption"><strong>Ở đây có điều dễ thương</strong><span>Dành riêng cho những người bạn đặc biệt</span></div>
+          <div className="electrical-hero-illustration" aria-label="Máy bơm nước và thiết bị điện">
+            <span className="electrical-hero-bolt">⚡</span>
+            <div className="electrical-pump">◉<small>MÁY BƠM</small></div>
+            <div className="electrical-tools"><span>🔌</span><span>💡</span><span>🧰</span></div>
+          </div>
+          <div className="guest-art-sticker"><FiShield /><span>CHỌN MUA<br /><strong>AN TÂM</strong></span></div>
+          <div className="guest-art-caption"><strong>Điện nước vững bền</strong><span>Giải pháp thiết bị cho mọi công trình</span></div>
         </div>
         <div className="guest-hero-decoration guest-decoration-one" />
         <div className="guest-hero-decoration guest-decoration-two" />
@@ -128,15 +131,15 @@ const Returnguest = () => {
       <section className="guest-benefits" id="guest-benefits">
         <div className="guest-benefit"><span><FiShield /></span><div><strong>Chọn lựa an tâm</strong><small>Thông tin sản phẩm rõ ràng</small></div></div>
         <div className="guest-benefit"><span><FiTruck /></span><div><strong>Giao hàng tiện lợi</strong><small>Đặt hàng nhanh chóng</small></div></div>
-        <div className="guest-benefit"><span><FiHeart /></span><div><strong>Phục vụ bằng yêu thương</strong><small>Luôn đặt trải nghiệm lên đầu</small></div></div>
+        <div className="guest-benefit"><span><FiZap /></span><div><strong>Tư vấn đúng kỹ thuật</strong><small>Hỗ trợ chọn đúng công suất</small></div></div>
       </section>
 
       <section className="guest-products-section" id="guest-products">
         <div className="guest-section-heading">
           <div>
             <div className="guest-eyebrow"><span /> GÓC MUA SẮM</div>
-            <h2>Sản phẩm dành cho bé</h2>
-            <p>Tìm món đồ phù hợp để chăm sóc người bạn nhỏ mỗi ngày.</p>
+            <h2>Thiết bị điện & máy bơm</h2>
+            <p>Khám phá máy bơm, dây điện, đèn chiếu sáng và thiết bị dân dụng.</p>
           </div>
           <div className="guest-product-count"><strong>{products.length}</strong><span>sản phẩm<br />đang có</span></div>
         </div>
@@ -179,14 +182,14 @@ const Returnguest = () => {
                     <img
                       src={getImageUrl(item.img)}
                       alt={item.title || "Sản phẩm"}
-                      onError={(event) => { event.currentTarget.src = heroPet; }}
+                      onError={(event) => { event.currentTarget.style.visibility = "hidden"; }}
                     />
-                    <span className="guest-image-badge">PET HOUSE</span>
+                    <span className="guest-image-badge">AN PHÁT ĐIỆN MÁY</span>
                   </button>
                   <div className="guest-product-info">
-                    <span className="guest-product-category">DÀNH CHO BÉ CƯNG</span>
+                    <span className="guest-product-category">THIẾT BỊ ĐIỆN</span>
                     <h3>{item.title || "Sản phẩm"}</h3>
-                    <p>{item.status || "Món đồ nhỏ xinh cho người bạn đặc biệt."}</p>
+                    <p>{item.status || "Thông tin sản phẩm đang được cập nhật."}</p>
                     <div className="guest-product-bottom">
                       <strong>{formatPrice(item.money)}</strong>
                       <button type="button" onClick={() => navigate("/login")} aria-label="Đăng nhập để mua hàng"><FiShoppingBag /></button>
@@ -220,7 +223,7 @@ const Returnguest = () => {
 
       <footer className="guest-footer">
         <Link to="/returnguest" className="guest-footer-brand"><span className="guest-brand-mark"><FiHeart /></span> PET HOUSE</Link>
-        <span>Trao yêu thương, nhận lại niềm vui. © {new Date().getFullYear()} Pet House.</span>
+        <span>Thiết bị tốt · Điện nước an toàn · Phục vụ tận tâm. © {new Date().getFullYear()} An Phát Điện Máy.</span>
         <div><Link to="/login">Đăng nhập</Link><Link to="/register">Đăng ký</Link></div>
       </footer>
     </main>

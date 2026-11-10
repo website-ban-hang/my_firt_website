@@ -1,291 +1,243 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useMemo, useState } from "react";
 import { Card, Carousel, Col, Row, Spinner } from "react-bootstrap";
 import { Link, Navigate, useNavigate } from "react-router-dom";
 import { PORT } from "../constants";
 import { Authcontext } from "../contexts/Authcontext";
 import { StorageCartContext } from "../contexts/storagecartContext";
 import { storeContext } from "../contexts/StoreContext";
-import AlertMessage from "./AlertMessage";
 import slider from "../assets/React App_files/slider1.jpeg";
 import slider2 from "../assets/React App_files/slider2.jpeg";
 import slider3 from "../assets/React App_files/slider3.jpeg";
 import map from "../assets/React App_files/map.png";
 import logoauthentication from "../assets/React App_files/logoauthentication.jpeg";
 import logowebwite from "../assets/React App_files/logoweb.jpeg";
+import "./Dashboard.css";
+
+const PAGE_SIZE = 12;
 
 const Dashboard = () => {
-  const push = useNavigate();
-
+  const navigate = useNavigate();
   const {
     authState: { isAuathenticated },
     storeLoading,
   } = useContext(Authcontext);
-  const path = PORT;
-  const { listpost, Findcartbyid, dispath, detaillCarLoading,getListStore,detailcart } =
-    useContext(storeContext);
+  const { listpost = [], getListStore, detailcart } = useContext(storeContext);
   const { getStorageCart } = useContext(StorageCartContext);
+  const [searchText, setSearchText] = useState("");
+  const [currentPage, setCurrentPage] = useState(0);
 
+  useEffect(() => {
+    getStorageCart();
+    getListStore();
+  }, []);
 
-  //phân trang
-  const [currenPage, setcurrenPage] = useState(0);
-  const [postPerPage, setpostPerPage] = useState(24);
-  const [textinput, settexinput] = useState("");
-  const newlistpost = listpost.slice(currenPage, postPerPage);
-  const [newlist, setnewlist] = useState(newlistpost);
-  let pageNumber = [];
-  const totalpost = Math.ceil(listpost.length / 24);
-  const [alert, setalert] = useState(null);
-  for (let i = 0; i < totalpost; i++) {
-    pageNumber.push(i);
-  }
-  const PageNext = (number) => {
-    const curren = number * 24;
-    setcurrenPage(curren)
-    setpostPerPage(curren + 24)
-    setnewlist(listpost.slice(curren, curren + 24));
-  };
-  useEffect(()=>{setnewlist(newlistpost)},[])
-
-  const actionsearchbtn = () => {
- 
-    const data2 = newlistpost.filter((user) => {
-
-      return (
-        user.title
-          .toLocaleLowerCase()
-          .indexOf(textinput.toLocaleLowerCase()) !== -1
-          
-      );
-    });
-    if (data2.length > 0) {
-      return setnewlist(data2);
-      
-    } else {
-      setalert({
-        type: "danger",
-        message: "VUi lòng nhập lại  TÊN Thú Cưng  KHÁC",
-      });
-      setTimeout(() => {
-        setalert(null);
-      }, 2000);
-      setnewlist(newlistpost);
-    }
-  };
-  const detailcartdb =(data)=>{
-    detailcart(data);
-    push(data._id);
-  }
-  useEffect(()=>{
-    getStorageCart() 
-      getListStore()},[])
-  if (storeLoading)
-    return (
-      <Spinner
-        style={{ position: "fixed", marginBottom: "25%", marginLeft: "50%" }}
-        className="landing-inner"
-        animation="border"
-        variant="info"
-      ></Spinner>
+  const filteredPosts = useMemo(() => {
+    const query = searchText.trim().toLocaleLowerCase("vi");
+    if (!query) return listpost;
+    return listpost.filter((item) =>
+      (item.title || "").toLocaleLowerCase("vi").includes(query)
     );
+  }, [listpost, searchText]);
 
+  const pageCount = Math.ceil(filteredPosts.length / PAGE_SIZE);
+  const visiblePosts = filteredPosts.slice(
+    currentPage * PAGE_SIZE,
+    (currentPage + 1) * PAGE_SIZE
+  );
 
+  useEffect(() => {
+    setCurrentPage(0);
+  }, [searchText]);
 
-  if (isAuathenticated)
+  const openProduct = (product) => {
+    detailcart(product);
+    navigate(product._id);
+  };
+
+  if (!isAuathenticated) return <Navigate to="/login" replace />;
+
+  if (storeLoading) {
     return (
-      <div className="containerHome mt-3  ">
-        <Row className="justify-content-center mb-5 ">
-          <Col xl={10} lg={10} xxl={12}>
-            <Carousel fade>
-              <Carousel.Item interval={800}>
-                <img
-                  height={500}
-                  width={100}
-                  className="d-block  w-100"
-                  src={slider}
-                  alt="First slide"
-                />
-                <Carousel.Caption>
-                  <h3 style={{ background: "rgba(0, 0, 0, 0.5)" }}>
-                    Hãy Lựa CHọn CHo Mình{" "}
-                  </h3>
-                </Carousel.Caption>
-              </Carousel.Item>
-              <Carousel.Item interval={800}>
-                <img
-                  height={500}
-                  width={400}
-                  className="d-block  w-100"
-                  src={slider2}
-                  alt="Second slide"
-                />
-
-                <Carousel.Caption>
-                  <h3 style={{ background: "rgba(0, 0, 0, 0.5)" }}>
-                    Một Người Bạn Đồng Hành
-                  </h3>
-                </Carousel.Caption>
-              </Carousel.Item>
-              <Carousel.Item interval={800}>
-                <img
-                  height={500}
-                  width={300}
-                  className="d-block w-100"
-                  src={slider3}
-                  alt="Third slide"
-                />
-
-                <Carousel.Caption>
-                  <h3 style={{ background: "rgba(0, 0, 0, 0.5)" }}>
-                    {" "}
-                    Trên cả tuyệt vời với đồng hành của bạn{" "}
-                  </h3>
-                </Carousel.Caption>
-              </Carousel.Item>
-            </Carousel>
-          </Col>
-        </Row>
-
-        <div
-          className="rowcontainerhome  "
-          style={{ position: "fixed", top:0, zIndex: 3 }}
-        >
-    
-          <div className="searchhome">
-            <input
-              onKeyDown={(e) => {
-                if (e.key === "Enter") {
-                  actionsearchbtn();
-                }
-              }}
-              className="inputserchhome"
-              onChange={(e) => {
-                settexinput(e.target.value);
-                if (e.target.value === "") {
-                  setnewlist(newlistpost);
-                }
-              }}
-              size={40}
-            ></input>
-            <button
-              type="submit"
-              onClick={(e) => actionsearchbtn()}
-              className="btnsearch"
-            >
-              Tìm Kiếm
-            </button>
-          </div>
-          <AlertMessage style={{ zIndex: 2 }} info={alert}></AlertMessage>
-        </div>
-
-        <Row sm={5}>
-          {newlist.map((data, index) => (
-            <Col
-              className="mt-1 "
-              style={{ height: "19rem", width: "14rem" }}
-              key={index}
-            >
-              <Card
-                className="cart"
-                onClick={() => detailcartdb(data)}
-                style={{
-                  maxHeight: "18rem",
-                  minHeight: "18rem",
-                  maxWidth: "13rem",
-                }}
-              >
-                <Card.Img
-                  style={{
-                    maxHeight: "10rem",
-                    minHeight: "10rem",
-                    maxWidth: "8rem",
-                    minWidth: "100%",
-                  }}
-                  variant="top"
-                  src={path + data.img}
-                />
-
-                <Card.Body>
-                  <Card.Title className="texttile">{data.title} </Card.Title>
-                  <Card.Text className="ellipsis">{data.status}</Card.Text>
-                  <Card.Text className="ellipsis2">
-  {"Giá: " +
-    (data.money == null
-      ? "Chưa cập nhật"
-      : Number(data.money).toLocaleString("vi-VN", {
-          style: "currency",
-          currency: "VND",
-        }))}
-</Card.Text>
-                </Card.Body>
-              </Card>
-            </Col>
-          ))}
-        </Row>
-
-        <div className="page-item-div">
-          {pageNumber.map((number, index) => (
-            <Link
-              onClick={() => PageNext(number)}
-              key={index}
-              to="#"
-              className="page-item"
-            >
-              {number + 1}
-            </Link>
-          ))}
-        </div>
-        <Row className=" me-5 mb-4 justify-content-center boxaddress">
-          <Col>
-            <h1 style={{ color: "white" }}>ADDRESS</h1>
-          </Col>
-          <Col xl={11} className="mb-5">
-            {" "}
-            <Card.Img height={400} variant="top" src={map} />
-            
-          </Col>
-        </Row>
-        <Row className="boxinfomation ">
-          <Col >
-            <Row>
-              <Col>
-                <Col>
-                  <h4 className="mt-5">WEBSITE:ABC.COM</h4>
-                  <img height={120} src={logowebwite} alt="" />
-                </Col>
-              </Col>
-              <Col>
-                <h2>HỔ trợ khách hàng</h2>
-                <h4 className="mt-5">Chính sách hổ trợ khách hàng</h4>
-                <p>Nhanh chóng</p>
-                <p>đảm bảo chất lượng</p>
-                <p>Uy tín</p>
-              </Col>
-              <Col>
-                <h2>Về Chúng tôi</h2>
-                <h5 className="mt-5">Mọi thắc mắc vui lòng liên hệ</h5>
-                <p>EMAIL:xhieu213@gmail.com</p>
-              </Col>
-              <Col>
-                <Row>
-                  <Col>
-                    <h4>SỐ Điện Thoại</h4>
-                    <p className="mt-5">038999053</p>
-                    <h3>Chứng nhận</h3>
-                    <img height={120} src={logoauthentication} alt="" />
-                  </Col>
-                </Row>
-              </Col>
-            </Row>
-          </Col>
-        </Row>
-        <Row style={{textAlign:"center",background:"#291804"}}> 
-          <span style={{color:"white"}}>Công ty TNHH dịch vụ thú cưng ABC- Địa chỉ: 20 Xuân Diệu Huyện Thăng BÌnh, Hà Lam Tỉnh Quảng nam, Việt Nam </span>
-          <span style={{color:"white"}}>Giấy ĐKKD số: 12345667 do Sở Kế hoạch và Đầu tư Quảng nam cấp lần đầu ngày .....</span>
-          <span style={{color:"white"}}>Email: xhieu213@gmail.com-Đường dây nóng: 0389998053</span>
-        </Row>
+      <div className="dashboard-loading">
+        <Spinner animation="border" role="status" />
+        <span>Đang chuẩn bị cửa hàng cho bạn...</span>
       </div>
     );
-  else return <Navigate to="/login"></Navigate>;
+  }
+
+  return (
+    <main className="pet-dashboard">
+      <section className="dashboard-hero">
+        <Carousel fade controls indicators interval={5500} pause="hover">
+          <Carousel.Item>
+            <img className="dashboard-hero-image" src={slider} alt="Thú cưng đáng yêu" />
+            <Carousel.Caption className="dashboard-hero-caption">
+              <span className="dashboard-eyebrow">PET HOUSE · YÊU THƯƠNG MỖI NGÀY</span>
+              <h1>Tìm người bạn nhỏ<br />cho hành trình lớn</h1>
+              <p>Những người bạn đáng yêu đang chờ được gặp bạn.</p>
+              <a href="#san-pham" className="dashboard-hero-cta">Khám phá ngay <span>→</span></a>
+            </Carousel.Caption>
+          </Carousel.Item>
+          <Carousel.Item>
+            <img className="dashboard-hero-image" src={slider2} alt="Khoảnh khắc bên thú cưng" />
+            <Carousel.Caption className="dashboard-hero-caption">
+              <span className="dashboard-eyebrow">BẠN ĐỒNG HÀNH CỦA BẠN</span>
+              <h1>Một mái nhà,<br />thêm nhiều yêu thương</h1>
+              <p>Chọn người bạn phù hợp với trái tim và gia đình bạn.</p>
+              <a href="#san-pham" className="dashboard-hero-cta">Xem các bé <span>→</span></a>
+            </Carousel.Caption>
+          </Carousel.Item>
+          <Carousel.Item>
+            <img className="dashboard-hero-image" src={slider3} alt="Thú cưng vui vẻ" />
+            <Carousel.Caption className="dashboard-hero-caption">
+              <span className="dashboard-eyebrow">HẠNH PHÚC TỪ ĐIỀU GIẢN DỊ</span>
+              <h1>Thêm một thành viên,<br />thêm ngàn niềm vui</h1>
+              <p>Bắt đầu câu chuyện đáng yêu của riêng bạn hôm nay.</p>
+              <a href="#san-pham" className="dashboard-hero-cta">Tìm hiểu thêm <span>→</span></a>
+            </Carousel.Caption>
+          </Carousel.Item>
+        </Carousel>
+      </section>
+
+      <section className="dashboard-benefits" aria-label="Cam kết PET HOUSE">
+        <div><span className="benefit-icon">♡</span><div><strong>Yêu thương tận tâm</strong><small>Đặt sức khỏe thú cưng lên đầu</small></div></div>
+        <div><span className="benefit-icon">✦</span><div><strong>Tư vấn chu đáo</strong><small>Giúp bạn chọn người bạn phù hợp</small></div></div>
+        <div><span className="benefit-icon">✓</span><div><strong>Đồng hành lâu dài</strong><small>Sẵn sàng hỗ trợ sau khi đón bé</small></div></div>
+      </section>
+
+      <section className="dashboard-products" id="san-pham">
+        <div className="dashboard-section-heading">
+          <div>
+            <span className="dashboard-kicker">GẶP GỠ NHỮNG NGƯỜI BẠN</span>
+            <h2>Thành viên đáng yêu</h2>
+            <p>Chọn một người bạn nhỏ để bắt đầu hành trình mới.</p>
+          </div>
+          <span className="dashboard-product-count">{filteredPosts.length} sản phẩm</span>
+        </div>
+
+        <div className="dashboard-search">
+          <span aria-hidden="true">⌕</span>
+          <input
+            type="search"
+            value={searchText}
+            onChange={(event) => setSearchText(event.target.value)}
+            placeholder="Tìm theo tên thú cưng..."
+            aria-label="Tìm theo tên thú cưng"
+          />
+          {searchText && <button type="button" onClick={() => setSearchText("")}>Xóa</button>}
+        </div>
+
+        {visiblePosts.length > 0 ? (
+          <Row className="g-4 dashboard-product-grid">
+            {visiblePosts.map((product) => (
+              <Col key={product._id} xs={6} sm={6} md={4} lg={3}>
+                <Card
+                  className="dashboard-product-card h-100"
+                  role="button"
+                  tabIndex={0}
+                  onClick={() => openProduct(product)}
+                  onKeyDown={(event) => {
+                    if (event.key === "Enter" || event.key === " ") {
+                      event.preventDefault();
+                      openProduct(product);
+                    }
+                  }}
+                >
+                  <div className="dashboard-product-image-wrap">
+                    <Card.Img
+                      variant="top"
+                      src={PORT + product.img}
+                      alt={product.title || "Thú cưng"}
+                      onError={(event) => { event.currentTarget.style.visibility = "hidden"; }}
+                    />
+                    <span className="dashboard-product-tag">PET HOUSE</span>
+                  </div>
+                  <Card.Body>
+                    <Card.Title>{product.title || "Người bạn đáng yêu"}</Card.Title>
+                    <Card.Text className="dashboard-product-status">
+                      {product.status || "Sẵn sàng tìm gia đình mới"}
+                    </Card.Text>
+                    <div className="dashboard-product-bottom">
+                      <strong>
+                        {product.money == null
+                          ? "Liên hệ"
+                          : Number(product.money).toLocaleString("vi-VN", {
+                              style: "currency",
+                              currency: "VND",
+                            })}
+                      </strong>
+                      <span aria-hidden="true">→</span>
+                    </div>
+                  </Card.Body>
+                </Card>
+              </Col>
+            ))}
+          </Row>
+        ) : (
+          <div className="dashboard-empty">
+            <span>⌕</span>
+            <h3>Chưa tìm thấy sản phẩm phù hợp</h3>
+            <p>Thử một tên khác hoặc xóa từ khóa để xem tất cả sản phẩm.</p>
+            {searchText && <button type="button" onClick={() => setSearchText("")}>Xem tất cả sản phẩm</button>}
+          </div>
+        )}
+
+        {pageCount > 1 && (
+          <nav className="dashboard-pagination" aria-label="Phân trang sản phẩm">
+            <button type="button" disabled={currentPage === 0} onClick={() => setCurrentPage((page) => page - 1)}>← Trước</button>
+            {Array.from({ length: pageCount }, (_, index) => (
+              <button
+                type="button"
+                key={index}
+                className={currentPage === index ? "active" : ""}
+                aria-current={currentPage === index ? "page" : undefined}
+                onClick={() => setCurrentPage(index)}
+              >{index + 1}</button>
+            ))}
+            <button type="button" disabled={currentPage >= pageCount - 1} onClick={() => setCurrentPage((page) => page + 1)}>Sau →</button>
+          </nav>
+        )}
+      </section>
+
+      <section className="dashboard-location">
+        <div className="dashboard-location-copy">
+          <span className="dashboard-kicker">LUÔN Ở ĐÂY VÌ BẠN</span>
+          <h2>Ghé thăm PET HOUSE</h2>
+          <p>Chúng tôi luôn sẵn lòng tư vấn để bạn tìm được người bạn đồng hành phù hợp.</p>
+          <Link to="/contact">Liên hệ với chúng tôi <span>→</span></Link>
+        </div>
+        <img src={map} alt="Bản đồ địa điểm PET HOUSE" />
+      </section>
+
+      <footer className="dashboard-footer">
+        <div className="dashboard-footer-main">
+          <div className="dashboard-footer-brand">
+            <img src={logowebwite} alt="PET HOUSE" />
+            <p>Trao yêu thương, nhận lại những điều kỳ diệu.</p>
+          </div>
+          <div>
+            <h3>Hỗ trợ khách hàng</h3>
+            <p>Tư vấn tận tâm</p>
+            <p>Thông tin minh bạch</p>
+            <p>Đồng hành chu đáo</p>
+          </div>
+          <div>
+            <h3>Về PET HOUSE</h3>
+            <p>Email: xhieu213@gmail.com</p>
+            <p>Điện thoại: 0389998053</p>
+            <p>Việt Nam</p>
+          </div>
+          <div className="dashboard-footer-cert">
+            <h3>Chứng nhận</h3>
+            <img src={logoauthentication} alt="Chứng nhận" />
+          </div>
+        </div>
+        <div className="dashboard-footer-bottom">
+          <span>© {new Date().getFullYear()} PET HOUSE. Chăm sóc thú cưng bằng cả trái tim.</span>
+        </div>
+      </footer>
+    </main>
+  );
 };
 
 export default Dashboard;

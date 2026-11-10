@@ -4,7 +4,7 @@ const Store = require("../models/Store");
 
 const publicProduct = (product) => {
   const result = product && typeof product.toObject === "function" ? product.toObject() : { ...product };
-  if (result.imageData) result.img = `store/image/${result._id}`;
+  if (result.img) result.img = `store/image/${result._id}`;
   delete result.imageData;
   delete result.imageContentType;
   return result;

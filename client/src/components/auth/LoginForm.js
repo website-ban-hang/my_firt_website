@@ -67,13 +67,13 @@ const LoginForm = () => {
                     <Form onSubmit={login} >
                         <AlertMessage info={alert}></AlertMessage>
                         <Form.Group className="mb-3">
-                            <Form.Control onChange={onChangeLoginForm} value={username} type="text" placeholder='Username' name="username" required autoComplete='on'></Form.Control>
+                            <Form.Control onChange={onChangeLoginForm} value={username} type="text" placeholder='Tên đăng nhập' name="username" required autoComplete='on'></Form.Control>
                         </Form.Group>
 
                         <Form.Group className='mb-3' >
-                            <Form.Control onChange={onChangeLoginForm} value={password} type="password" placeholder='Password' name="password" required autoComplete='on'></Form.Control>
+                            <Form.Control onChange={onChangeLoginForm} value={password} type="password" placeholder='Mật khẩu' name="password" required autoComplete='on'></Form.Control>
                         </Form.Group >
-                        <Button className="mb-3" type="submit" variant="secondary"  >Login</Button>
+                        <Button className="mb-3" type="submit" variant="secondary"  >Đăng nhập</Button>
                         <p>Nếu bạn chưa có tài khoản
                             <Link to="/register">
                                 <Button size="sm" className='ml-2' variant="secondary"  >  đăng ký</Button></Link>

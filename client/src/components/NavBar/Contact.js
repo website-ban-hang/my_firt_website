@@ -1,22 +1,15 @@
-import React from 'react';
-
-const Contact = () => {
-  return (
-    <div className='conTact'>
-      
-<div className='containerContact'>
-    <div className='imgContact'></div>
-    <div className='descriptionContact'>
-      <h2>Chúng tôi sẽ cho bạn trải nghiệm tuyệt vời nhất</h2>
-      <p>Nơi đây chúng tôi sẽ tạo nên cho bạn sự tin tưởng với  sự lựa chọn thú cưng của mình , mọi thắc mắt bạn có thể liên hệ chúng tôi</p>
-    </div>
-
-</div>
-<div className='infomation'>
-</div>
-</div>
-  )
-
-};
-
+import React from "react";
+const Contact = () => (
+  <main className="conTact electrical-contact-page">
+    <section className="containerContact">
+      <div className="electrical-contact-symbol" aria-hidden="true">⚡</div>
+      <div className="descriptionContact">
+        <span className="dashboard-kicker">AN PHÁT ĐIỆN MÁY</span>
+        <h2>Tư vấn đúng thiết bị – an tâm sử dụng</h2>
+        <p>Chúng tôi cung cấp máy bơm nước, thiết bị điện và vật dụng điện dân dụng. Hãy liên hệ để được hỗ trợ lựa chọn sản phẩm phù hợp với công suất, mục đích sử dụng và ngân sách.</p>
+        <p><strong>Danh mục tư vấn:</strong> máy bơm gia đình và công trình, dây cáp điện, thiết bị đóng cắt, đèn chiếu sáng và phụ kiện điện nước.</p>
+      </div>
+    </section>
+  </main>
+);
 export default Contact;

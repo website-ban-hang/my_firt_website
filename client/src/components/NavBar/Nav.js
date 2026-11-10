@@ -59,7 +59,7 @@ const Nav = () => {
       <button className="btnHomeDB">
         {" "}
         <Link style={{ color: "white" }} to="dashboard">
-        Home
+        Trang chủ
         </Link>
       </button>
       <button className="btnContact">

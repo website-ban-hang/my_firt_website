@@ -157,3 +157,63 @@ button, .btn { font-family: inherit; font-weight: 700; transition: transform .2s
   .landing-inner { min-height: calc(100vh - 80px); padding: 1rem .25rem; }
   .landing-inner form { padding: 1.4rem; }
 }
+
+/* Global An Phat Electrical Store brand */
+:root{--pet-ink:#172b3d;--pet-muted:#657789;--pet-green:#0874b7;--pet-green-dark:#073d63;--pet-lime:#dcecf6;--pet-cream:#f4f8fb;--pet-paper:#fff;--pet-line:#e0eaf1;--pet-shadow:0 16px 42px rgba(12,55,84,.08);--pet-radius:14px}
+body{background:#f4f8fb;color:#172b3d;font-family:'DM Sans',Arial,sans-serif}
+h1,h2,h3,h4,h5,.display-1,.display-2{font-family:'DM Sans',Arial,sans-serif;color:#103b59}
+a{color:#0874b7}
+.btn-success,.btn-primary{background:#0874b7!important;border-color:#0874b7!important}
+.btn-success:hover,.btn-primary:hover{background:#073d63!important}
+.btn-secondary,.btn-info{background:#e5f2fa!important;color:#075b91!important;border-color:#e5f2fa!important}
+.form-control:focus,.form-select:focus,input:focus,textarea:focus,select:focus{border-color:#79b6d8;box-shadow:0 0 0 .2rem rgba(8,116,183,.13)}
+.card{border-color:#e0eaf1}
+.table thead th{background:#e8f3f9;color:#075b91}
+.landing,.landing2,.landing3,.landingsuathongtin{background:radial-gradient(circle at 15% 15%,#e1f0f8 0,transparent 34%),linear-gradient(135deg,#f4f8fb,#eaf3f9);color:#172b3d}
+.landing-inner form{border-color:#dfebf2;background:rgba(255,255,255,.96);box-shadow:0 24px 70px rgba(8,61,99,.12)}
+.landing-inner form::before{content:'AN PHÁT ĐIỆN MÁY';color:#0874b7;letter-spacing:.12em}
+.landing-inner form::after{content:'Máy bơm nước · Thiết bị điện · Điện dân dụng';color:#657789}
+.landing .navbar,.landing2 .navbar,.landing3 .navbar{background:rgba(8,47,76,.96)!important}
+.landing .navbar a,.landing2 .navbar a,.landing3 .navbar a{color:#fff!important}
+.itemnavbar{background:rgba(255,255,255,.96);border-color:#e0eaf1}
+.itemnavbar::before{content:'AN PHÁT ĐIỆN MÁY';color:#075b91;letter-spacing:.06em}
+.itemnavbar .btnHomeDB:hover,.itemnavbar .btnContact:hover{background:#e5f2fa!important}
+.itemnavbar .btnHomeDB a,.itemnavbar .btnContact a{color:#173b54!important}
+.cartbtn>button{background:#0874b7!important}
+.indexStorage{background:#f59b23}
+.btnxemgiohang{background:#0874b7!important}
+.containerDashboard,.Navbaradmin{background:#f4f8fb}
+.navbarlink{background:rgba(255,255,255,.97);border-color:#e0eaf1}
+.navbarlink .btn{background:#e5f2fa!important}
+.navbarlink .btn a{color:#075b91!important}
+.containerHome .cart,.addcart,.addcart2,.landingsuathongtin,.listmember,.DetailCart,.containerlistorders,.boxdetailcart,.boxitem,.itemPayment,.itemPayment2,.textfinishoder,.descriptionContact{border-color:#e0eaf1;background:#fff;color:#172b3d}
+.containerPaymenent,.containerViewcart,.containerfinishoder,.containerCartoder,.conTact{background:#f4f8fb;color:#172b3d}
+.textstatus,.listmember p{background:#e8f3f9!important;color:#075b91!important}
+.page-item,.page-item2,.PagesListMember{background:#e5f2fa;color:#075b91}
+@media(max-width:768px){
+ .itemnavbar{padding:.65rem .75rem;gap:.3rem}
+ .itemnavbar::before{font-size:.92rem}
+ .itemnavbar .btnHomeDB a,.itemnavbar .btnContact a{font-size:.78rem}
+ .navbarlink{gap:.35rem;padding:.65rem .75rem}
+ .navbarlink .btn a{padding:.65rem .8rem;font-size:.8rem}
+ .containerHome{padding:1rem .65rem}
+ .containerHome .row{--bs-gutter-x:.65rem}
+ .containerHome .col{max-width:100%}
+ .containerPaymenent{padding:1rem .65rem}
+ .itemPayment,.itemPayment2{flex:1 1 100%;min-width:0}
+ .containerViewcart,.containerCartoder{padding:1rem .55rem}
+ .boxdetailcart,.boxitem{width:100%;min-width:0;overflow-x:auto}
+ .table-responsive{overflow-x:auto;-webkit-overflow-scrolling:touch}
+ .addcart,.addcart2,.landingsuathongtin{width:calc(100% - 1rem);margin:.5rem!important;padding:1rem}
+}
+img{max-width:100%}
+button,a,input,select,textarea{-webkit-tap-highlight-color:transparent}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{transition:none!important;animation:none!important}}
+
+
+.electrical-contact-page .containerContact{max-width:1120px;margin:3rem auto;display:grid;grid-template-columns:.8fr 1.2fr;align-items:center;padding:1rem;gap:2rem}
+.electrical-contact-symbol{min-height:300px;display:grid;place-items:center;border-radius:24px;background:linear-gradient(145deg,#075b91,#082f4c);color:#ffb84a;font-size:clamp(90px,15vw,170px);box-shadow:var(--pet-shadow)}
+.electrical-contact-page .descriptionContact{width:100%;padding:clamp(1.4rem,4vw,3rem)}
+.electrical-contact-page .descriptionContact h2{font-size:clamp(1.8rem,4vw,2.8rem);font-weight:800}
+.electrical-contact-page .descriptionContact p{color:#657789;line-height:1.8}
+@media(max-width:700px){.electrical-contact-page .containerContact{grid-template-columns:1fr;margin:1rem auto;padding:.4rem;gap:1rem}.electrical-contact-symbol{min-height:180px;font-size:90px}.electrical-contact-page .descriptionContact{padding:1.2rem}}

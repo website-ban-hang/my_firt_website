@@ -16,6 +16,7 @@ import {
 import { Authcontext } from "../../contexts/Authcontext";
 import { storeContext } from "../../contexts/StoreContext";
 import { PORT } from "../../constants";
+import brandLogo from "../../assets/logo.svg";
 import "./Returnguest.css";
 
 const PAGE_SIZE = 12;
@@ -88,9 +89,9 @@ const Returnguest = () => {
       </div>
 
       <header className="guest-header">
-        <Link to="/returnguest" className="guest-brand" aria-label="Điện Máy An Phát - Trang chủ">
-          <span className="guest-brand-mark"><FiZap /></span>
-          <span className="guest-brand-name">AN PHÁT<span>ĐIỆN MÁY</span><small>THIẾT BỊ ĐIỆN · MÁY BƠM · DÂN DỤNG</small></span>
+        <Link to="/returnguest" className="guest-brand" aria-label="Xuân Trung Điện Máy - Trang chủ">
+          <span className="guest-brand-mark"><img src={brandLogo} alt="" /></span>
+          <span className="guest-brand-name">XUÂN TRUNG<span>ĐIỆN MÁY</span><small>THIẾT BỊ ĐIỆN · MÁY BƠM · DÂN DỤNG</small></span>
         </Link>
         <nav className="guest-nav" aria-label="Điều hướng chính">
           <a className="active" href="#guest-home">Trang chủ</a>
@@ -184,7 +185,7 @@ const Returnguest = () => {
                       alt={item.title || "Sản phẩm"}
                       onError={(event) => { event.currentTarget.style.visibility = "hidden"; }}
                     />
-                    <span className="guest-image-badge">AN PHÁT ĐIỆN MÁY</span>
+                    <span className="guest-image-badge">XUÂN TRUNG ĐIỆN MÁY</span>
                   </button>
                   <div className="guest-product-info">
                     <span className="guest-product-category">THIẾT BỊ ĐIỆN</span>
@@ -223,7 +224,7 @@ const Returnguest = () => {
 
       <footer className="guest-footer">
         <Link to="/returnguest" className="guest-footer-brand"><span className="guest-brand-mark"><FiZap /></span> AN PHÁT ĐIỆN MÁY</Link>
-        <span>Thiết bị tốt · Điện nước an toàn · Phục vụ tận tâm. © {new Date().getFullYear()} An Phát Điện Máy.</span>
+        <span>Thiết bị tốt · Điện nước an toàn · Phục vụ tận tâm. © {new Date().getFullYear()} Xuân Trung Điện Máy.</span>
         <div><Link to="/login">Đăng nhập</Link><Link to="/register">Đăng ký</Link></div>
       </footer>
     </main>

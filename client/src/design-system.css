@@ -224,3 +224,157 @@ button,a,input,select,textarea{-webkit-tap-highlight-color:transparent}
 .guest-brand-name>span{display:block;font-weight:900}
 .itemnavbar::before{content:'XUÂN TRUNG ĐIỆN MÁY'!important;font-weight:900}
 .landing-inner form::before{content:'XUÂN TRUNG ĐIỆN MÁY'!important;font-weight:900}
+
+
+/* =========================================================
+   HOÀNG ÁNH ĐIỆN MÁY — premium administration workspace
+   Scoped to /admin so storefront and checkout remain intact.
+   ========================================================= */
+@import url('https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&display=swap');
+:root{--ha-navy:#0b1f38;--ha-blue:#1769aa;--ha-blue2:#2388d1;--ha-orange:#f28a27;--ha-ink:#172b43;--ha-muted:#728196;--ha-bg:#f3f6fa;--ha-line:#e5ebf2;--ha-white:#fff}
+.ha-admin,.ha-admin *{box-sizing:border-box}
+.ha-admin{min-height:100vh;display:flex;background:var(--ha-bg);color:var(--ha-ink);font-family:'Be Vietnam Pro','DM Sans',Arial,sans-serif;font-size:14px}
+.ha-admin h1,.ha-admin h2,.ha-admin h3,.ha-admin p{font-family:inherit;color:inherit}
+.ha-sidebar{position:fixed;inset:0 auto 0 0;z-index:120;width:264px;display:flex;flex-direction:column;padding:25px 16px 18px;background:linear-gradient(180deg,#0b1f38 0%,#102c4b 100%);color:#fff;overflow-y:auto;box-shadow:10px 0 35px rgba(10,31,56,.08)}
+.ha-brand{display:flex;align-items:center;gap:12px;padding:0 9px 25px;border-bottom:1px solid rgba(255,255,255,.12)}
+.ha-brand-mark{width:43px;height:43px;display:grid;place-items:center;border-radius:13px;background:linear-gradient(135deg,#ffb14c,#ed7b20);font-weight:900;font-size:17px;color:#102743;box-shadow:0 7px 18px #f28a2740}
+.ha-brand-mark span{font-size:11px;vertical-align:top}
+.ha-brand strong{display:block;color:#fff;font-size:14px;letter-spacing:.09em;font-weight:800}
+.ha-brand small{display:block;margin-top:3px;color:#ffb14c;font-size:10px;font-weight:800;letter-spacing:.25em}
+.ha-close-menu{display:none;margin-left:auto;border:0;background:transparent;color:white;font-size:26px}
+.ha-sidebar-caption{padding:20px 10px 12px;color:#91a6bc;font-size:10px;font-weight:700;letter-spacing:.15em}
+.ha-nav-group{margin-bottom:17px}
+.ha-nav-label{padding:0 11px 8px;color:#8096ad;font-size:10px;font-weight:800;letter-spacing:.14em}
+.ha-nav-item{min-height:43px;display:flex;align-items:center;gap:12px;padding:0 12px;margin:3px 0;border-radius:10px;color:#c4d0dd;text-decoration:none;font-size:12px;font-weight:600;transition:background .2s,color .2s,transform .2s}
+.ha-nav-item:hover{color:#fff;background:#ffffff12;transform:translateX(2px)}
+.ha-nav-item.is-active{color:#fff;background:linear-gradient(100deg,#1769aa,#1d7fc2);box-shadow:0 7px 18px #06172c66}
+.ha-nav-icon{width:20px;text-align:center;color:#9eb4ca;font-size:17px}
+.ha-nav-item.is-active .ha-nav-icon{color:#fff}
+.ha-nav-item.is-disabled{opacity:.48;cursor:not-allowed}
+.ha-nav-item.is-disabled small{margin-left:auto;font-size:10px}
+.ha-sidebar-bottom{margin-top:auto;padding-top:17px;border-top:1px solid #ffffff18}
+.ha-secure-note{display:flex;align-items:center;gap:10px;padding:10px 9px 17px}
+.ha-secure-note>span{font-size:11px;color:#4bd39b}
+.ha-secure-note b,.ha-secure-note small{display:block}
+.ha-secure-note b{font-size:10px;color:#dce7f1}
+.ha-secure-note small{margin-top:3px;color:#8fa3b9;font-size:9px}
+.ha-logout{width:100%;display:flex;gap:11px;align-items:center;padding:11px 12px;border:1px solid #ffffff20;border-radius:10px;background:#ffffff0a;color:#f4b4aa;text-align:left;font:600 12px inherit}
+.ha-logout:hover{background:#a93e3e30}
+.ha-admin-main{width:calc(100% - 264px);min-height:100vh;margin-left:264px;display:flex;flex-direction:column;min-width:0}
+.ha-topbar{height:72px;position:sticky;top:0;z-index:80;display:flex;align-items:center;justify-content:space-between;gap:15px;padding:0 clamp(18px,3vw,42px);background:#ffffffed;border-bottom:1px solid var(--ha-line);backdrop-filter:blur(12px)}
+.ha-breadcrumb{color:#65768b;font-size:12px;font-weight:600}
+.ha-breadcrumb span{color:#1b4f7b;font-weight:800;letter-spacing:.04em}
+.ha-breadcrumb b{padding:0 10px;color:#b2bdc9}
+.ha-topbar-right{display:flex;align-items:center;gap:9px}
+.ha-live-dot{width:8px;height:8px;border-radius:50%;background:#27bd83;box-shadow:0 0 0 4px #27bd831b}
+.ha-online-label{margin-right:14px;color:#6d7d90;font-size:10px}
+.ha-avatar{width:36px;height:36px;display:grid;place-items:center;border-radius:50%;background:#e6f1fa;color:#145b91;font-weight:800}
+.ha-user-meta b,.ha-user-meta small{display:block}
+.ha-user-meta b{font-size:11px;color:#1d344d}
+.ha-user-meta small{margin-top:2px;color:#8290a0;font-size:9px}
+.ha-menu-toggle{display:none;border:0;background:transparent;color:#153c5d;font-size:23px}
+.ha-page-content{width:100%;max-width:1680px;margin:0 auto;padding:30px clamp(18px,3vw,42px) 34px;flex:1}
+.ha-admin-footer{padding:17px 42px;border-top:1px solid var(--ha-line);color:#91a0b0;font-size:10px}
+.ha-admin-footer span{padding:0 7px;color:var(--ha-orange)}
+.ha-page-heading{display:flex;justify-content:space-between;align-items:center;gap:20px;margin-bottom:25px}
+.ha-eyebrow{margin-bottom:8px;color:var(--ha-blue);font-size:10px;font-weight:800;letter-spacing:.17em}
+.ha-page-heading h1{margin:0;color:#112b46;font-size:clamp(23px,2.3vw,30px);font-weight:800;letter-spacing:-.04em}
+.ha-page-heading p{margin:7px 0 0;color:#8290a0;font-size:12px}
+.ha-heading-actions{display:flex;align-items:center;gap:10px}
+.ha-date-chip{display:inline-flex;align-items:center;gap:7px;padding:10px 13px;border:1px solid var(--ha-line);border-radius:10px;background:#fff;color:#63748a;font-size:11px;font-weight:600}
+.ha-primary-btn,.ha-form-actions .btn-primary{display:inline-flex;align-items:center;justify-content:center;padding:11px 16px;border:0;border-radius:10px;background:var(--ha-blue)!important;color:white!important;text-decoration:none;font-size:11px;font-weight:700;box-shadow:0 6px 14px #1769aa22}
+.ha-primary-btn:hover{background:var(--ha-navy)!important;color:white}
+.ha-stat-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:15px;margin-bottom:18px}
+.ha-stat-card,.ha-panel{border:1px solid var(--ha-line);border-radius:15px;background:#fff;box-shadow:0 5px 22px rgba(20,49,78,.035)}
+.ha-stat-card{min-height:132px;padding:17px 18px;transition:transform .2s,box-shadow .2s}
+.ha-stat-card:hover{transform:translateY(-3px);box-shadow:0 12px 28px rgba(20,49,78,.08)}
+.ha-stat-top{display:flex;align-items:center;justify-content:space-between;color:#718095;font-size:10px;font-weight:600}
+.ha-stat-icon{width:32px;height:32px;display:grid;place-items:center;border-radius:10px;font-style:normal;font-size:15px;font-weight:800}
+.ha-stat-icon.orange{background:#fff1e3;color:#e57c20}.ha-stat-icon.blue{background:#e8f3fb;color:#1d78b8}.ha-stat-icon.navy{background:#eaf0f7;color:#254c76}.ha-stat-icon.green{background:#e5f8f0;color:#1b9b6c}
+.ha-stat-card>strong{display:block;margin:12px 0 5px;color:#122e4b;font-size:23px;font-weight:800;letter-spacing:-.04em}
+.ha-stat-card>small{color:#9aa6b3;font-size:9px}
+.ha-dashboard-grid{display:grid;grid-template-columns:minmax(0,1.65fr) minmax(280px,1fr);gap:16px;margin-bottom:16px}
+.ha-bottom-grid{grid-template-columns:minmax(0,1.4fr) minmax(290px,1fr)}
+.ha-panel{min-width:0;padding:19px}
+.ha-panel-heading{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:17px}
+.ha-panel-heading h2{margin:0;color:#1a344f;font-size:14px;font-weight:800}
+.ha-panel-heading p{margin:5px 0 0;color:#97a3b0;font-size:10px}
+.ha-panel-heading>a{color:#1b73b1;text-decoration:none;font-size:10px;font-weight:700;white-space:nowrap}
+.ha-panel-tag{padding:6px 8px;border-radius:6px;background:#eaf5fc;color:#2477ad;font-size:8px;font-weight:800;letter-spacing:.1em}
+.ha-chart-total{margin:-3px 0 8px;color:#183b5e;font-size:23px;font-weight:800}
+.ha-bar-chart{height:165px;display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:8px;align-items:end;padding-top:10px}
+.ha-bar-column{height:100%;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;gap:8px}
+.ha-bar-track{width:min(100%,22px);height:132px;display:flex;align-items:flex-end;overflow:hidden;border-radius:7px 7px 3px 3px;background:#f0f4f8}
+.ha-bar-fill{width:100%;min-height:0;border-radius:7px 7px 2px 2px;background:linear-gradient(180deg,#3396d5,#145c9a);transition:height .5s ease}
+.ha-bar-column small{color:#98a5b3;font-size:8px}
+.ha-order-donut{width:142px;height:142px;display:grid;place-items:center;margin:4px auto 18px;border-radius:50%;background:conic-gradient(#1d79b8 calc(var(--done)*1%),#f4a044 0);position:relative}
+.ha-order-donut:before{content:"";position:absolute;inset:13px;border-radius:50%;background:#fff}
+.ha-order-donut>div{position:relative;z-index:1;text-align:center}
+.ha-order-donut strong,.ha-order-donut small{display:block}
+.ha-order-donut strong{color:#173c60;font-size:25px;font-weight:800}
+.ha-order-donut small{color:#94a0ad;font-size:9px}
+.ha-legend{display:grid;gap:10px}
+.ha-legend span{display:flex;align-items:center;gap:8px;color:#748397;font-size:10px}
+.ha-legend i{width:8px;height:8px;border-radius:3px}.ha-legend i.done{background:#1d79b8}.ha-legend i.waiting{background:#f4a044}
+.ha-legend b{margin-left:auto;color:#253f5a}
+.ha-order-list,.ha-best-list{display:grid}
+.ha-order-row{min-height:55px;display:flex;align-items:center;gap:10px;border-top:1px solid #eff2f6}
+.ha-order-symbol{width:31px;height:31px;display:grid;place-items:center;border-radius:9px;background:#eef5fa;color:#317eae}
+.ha-order-info{min-width:0;flex:1}
+.ha-order-info b,.ha-order-info small{display:block}
+.ha-order-info b{overflow:hidden;color:#29445f;font-size:10px;text-overflow:ellipsis;white-space:nowrap}
+.ha-order-info small{margin-top:3px;overflow:hidden;color:#9aa6b3;font-size:9px;text-overflow:ellipsis;white-space:nowrap}
+.ha-order-row>strong{color:#26415c;font-size:10px;white-space:nowrap}
+.ha-status{padding:5px 7px;border-radius:6px;font-size:8px;font-weight:700;white-space:nowrap}
+.ha-status.done{background:#e7f7ef;color:#21875d}.ha-status.pending{background:#fff3e3;color:#b8731e}
+.ha-best-row{display:flex;align-items:center;gap:11px;padding:12px 0;border-top:1px solid #eff2f6}
+.ha-rank{width:29px;height:29px;display:grid;place-items:center;border-radius:8px;background:#eef4f9;color:#49718f;font-size:10px;font-weight:800}
+.ha-best-row>div{flex:1;min-width:0}
+.ha-best-row b,.ha-best-row small{display:block}
+.ha-best-row b{overflow:hidden;color:#304a64;font-size:10px;text-overflow:ellipsis;white-space:nowrap}
+.ha-best-row small{margin-top:3px;color:#9ba7b4;font-size:9px}
+.ha-best-row>strong{color:#1b6fa8;font-size:12px}
+.ha-empty{padding:28px 12px;text-align:center;color:#9aa6b3;font-size:11px}
+.ha-data-note{margin-top:14px;padding:11px 13px;border:1px solid #e5edf4;border-radius:9px;background:#f8fbfd;color:#7e8fa1;font-size:10px;line-height:1.7}
+.ha-loading{min-height:260px;display:flex;align-items:center;justify-content:center;gap:12px;color:#718196;font-size:12px}
+.ha-loading .spinner-border{width:22px;height:22px;color:var(--ha-blue)!important}
+.ha-product-layout{display:grid;grid-template-columns:minmax(270px,.82fr) minmax(0,1.5fr);gap:17px;align-items:start}
+.ha-product-form .form-label{display:block;margin-bottom:7px;color:#3e536a;font-size:10px;font-weight:700}
+.ha-product-form .form-label span{color:#e57b29}
+.ha-product-form .form-control{border:1px solid #e1e8f0;border-radius:9px;background:#fbfcfe;color:#263d55;font-size:11px;box-shadow:none}
+.ha-product-form .form-control:focus{border-color:#71a9d1;box-shadow:0 0 0 3px #1769aa12}
+.ha-product-form .form-text{display:block;margin-top:7px;color:#96a3b0;font-size:9px;line-height:1.6}
+.ha-form-actions{display:flex;gap:8px;margin-top:17px}
+.ha-form-actions .btn{padding:10px 14px;border-radius:9px;font-size:10px}
+.ha-form-actions .btn-light{border:1px solid var(--ha-line);background:#f4f7fa}
+.ha-image-preview{position:relative;width:100%;height:140px;margin:10px 0;overflow:hidden;border:1px solid var(--ha-line);border-radius:10px;background:#f5f8fb}
+.ha-image-preview img{width:100%;height:100%;object-fit:contain}
+.ha-image-preview button{position:absolute;top:7px;right:7px;width:25px;height:25px;border:0;border-radius:50%;background:#102c4b;color:white}
+.ha-search{display:flex;align-items:center;gap:9px;margin-bottom:14px;padding:0 12px;border:1px solid var(--ha-line);border-radius:9px;background:#fbfcfe}
+.ha-search span{color:#8c9bad;font-size:21px}
+.ha-search input{width:100%;height:40px;border:0;outline:0;background:transparent;color:#2b435c;font:10px inherit}
+.ha-product-table-wrap{width:100%;overflow-x:auto}
+.ha-product-table{width:100%;border-collapse:collapse;text-align:left}
+.ha-product-table th{padding:11px 9px;background:#f5f8fb;color:#8493a3;font-size:8px;font-weight:800;letter-spacing:.08em;white-space:nowrap}
+.ha-product-table td{padding:12px 9px;border-bottom:1px solid #edf1f5;color:#42586e;font-size:10px}
+.ha-product-cell{display:flex;align-items:center;gap:10px;min-width:180px}
+.ha-product-cell img{width:43px;height:43px;flex:none;border-radius:8px;border:1px solid #e8edf2;background:#f5f7f9;object-fit:cover}
+.ha-product-cell b,.ha-product-cell small{display:block}
+.ha-product-cell b{max-width:190px;overflow:hidden;color:#263f59;font-size:10px;text-overflow:ellipsis;white-space:nowrap}
+.ha-product-cell small{max-width:190px;margin-top:4px;overflow:hidden;color:#9ba7b3;font-size:8px;text-overflow:ellipsis;white-space:nowrap}
+.ha-product-table td>strong{color:#254b6b;font-size:10px;white-space:nowrap}
+.ha-row-actions{display:flex;gap:5px}
+.ha-row-actions button{padding:6px 8px;border:1px solid #dce9f3;border-radius:6px;background:#edf6fc;color:#1a6da8;font-size:9px;font-weight:700}
+.ha-row-actions button.danger{border-color:#f3dfdc;background:#fff2f0;color:#bd5b4d}
+.ha-pagination{display:flex;align-items:center;justify-content:space-between;gap:10px;padding-top:14px;color:#92a0ae;font-size:9px}
+.ha-pagination div{display:flex;gap:5px}
+.ha-pagination button{width:29px;height:29px;border:1px solid var(--ha-line);border-radius:7px;background:#fff;color:#43627f}
+.ha-pagination button:disabled{opacity:.35;cursor:not-allowed}
+.ha-alert{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;padding:11px 14px;border-radius:9px;font-size:11px}
+.ha-alert.success{background:#e8f8f0;color:#19794f}.ha-alert.error{background:#fff0ed;color:#b24f43}
+.ha-alert button{border:0;background:transparent;color:inherit;font-size:18px}
+.ha-sidebar-backdrop{display:none}
+@media(max-width:1150px){.ha-stat-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.ha-product-layout{grid-template-columns:1fr}.ha-product-form{max-width:none}}
+@media(max-width:900px){.ha-sidebar{transform:translateX(-105%);transition:transform .25s ease}.ha-sidebar.is-open{transform:translateX(0)}.ha-close-menu{display:block}.ha-sidebar-backdrop.is-visible{display:block;position:fixed;inset:0;z-index:110;border:0;background:#06182b88}.ha-admin-main{width:100%;margin-left:0}.ha-menu-toggle{display:block}.ha-topbar{height:64px;padding:0 18px}.ha-page-content{padding:23px 18px}.ha-dashboard-grid,.ha-bottom-grid{grid-template-columns:1fr}.ha-admin-footer{padding:15px 18px}}
+@media(max-width:560px){.ha-topbar{gap:8px}.ha-breadcrumb{font-size:10px}.ha-breadcrumb span{display:none}.ha-breadcrumb b{display:none}.ha-online-label,.ha-user-meta{display:none}.ha-page-content{padding:19px 12px}.ha-page-heading{align-items:flex-start;flex-direction:column}.ha-heading-actions{width:100%;justify-content:space-between}.ha-stat-grid{gap:9px}.ha-stat-card{min-height:117px;padding:13px}.ha-stat-card>strong{font-size:19px}.ha-stat-top{font-size:9px}.ha-stat-icon{width:28px;height:28px}.ha-panel{padding:14px}.ha-bar-chart{gap:4px;height:145px}.ha-bar-track{height:112px}.ha-order-row{gap:6px}.ha-order-row>strong{font-size:9px}.ha-status{font-size:7px;padding:4px}.ha-product-table th,.ha-product-table td{padding:10px 6px}.ha-product-cell{min-width:150px}.ha-product-cell img{width:36px;height:36px}.ha-product-cell b{max-width:115px}.ha-product-cell small{max-width:115px}.ha-row-actions{flex-direction:column}.ha-row-actions button{padding:5px}.ha-date-chip{font-size:9px}.ha-primary-btn{padding:10px 11px;font-size:10px}}
+@media(prefers-reduced-motion:reduce){.ha-admin *{transition:none!important;animation:none!important}}

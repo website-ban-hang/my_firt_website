@@ -34,6 +34,14 @@ app.use(express.urlencoded({ extended: true }));
 app.get("/", (req, res) => res.status(200).send("Server đang hoạt động!"));
 app.get("/favicon.ico", (req, res) => res.status(204).end());
 
+// Log only safe MongoDB error metadata. Driver messages/stacks can contain the URI.
+function logDatabaseError(context, error) {
+  console.error(context, {
+    name: error && error.name ? error.name : "DatabaseError",
+    code: error && (error.code || error.codeName) ? (error.code || error.codeName) : undefined
+  });
+}
+
 // Keep one MongoDB connection across Vercel function invocations when possible.
 let cached = global.mongoose;
 if (!cached) cached = global.mongoose = { conn: null, promise: null };
@@ -71,7 +79,7 @@ app.get("/health", async (req, res) => {
       database: "connected"
     });
   } catch (error) {
-    console.error("Health check - MongoDB connection failed:", error);
+    logDatabaseError("Health check - MongoDB connection failed:", error);
     return res.status(503).json({
       success: false,
       status: "error",
@@ -91,7 +99,7 @@ app.use(async (req, res, next) => {
     await connectDB();
     next();
   } catch (error) {
-    console.error("Lỗi kết nối MongoDB:", error);
+    logDatabaseError("Lỗi kết nối MongoDB:", error);
     res.status(503).json({
       success: false,
       message: "Không thể kết nối cơ sở dữ liệu"

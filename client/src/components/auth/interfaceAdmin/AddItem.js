@@ -4,6 +4,7 @@ import { Button, Col, Container, Figure, Form, Row, Spinner, Table } from 'react
 import AlertMessage from "../../../View/AlertMessage";
 import { storeContext } from "../../../contexts/StoreContext";
 import { Link } from "react-router-dom";
+import { PORT } from "../../../constants";
 
 const AddItem = () => {
   const { send, alert, setalert, storeLoading, listpost, deleteCartStore, EditCartItem2 } = useContext(storeContext)
@@ -20,17 +21,19 @@ const AddItem = () => {
   data.append("title", title)
   data.append("status", status)
   data.append("money", money)
-  const path = "http://localhost:3000/"
-  const submitformaddcart = (e) => {
-    e.preventDefault()
-    if(!file) return setalert({ message: "bạn đang thiếu ảnh vui lòng thêm ảnh" })
-    send(data)
-    setfile("")
-    settitle("")
-    setstatus("")
-    setmoney("")
-    setalert({ message: "BẠN ĐÃ THÊM THÀNH CÔNG", type: "success" })
-    document.getElementsByClassName("file")[0].value = ""
+  const submitformaddcart = async (e) => {
+    e.preventDefault();
+    if (!file) return setalert({ message: "Bạn đang thiếu ảnh, vui lòng chọn ảnh sản phẩm.", type: "danger" });
+    setstatusBtn(true);
+    const result = await send(data);
+    setstatusBtn(false);
+    if (!result || result.success !== true) return;
+    setfile(null);
+    settitle("");
+    setstatus("");
+    setmoney("");
+    const fileInput = document.getElementsByClassName("file")[0];
+    if (fileInput) fileInput.value = "";
   }
   const hieu = 1231312312321213
   const hieu2 = hieu.toLocaleString('vi-VN', {
@@ -89,7 +92,7 @@ const AddItem = () => {
                         <Figure.Image
                           style={{ height: "50px" }}
                           alt="100x100"
-                          src={`http://localhost:3000/${value.img}`}
+                          src={value.img ? `${PORT}${String(value.img).replace(/^\\/+/, "")}` : undefined}
                         />
                       </Figure>
                     </td>
@@ -112,7 +115,7 @@ const AddItem = () => {
 
           <Col style={{ position: "relative" }}>
             <AlertMessage info={alert} ></AlertMessage>
-            <Form type="submit" onSubmit={(e) => e.preventDefault()} encType="multipart/form-data" className="addcart" >
+            <Form onSubmit={submitformaddcart} encType="multipart/form-data" className="addcart" >
               <Form.Group className="mb-3" controlId="formBasicEmail">
                 <Form.Label>Tên Sản phẩm</Form.Label>
                 <Form.Control as="textarea" value={title} onChange={(e) => {
@@ -147,7 +150,7 @@ const AddItem = () => {
                 }} placeholder="chọn file" />
 
               </Form.Group>
-              <Button className="me-3" variant="primary" type="submit" disabled={statusBtn} onClick={submitformaddcart}>
+              <Button className="me-3" variant="primary" type="submit" disabled={statusBtn}>
               Xác nhận
               </Button  >
               <Button variant="primary" type="submit" disabled={statusEdit} onClick={() => EditCartItem2(dataformEdit, data)}>

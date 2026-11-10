@@ -9,6 +9,12 @@ class StorageCartController {
             console.error("Get storage cart error:", error);
             return res.status(500).json({ success: false, message: "Không thể tải giỏ hàng" });
         }
+        constructor() {
+        this.getstorage = this.getstorage.bind(this);
+        this.poststorage = this.poststorage.bind(this);
+        this.putstorage = this.putstorage.bind(this);
+        this.deletestorage = this.deletestorage.bind(this);
+    }
     }
 
     async poststorage(req, res) {

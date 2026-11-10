@@ -48,6 +48,7 @@ function App() {
                 <Route path="/register" element={<Register></Register>}></Route>
                 <Route path="returnguest" element={<Returnguest></Returnguest>}></Route>
                 <Route path="/admin" element={<Admin></Admin>}>
+                  <Route index element={<Navigate to="homeadmin" replace />} />
                   <Route path="addmember" element={<AddMember></AddMember>}></Route>
                   <Route path="homeadmin" element={<Home></Home>}></Route>
                   <Route path="additem" element={<AddItem></AddItem>}></Route>

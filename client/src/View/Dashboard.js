@@ -57,7 +57,7 @@ const Dashboard = () => {
         {visiblePosts.length > 0 ? <Row className="g-4 dashboard-product-grid">{visiblePosts.map((product) => (
           <Col key={product._id} xs={6} sm={6} md={4} lg={3}>
             <Card className="dashboard-product-card h-100" role="button" tabIndex={0} onClick={() => openProduct(product)} onKeyDown={(event) => { if (event.key === "Enter" || event.key === " ") { event.preventDefault(); openProduct(product); } }}>
-              <div className="dashboard-product-image-wrap"><Card.Img variant="top" src={product.img ? PORT + product.img : undefined} alt={product.title || "Thiết bị điện"} onError={(event) => { event.currentTarget.style.visibility = "hidden"; }}/><span className="dashboard-product-tag">XUÂN TRUNG · ĐIỆN MÁY</span></div>
+              <div className="dashboard-product-image-wrap"><Card.Img variant="top" src={product.img ? `${PORT}${String(product.img).replace(/^\\/+/, "")}` : undefined} alt={product.title || "Thiết bị điện"} onError={(event) => { event.currentTarget.style.visibility = "hidden"; }}/><span className="dashboard-product-tag">XUÂN TRUNG · ĐIỆN MÁY</span></div>
               <Card.Body><Card.Title>{product.title || "Sản phẩm"}</Card.Title><Card.Text className="dashboard-product-status">{product.status || "Thông tin sản phẩm đang được cập nhật"}</Card.Text><div className="dashboard-product-bottom"><strong>{product.money == null ? "Liên hệ" : Number(product.money).toLocaleString("vi-VN", {style:"currency",currency:"VND"})}</strong><span aria-hidden="true">→</span></div></Card.Body>
             </Card>
           </Col>

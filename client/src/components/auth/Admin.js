@@ -1,7 +1,6 @@
 import React, { useContext, useState } from "react";
 import { NavLink, Navigate, Outlet, useLocation } from "react-router-dom";
 import { Authcontext } from "../../contexts/Authcontext";
-import "./AdminDashboard.css";
 
 const navGroups = [
   { label: "WORKSPACE", items: [

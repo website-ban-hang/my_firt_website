@@ -210,8 +210,8 @@ const Returnguest = () => {
           <div className="guest-empty-state">
             <div className="guest-empty-icon"><FiPackage /></div>
             <span className="guest-empty-kicker">{search ? "CHƯA TÌM THẤY KẾT QUẢ" : "CỬA HÀNG ĐANG CHUẨN BỊ"}</span>
-            <h3>{search ? "Chưa tìm thấy sản phẩm phù hợp" : "Những điều dễ thương sắp xuất hiện!"}</h3>
-            <p>{search ? "Thử một từ khóa khác hoặc xóa nội dung tìm kiếm để xem toàn bộ sản phẩm." : "Chúng tôi đang cập nhật những sản phẩm đầu tiên. Hãy quay lại sớm để khám phá nhé!"}</p>
+            <h3>{search ? "Chưa tìm thấy sản phẩm phù hợp" : "Danh mục sản phẩm đang được cập nhật"}</h3>
+            <p>{search ? "Thử một từ khóa khác hoặc xóa nội dung tìm kiếm để xem toàn bộ sản phẩm." : "Danh mục máy bơm và thiết bị điện đang được cập nhật. Vui lòng quay lại sau."}</p>
             {search ? (
               <button type="button" className="guest-primary-btn" onClick={() => setSearch("")}>Xem tất cả sản phẩm <FiArrowRight /></button>
             ) : (
@@ -222,7 +222,7 @@ const Returnguest = () => {
       </section>
 
       <footer className="guest-footer">
-        <Link to="/returnguest" className="guest-footer-brand"><span className="guest-brand-mark"><FiHeart /></span> PET HOUSE</Link>
+        <Link to="/returnguest" className="guest-footer-brand"><span className="guest-brand-mark"><FiZap /></span> AN PHÁT ĐIỆN MÁY</Link>
         <span>Thiết bị tốt · Điện nước an toàn · Phục vụ tận tâm. © {new Date().getFullYear()} An Phát Điện Máy.</span>
         <div><Link to="/login">Đăng nhập</Link><Link to="/register">Đăng ký</Link></div>
       </footer>

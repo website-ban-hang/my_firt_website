@@ -59,9 +59,36 @@ const AddItem = () => {
     setnewlist(listpost.slice(curren, curren + 4))
   };
   const onlickopenBTn = (value) => {
-    setstatusEdit(!statusEdit)
-    setstatusBtn(!statusBtn)
-    setdataformEdit(value)
+    setstatusEdit(false);
+    setstatusBtn(true);
+    setdataformEdit(value);
+    settitle(value.title || "");
+    setstatus(value.status || "");
+    setmoney(String(value.money ?? ""));
+    setfile(null);
+    const fileInput = document.getElementsByClassName("file")[0];
+    if (fileInput) fileInput.value = "";
+  };
+
+  const submitEdit = async () => {
+    if (!dataformEdit || !dataformEdit._id) return;
+    const editData = new FormData();
+    if (file) editData.append("file", file);
+    editData.append("title", title);
+    editData.append("status", status);
+    editData.append("money", money);
+    setstatusBtn(true);
+    const result = await EditCartItem2(dataformEdit, editData);
+    setstatusBtn(false);
+    if (result && result.success) {
+      setstatusEdit(true);
+      setdataformEdit("");
+      setfile(null);
+      settitle("");
+      setstatus("");
+      setmoney("");
+      if (document.getElementsByClassName("file")[0]) document.getElementsByClassName("file")[0].value = "";
+    }
   }
   
 
@@ -92,7 +119,7 @@ const AddItem = () => {
                         <Figure.Image
                           style={{ height: "50px" }}
                           alt="100x100"
-                          src={value.img ? `${PORT}${String(value.img).replace(/^\\/+/, "")}` : undefined}
+                          src={value.img ? `${PORT}${String(value.img).replace(/^\/+/, "")}` : undefined}
                         />
                       </Figure>
                     </td>
@@ -144,7 +171,7 @@ const AddItem = () => {
               </Form.Group >
               <Form.Group className="mb-3" controlId="formBasicCheckbox">
                 <Form.Label> Hình Ảnh của Sản phẩm</Form.Label>
-                <Form.Control name="file" type="file" className="file" required onChange={(e) => {
+                <Form.Control name="file" type="file" className="file" accept="image/jpeg,image/png,image/webp,image/gif" onChange={(e) => {
                   const file = e.target.files[0]
                   setfile(file)
                 }} placeholder="chọn file" />
@@ -153,7 +180,7 @@ const AddItem = () => {
               <Button className="me-3" variant="primary" type="submit" disabled={statusBtn}>
               Xác nhận
               </Button  >
-              <Button variant="primary" type="submit" disabled={statusEdit} onClick={() => EditCartItem2(dataformEdit, data)}>
+              <Button variant="primary" type="button" disabled={statusEdit || statusBtn} onClick={submitEdit}>
                 SỬA
               </Button  >
               <div className="page-item-Additem">

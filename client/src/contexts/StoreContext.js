@@ -18,14 +18,13 @@ const StoreProvider = ({ children }) => {
   const send = async (data) => {
     try {
       const response = await axios.post(`${PORT}store`, data);
-      setTimeout(() => {
-        setalert(null);
-        getListStore();
-      }, 1000);
+      await getListStore();
+      setalert({ type: "success", message: response.data.message || "Thêm sản phẩm thành công" });
       return response.data;
     } catch (error) {
-      setalert({ message: "lỗi đăng tải" });
-      return { success: false, message: error.message };
+      const message = error.response?.data?.message || "Không thể tải ảnh hoặc lưu sản phẩm";
+      setalert({ type: "danger", message });
+      return { success: false, message };
     }
   };
 

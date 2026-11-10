@@ -37,9 +37,23 @@ class StoreController {
     }
   }
 
-  async getkhachvanglai(req, res) {
-    return this.getstorage(req, res);
-  }
+ async getkhachvanglai(req, res) {
+    try {
+        const list = await Store.find({});
+
+        return res.json({
+            success: true,
+            list
+        });
+    } catch (error) {
+        console.error("Get guest products error:", error);
+
+        return res.status(500).json({
+            success: false,
+            message: "Không thể tải danh sách sản phẩm"
+        });
+    }
+}
 
   async deletestorage(req, res) {
     try {

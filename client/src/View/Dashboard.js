@@ -33,7 +33,7 @@ const Dashboard = () => {
     <main className="pet-dashboard electrical-dashboard">
       <section className="dashboard-hero electrical-dashboard-hero">
         <div className="electrical-dashboard-copy">
-          <span className="dashboard-eyebrow">AN PHÁT ĐIỆN MÁY · THIẾT BỊ CHO MỌI NHÀ</span>
+          <span className="dashboard-eyebrow">XUÂN TRUNG ĐIỆN MÁY · THIẾT BỊ CHO MỌI NHÀ</span>
           <h1>Giải pháp điện nước<br/><em>bền bỉ mỗi ngày.</em></h1>
           <p>Máy bơm nước, thiết bị điện và vật dụng dân dụng – lựa chọn đúng nhu cầu, an tâm sử dụng lâu dài.</p>
           <a href="#san-pham" className="dashboard-hero-cta">Khám phá sản phẩm <span>→</span></a>
@@ -57,7 +57,7 @@ const Dashboard = () => {
         {visiblePosts.length > 0 ? <Row className="g-4 dashboard-product-grid">{visiblePosts.map((product) => (
           <Col key={product._id} xs={6} sm={6} md={4} lg={3}>
             <Card className="dashboard-product-card h-100" role="button" tabIndex={0} onClick={() => openProduct(product)} onKeyDown={(event) => { if (event.key === "Enter" || event.key === " ") { event.preventDefault(); openProduct(product); } }}>
-              <div className="dashboard-product-image-wrap"><Card.Img variant="top" src={product.img ? PORT + product.img : undefined} alt={product.title || "Thiết bị điện"} onError={(event) => { event.currentTarget.style.visibility = "hidden"; }}/><span className="dashboard-product-tag">AN PHÁT · ĐIỆN MÁY</span></div>
+              <div className="dashboard-product-image-wrap"><Card.Img variant="top" src={product.img ? PORT + product.img : undefined} alt={product.title || "Thiết bị điện"} onError={(event) => { event.currentTarget.style.visibility = "hidden"; }}/><span className="dashboard-product-tag">XUÂN TRUNG · ĐIỆN MÁY</span></div>
               <Card.Body><Card.Title>{product.title || "Sản phẩm"}</Card.Title><Card.Text className="dashboard-product-status">{product.status || "Thông tin sản phẩm đang được cập nhật"}</Card.Text><div className="dashboard-product-bottom"><strong>{product.money == null ? "Liên hệ" : Number(product.money).toLocaleString("vi-VN", {style:"currency",currency:"VND"})}</strong><span aria-hidden="true">→</span></div></Card.Body>
             </Card>
           </Col>
@@ -67,7 +67,7 @@ const Dashboard = () => {
 
       <section className="dashboard-location"><div className="dashboard-location-copy"><span className="dashboard-kicker">CẦN TƯ VẤN KỸ THUẬT?</span><h2>Chọn đúng thiết bị, dùng bền lâu</h2><p>Liên hệ cửa hàng để được hỗ trợ lựa chọn máy bơm, thiết bị điện và vật dụng phù hợp với nhu cầu thực tế.</p><Link to="/contact">Liên hệ tư vấn <span>→</span></Link></div><div className="electrical-contact-art">⚡<span>GIẢI PHÁP ĐIỆN & NƯỚC</span><strong>AN TOÀN · HIỆU QUẢ · BỀN BỈ</strong></div></section>
 
-      <footer className="dashboard-footer"><div className="dashboard-footer-main"><div className="dashboard-footer-brand"><strong>AN PHÁT ĐIỆN MÁY</strong><p>Thiết bị điện, máy bơm và vật dụng điện cho mọi nhà.</p></div><div><h3>Danh mục</h3><p>Máy bơm nước</p><p>Thiết bị điện</p><p>Vật dụng điện dân dụng</p></div><div><h3>Hỗ trợ khách hàng</h3><p>Tư vấn chọn thiết bị</p><p>Hỗ trợ đặt hàng</p><p>Thông tin sản phẩm minh bạch</p></div><div><h3>Liên hệ</h3><p>Việt Nam</p><p>Liên hệ qua cửa hàng</p></div></div><div className="dashboard-footer-bottom"><span>© {new Date().getFullYear()} AN PHÁT ĐIỆN MÁY. All rights reserved.</span></div></footer>
+      <footer className="dashboard-footer"><div className="dashboard-footer-main"><div className="dashboard-footer-brand"><strong>XUÂN TRUNG ĐIỆN MÁY</strong><p>Thiết bị điện, máy bơm và vật dụng điện cho mọi nhà.</p></div><div><h3>Danh mục</h3><p>Máy bơm nước</p><p>Thiết bị điện</p><p>Vật dụng điện dân dụng</p></div><div><h3>Hỗ trợ khách hàng</h3><p>Tư vấn chọn thiết bị</p><p>Hỗ trợ đặt hàng</p><p>Thông tin sản phẩm minh bạch</p></div><div><h3>Liên hệ</h3><p>Việt Nam</p><p>Liên hệ qua cửa hàng</p></div></div><div className="dashboard-footer-bottom"><span>© {new Date().getFullYear()} XUÂN TRUNG ĐIỆN MÁY. All rights reserved.</span></div></footer>
     </main>
   );
 };

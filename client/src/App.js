@@ -1,5 +1,6 @@
 import { Navigate, Route, Routes } from "react-router-dom";
 import "./App.css";
+import "./design-system.css";
 import Admin from "./components/auth/Admin";
 import Home from "./components/auth/Home";
 import AddItem from "./components/auth/interfaceAdmin/AddItem";

@@ -2,12 +2,13 @@ import React, { useContext, useEffect, useState } from 'react';
 import { StorageCartContext } from '../../contexts/storagecartContext';
 import { useNavigate } from 'react-router-dom'
 import { Spinner } from 'react-bootstrap';
+import { PORT } from '../../constants';
 import AlertMessage from '../../View/AlertMessage';
 
 
 const Payment = () => {
     const push = useNavigate()
-    const path = "http://localhost:3000/";
+    const path = PORT;
     const { listStorage, sendlistpayment,getStorageCart } = useContext(StorageCartContext)
     const [alert, setalert] = useState(null)
     const arr = listStorage.map((data, index) => {
@@ -44,10 +45,13 @@ const Payment = () => {
             }, 2000);
         }
         setloadingpaymen(true)
-        await sendlistpayment(tell, address, listStorage)
-    setTimeout(()=>{
+        const result = await sendlistpayment(address, tell)
+        if (result?.success === false) {
+            setloadingpaymen(false)
+            setalert({ type: "danger", message: result.message || "Không thể tạo đơn hàng. Vui lòng thử lại." })
+            return
+        }
         push("/finishedoder")
-    },200)
        } catch (error) {
            return console.log(error)
        }

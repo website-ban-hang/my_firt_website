@@ -44,7 +44,7 @@ router.get("/", verifyToken,TheOderController.getoder)
 //     }
 // })
 //lấy ra mặt hàng cho admin ( tất cả )
-router.get("/admintheoder", verifyToken, TheOderController.getoderadmin)
+router.get("/admintheoder", verifyToken, verifyAdmin, TheOderController.getoderadmin)
 // chấp nhận đơn hàng từ admin
 
 // router.put("/:id",verifyToken,async(req,res)=>{

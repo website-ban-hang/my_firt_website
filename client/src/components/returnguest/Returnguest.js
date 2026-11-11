@@ -14,6 +14,7 @@ import {
   FiUser,
 } from "react-icons/fi";
 import { Authcontext } from "../../contexts/Authcontext";
+import { StorageCartContext } from "../../contexts/storagecartContext";
 import { storeContext } from "../../contexts/StoreContext";
 import { PORT } from "../../constants";
 import brandLogo from "../../assets/logo.svg";
@@ -43,6 +44,7 @@ const Returnguest = () => {
     checkuseradm,
   } = useContext(Authcontext);
   const { listpost, storeLoading } = useContext(storeContext);
+  const { listStorage = [] } = useContext(StorageCartContext);
   const navigate = useNavigate();
   const products = Array.isArray(listpost) ? listpost : [];
   const [search, setSearch] = useState("");
@@ -89,9 +91,9 @@ const Returnguest = () => {
       </div>
 
       <header className="guest-header">
-        <Link to="/returnguest" className="guest-brand" aria-label="Xuân Trung Điện Máy - Trang chủ">
+        <Link to="/" className="guest-brand" aria-label="Hoàng Ánh Điện Máy - Trang chủ">
           <span className="guest-brand-mark"><img src={brandLogo} alt="" /></span>
-          <span className="guest-brand-name">XUÂN TRUNG<span>ĐIỆN MÁY</span><small>THIẾT BỊ ĐIỆN · MÁY BƠM · DÂN DỤNG</small></span>
+          <span className="guest-brand-name">HOÀNG ÁNH<span>ĐIỆN MÁY</span><small>THIẾT BỊ ĐIỆN · MÁY BƠM · DÂN DỤNG</small></span>
         </Link>
         <nav className="guest-nav" aria-label="Điều hướng chính">
           <a className="active" href="#guest-home">Trang chủ</a>
@@ -99,7 +101,8 @@ const Returnguest = () => {
           <a href="#guest-benefits">Về chúng tôi</a>
         </nav>
         <div className="guest-actions">
-          <Link to="/login" className="guest-login"><FiUser /> Đăng nhập</Link>
+          {isAuthenticated ? <Link to="/viewcart" className="guest-login"><FiShoppingBag /> Giỏ hàng ({listStorage.length})</Link> : <Link to="/login" className="guest-login"><FiUser /> Đăng nhập</Link>}
+          {isAuthenticated && checkuseradm === true && <Link to="/admin" className="guest-login">Quản trị</Link>}
           <Link to="/register" className="guest-register">Tạo tài khoản <FiArrowRight /></Link>
         </div>
       </header>
@@ -179,7 +182,7 @@ const Returnguest = () => {
             <div className="guest-product-grid">
               {visibleProducts.map((item, index) => (
                 <article className="guest-product-card" key={item._id || item.id || `${item.title || "product"}-${index}`}>
-                  <button type="button" className="guest-product-image" onClick={() => navigate("/login")} aria-label={`Xem ${item.title || "sản phẩm"}`}>
+                  <button type="button" className="guest-product-image" onClick={() => navigate(`/products/${item._id || item.id}`)} aria-label={`Xem ${item.title || "sản phẩm"}`}>
                     <img
                       src={getImageUrl(item.img)}
                       alt={item.title || "Sản phẩm"}
@@ -193,7 +196,7 @@ const Returnguest = () => {
                     <p>{item.status || "Thông tin sản phẩm đang được cập nhật."}</p>
                     <div className="guest-product-bottom">
                       <strong>{formatPrice(item.money)}</strong>
-                      <button type="button" onClick={() => navigate("/login")} aria-label="Đăng nhập để mua hàng"><FiShoppingBag /></button>
+                      <button type="button" onClick={() => navigate(`/products/${item._id || item.id}`)} aria-label="Xem chi tiết sản phẩm"><FiShoppingBag /></button>
                     </div>
                   </div>
                 </article>
@@ -223,7 +226,7 @@ const Returnguest = () => {
       </section>
 
       <footer className="guest-footer">
-        <Link to="/returnguest" className="guest-footer-brand"><span className="guest-brand-mark"><FiZap /></span> AN PHÁT ĐIỆN MÁY</Link>
+        <Link to="/returnguest" className="guest-footer-brand"><span className="guest-brand-mark"><FiZap /></span> HOÀNG ÁNH ĐIỆN MÁY</Link>
         <span>Thiết bị tốt · Điện nước an toàn · Phục vụ tận tâm. © {new Date().getFullYear()} Xuân Trung Điện Máy.</span>
         <div><Link to="/login">Đăng nhập</Link><Link to="/register">Đăng ký</Link></div>
       </footer>

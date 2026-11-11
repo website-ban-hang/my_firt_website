@@ -223,7 +223,7 @@ const Returnguest = () => {
       </section>
 
       <footer className="guest-footer">
-        <Link to="/returnguest" className="guest-footer-brand"><span className="guest-brand-mark"><FiZap /></span> AN PHÁT ĐIỆN MÁY</Link>
+        <Link to="/returnguest" className="guest-footer-brand"><span className="guest-brand-mark"><FiZap /></span> Xuân Trung  ĐIỆN MÁY</Link>
         <span>Thiết bị tốt · Điện nước an toàn · Phục vụ tận tâm. © {new Date().getFullYear()} Xuân Trung Điện Máy.</span>
         <div><Link to="/login">Đăng nhập</Link><Link to="/register">Đăng ký</Link></div>
       </footer>

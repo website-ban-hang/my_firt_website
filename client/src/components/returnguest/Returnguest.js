@@ -79,8 +79,8 @@ const Returnguest = () => {
     return (
     <main className="guest-shop">
       <div className="guest-topline">
-        <span>THIẾT BỊ ĐIỆN CHÍNH HÃNG · TƯ VẤN KỸ THUẬT TẬN TÂM</span>
-        <span className="guest-topline-right"><FiTruck /> Giao hàng tiện lợi trên toàn quốc</span>
+        <span>THIẾT BỊ ĐIỆN · MÁY BƠM · TƯ VẤN KỸ THUẬT</span>
+        <span className="guest-topline-right"><FiTruck /> Hỗ trợ giao hàng theo khu vực</span>
       </div>
 
       <header className="guest-header">

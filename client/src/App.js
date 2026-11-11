@@ -17,6 +17,7 @@ import StoreProvider from "./contexts/StoreContext";
 import StorageCartProvider from "./contexts/storagecartContext";
 import Viewcart from "./View/viewcart";
 import Payment from "./components/pages/Payment";
+import AccountPage from "./components/pages/AccountPage";
 import Finishedoder from "./View/Finishedoder";
 import Cartoder from "./View/Cartoder";
 import Listorders from "./View/Listorders";
@@ -49,6 +50,7 @@ function AppRoutes() {
       <Route path="/returnguest" element={<Navigate to="/" replace />} />
       <Route path="/dashboard" element={<Navigate to="/" replace />} />
       <Route path="/dashboard/:id" element={<LegacyProductRedirect />} />
+      <Route path="/account" element={<RequireCustomer><AccountPage /></RequireCustomer>} />
       <Route path="/viewcart" element={<RequireCustomer><Viewcart /></RequireCustomer>} />
       <Route path="/payment" element={<RequireCustomer><Payment /></RequireCustomer>} />
       <Route path="/cartoder" element={<RequireCustomer><Cartoder /></RequireCustomer>} />

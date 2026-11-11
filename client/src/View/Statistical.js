@@ -1,133 +1,27 @@
-import React, { useContext, useEffect, useState } from "react";
-import { Col, Form, Row } from "react-bootstrap";
+import React, { useContext, useMemo, useState } from "react";
 import { ListOderCOntext } from "../contexts/ListoderContext";
 
+const formatMoney = value => Number(value || 0).toLocaleString("vi-VN",{style:"currency",currency:"VND",maximumFractionDigits:0});
 const Statistical = () => {
-  const [valueSelect, setvalueSelect] = useState("");
-  const [valueSelectyear, setvalueSelectyear] = useState("");
-
-  const [valuetotal, setvaluetotal] = useState("");
-  const [fillterproduct, setfillterproduct] = useState([]);
-  let arr = []
-
-
-  const { listtheoder, getlsitcartoderadmin, loadingListoder } = useContext(ListOderCOntext)
-  console.log(listtheoder)
-  const onchangeselect = (e) => {
-    console.log(valueSelect)
-    setvalueSelect(e.target.value)
-    console.log(valueSelectyear)
-    listtheoder.map((data, index) => {
-      const textcurrent = data.createAt.slice(4, 7)
-      const textcurrentyear = data.createAt.slice(0, 4)
-
-
-      if (textcurrent === `-0${e.target.value}` && textcurrentyear === valueSelectyear || e.target.value==="" )
-        return (
-          arr.push(data)
-          // setfillterproduct(...fillterproduct,data)
-        )
-        else if (e.target.value==="0000"){
-          arr.push(data)
-        }
-    })
-    setfillterproduct(arr)
-
-
-  }
-  const onchangeselectyear = (e) => {
-    setvalueSelectyear(e.target.value)
-    listtheoder.map((data, index) => {
-      const textcurrent = data.createAt.slice(0, 7)
-      const textcurrentyear = data.createAt.slice(0, 4)
-      if (textcurrent.search(`-0${valueSelect}`) != -1 && textcurrentyear.search(e.target.value) != -1 )
-        return (
-          arr.push(data)
-          // setfillterproduct(...fillterproduct,data)
-        )
-       
-  
-    })
-    setfillterproduct(arr)
-  }
-  console.log(fillterproduct)
-
-  useEffect(() => {
-    getlsitcartoderadmin()
-  }, [])
-  return (
-    <Row className="container">
-      <Col>
-        <h1 style={{ color: "white", fontSize: "20px" }}>Theo Tháng/Tổng Số Tiền </h1>
-        <Row>
-          <Col xxl={5}>
-            <Form.Select
-              onChange={(e) => onchangeselect(e)}
-              aria-label="Default select example"
-            >
-              <option value="0000">Tất Cả</option>
-              <option value="1">1</option>
-              <option value="2">2</option>
-              <option value="3">3</option>
-              <option value="4">4</option>
-              <option value="5">5</option>
-              <option value="6">6</option>
-              <option value="7">7</option>
-              <option value="8">8</option>
-              <option value="9">9</option>
-              <option value="10">10</option>
-              <option value="11">11</option>
-              <option value="12">12</option>
-            </Form.Select>
-          </Col>
-          <Col xxl={5}>
-            <Form.Select
-              onChange={(e) => onchangeselectyear(e)}
-              aria-label="Default select example"
-            >
-              <option value="00000">Chọn Năm</option>
-              <option value="2019">2019</option>
-              <option value="2020">2020</option>
-              <option value="2021">2021</option>
-              <option value="2022">2022</option>
-
-            </Form.Select>
-          </Col>
-          <Col
-            xxl={10}
-            className="p-5 boxMonthdetail d-flex justify-content-center mt-5"
-          >
-            <Row   >
-              <h3  style={{ color: "red",fontSize:"18px" }} >{(valueSelect ? `Đây là Đơn hàng của ${(valueSelect==="0000" ? "Tất Cả" : `tháng  ${valueSelect}`  )} ` : "Vui lòng CHọn  Tháng")}</h3>
-              <h1 style={{ fontSize: "30px",fontSize:"18px" }} hidden={valueSelect === ""}> {fillterproduct.length === 0 ? "đơn hàng trống" : `Đơn hàng  ${(valueSelect==="0000"? "":` trong tháng ${valueSelect}`)}  là ${fillterproduct.length}`}</h1>
-
-            </Row>
-          </Col>
-        </Row>
-      </Col>
-      <Col>
-        <h1 style={{ color: "white" }}>Chi tiết đơn hàng </h1>
-        {fillterproduct.map((data,index)=>(
-          <div key={index} className="detailstatict mt-2" style={{background:"white"}}>
-            <span className="me-4 ms-2"> tháng {data.createAt.slice(5,7)} năm {data.createAt.slice(0,4)}</span>
-            <span style={{minWidth:"150px"}} className="me-3"> SDT : {data.address}</span>
-            <span style={{minWidth:"200px"}} className="addresssstatic me-5"> địa chỉ : {data.tell}</span>
-      
-
-
-
-            
-
-          </div>
-        ))}
-        <div style={{background:"white" ,justifyContent:"center",borderRadius:"10px"}} className="mt-4">
-        <span hidden={fillterproduct.length===0} style={{borderRadius:"10px",fontSize:"20px"}} className="  mt-5"> Tổng đơn : {fillterproduct.length}</span>
-
-        </div>
-      </Col>
-      
-    </Row>
-  );
+  const { listtheoder = [], loadingListoder } = useContext(ListOderCOntext);
+  const orders = Array.isArray(listtheoder) ? listtheoder : [];
+  const [year,setYear] = useState(String(new Date().getFullYear()));
+  const [month,setMonth] = useState("all");
+  const years = [...new Set(orders.map(order=>{const d=new Date(order.createAt);return Number.isNaN(d.getTime())?null:String(d.getFullYear())}).filter(Boolean))].sort().reverse();
+  const filtered = useMemo(()=>orders.filter(order=>{const d=new Date(order.createAt);return !Number.isNaN(d.getTime()) && String(d.getFullYear())===year && (month==="all" || String(d.getMonth()+1)===month)}),[orders,year,month]);
+  const completed = filtered.filter(order=>order.status===true);
+  const total = order => (order.listOder || []).reduce((sum,item)=>sum+Number(item.toltalmoney||0),0);
+  const revenue = completed.reduce((sum,order)=>sum+total(order),0);
+  const months = Array.from({length:12},(_,i)=>({label:"T"+(i+1),value:completed.filter(order=>new Date(order.createAt).getMonth()===i).reduce((sum,order)=>sum+total(order),0)}));
+  const max = Math.max(1,...months.map(item=>item.value));
+  if(loadingListoder) return <div className="ha-loading">Đang tổng hợp báo cáo...</div>;
+  return <div className="ha-reports">
+    <div className="ha-page-heading"><div><div className="ha-eyebrow">BUSINESS INTELLIGENCE</div><h1>Báo cáo thống kê</h1><p>Phân tích doanh thu và đơn hàng theo dữ liệu ghi nhận.</p></div><span className="ha-date-chip">◷ Báo cáo trực tiếp</span></div>
+    <section className="ha-panel ha-report-filters"><div><label>Năm thống kê</label><select value={year} onChange={e=>setYear(e.target.value)}>{(years.length?years:[String(new Date().getFullYear())]).map(y=><option key={y} value={y}>{y}</option>)}</select></div><div><label>Tháng</label><select value={month} onChange={e=>setMonth(e.target.value)}><option value="all">Tất cả tháng</option>{months.map((m,i)=><option key={i} value={String(i+1)}>Tháng {i+1}</option>)}</select></div></section>
+    <div className="ha-stat-grid"><article className="ha-stat-card"><div className="ha-stat-top">Doanh thu đã xác nhận</div><strong>{formatMoney(revenue)}</strong><small>Trong khoảng thời gian đã chọn</small></article><article className="ha-stat-card"><div className="ha-stat-top">Tổng đơn hàng</div><strong>{filtered.length}</strong><small>Đơn hàng được ghi nhận</small></article><article className="ha-stat-card"><div className="ha-stat-top">Đơn đã xác nhận</div><strong>{completed.length}</strong><small>Đơn đã được xác nhận</small></article><article className="ha-stat-card"><div className="ha-stat-top">Đơn chờ xử lý</div><strong>{filtered.length-completed.length}</strong><small>Chưa được xác nhận</small></article></div>
+    <section className="ha-panel"><div className="ha-panel-heading"><div><h2>Biểu đồ doanh thu theo tháng</h2><p>Năm {year} · Chỉ tính đơn đã xác nhận</p></div></div><div className="ha-report-chart">{months.map((m,i)=><div className="ha-report-bar-col" key={m.label}><strong>{m.value?formatMoney(m.value):""}</strong><div className="ha-report-track"><div style={{height:(m.value/max*100)+"%"}}/></div><small>{m.label}</small></div>)}</div></section>
+    <section className="ha-panel mt-3"><div className="ha-panel-heading"><div><h2>Chi tiết đơn hàng</h2><p>{filtered.length} đơn phù hợp bộ lọc</p></div></div><div className="ha-product-table-wrap"><table className="ha-product-table"><thead><tr><th>THỜI GIAN</th><th>LIÊN HỆ</th><th>ĐỊA CHỈ</th><th>SẢN PHẨM</th><th>GIÁ TRỊ</th><th>TRẠNG THÁI</th></tr></thead><tbody>{filtered.slice().reverse().map((order,index)=><tr key={order._id||index}><td>{order.createAt || "—"}</td><td>{order.tell || "—"}</td><td>{order.address || "—"}</td><td>{order.listOder?.length || 0}</td><td><b>{formatMoney(total(order))}</b></td><td><span className={order.status?"ha-status done":"ha-status pending"}>{order.status?"Đã xác nhận":"Chờ xử lý"}</span></td></tr>)}</tbody></table></div>{!filtered.length&&<div className="ha-empty">Không có đơn hàng trong khoảng thời gian đã chọn.</div>}</section>
+    <div className="ha-data-note">Báo cáo sử dụng ngày tạo, trạng thái xác nhận và tổng tiền sản phẩm mà API đơn hàng hiện cung cấp. Phương thức thanh toán, phí vận chuyển và lợi nhuận chưa được API trả về.</div>
+  </div>;
 };
-
 export default Statistical;

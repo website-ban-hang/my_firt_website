@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useMemo, useState } from "react";
-import { Link, Navigate, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
   FiArrowRight,
   FiCheck,
@@ -76,14 +76,7 @@ const Returnguest = () => {
     setPage(1);
   }, [search, sort]);
 
-  if (isAuathenticated && checkuseradm !== true) {
-    return <Navigate to="/dashboard" replace />;
-  }
-  if (isAuathenticated && checkuseradm === true) {
-    return <Navigate to="/admin" replace />;
-  }
-
-  return (
+    return (
     <main className="guest-shop">
       <div className="guest-topline">
         <span>THIẾT BỊ ĐIỆN CHÍNH HÃNG · TƯ VẤN KỸ THUẬT TẬN TÂM</span>
@@ -101,8 +94,8 @@ const Returnguest = () => {
           <a href="#guest-benefits">Về chúng tôi</a>
         </nav>
         <div className="guest-actions">
-          {isAuthenticated ? <Link to="/viewcart" className="guest-login"><FiShoppingBag /> Giỏ hàng ({listStorage.length})</Link> : <Link to="/login" className="guest-login"><FiUser /> Đăng nhập</Link>}
-          {isAuthenticated && checkuseradm === true && <Link to="/admin" className="guest-login">Quản trị</Link>}
+          {isAuathenticated ? <Link to="/viewcart" className="guest-login"><FiShoppingBag /> Giỏ hàng ({listStorage.length})</Link> : <Link to="/login" className="guest-login"><FiUser /> Đăng nhập</Link>}
+          {isAuathenticated && checkuseradm === true && <Link to="/admin" className="guest-login">Quản trị</Link>}
           <Link to="/register" className="guest-register">Tạo tài khoản <FiArrowRight /></Link>
         </div>
       </header>

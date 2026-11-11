@@ -32,7 +32,14 @@ const Payment = () => {
     }, []);
     const submittheoder = async () => {
        try {
-       
+        if (!address.trim()) {
+            setalert({ type: "danger", message: "Vui lòng nhập địa chỉ nhận hàng." });
+            return;
+        }
+        if (!Array.isArray(listStorage) || listStorage.length === 0) {
+            setalert({ type: "danger", message: "Giỏ hàng đang trống. Vui lòng chọn sản phẩm trước khi đặt hàng." });
+            return;
+        }
         if (!/^0[0-9]{9,10}$/.test(tell)) {
          setalert({ type: "danger", message:"Vui lòng nhập số điện thoại hợp lệ (10–11 chữ số)." })
          return   setTimeout(() => {
@@ -48,7 +55,8 @@ const Payment = () => {
         }
         push("/finishedoder")
        } catch (error) {
-           return console.log(error)
+           setloadingpaymen(false);
+           setalert({ type: "danger", message: "Không thể kết nối để tạo đơn hàng. Vui lòng thử lại." });
        }
     }
     if (loadingpaymen) return (<Spinner style={{ position: "fixed", marginBottom: "25%", marginLeft: "50%" }}
@@ -74,7 +82,7 @@ const Payment = () => {
            </div>
             <div>
                 <h4 style={{ textAlign: "center", color: "white" ,fontWeight:"300" ,fontSize:"20px"}}>Điạ Chỉ</h4>
-                <input name="address" value={address} placeholder="Nhập địa chỉ nhận hàng" onChange={(e) => {
+                <input name="address" required value={address} placeholder="Nhập địa chỉ nhận hàng" onChange={(e) => {
                     onchangeInputAddress(e)
                 }} size={50} style={{ height: "50px" }}></input>
             </div>

@@ -3,12 +3,10 @@ import { Link, Navigate, useLocation, useNavigate } from "react-router-dom";
 import { Spinner } from "react-bootstrap";
 import { Authcontext } from "../../contexts/Authcontext";
 import { StorageCartContext } from "../../contexts/storagecartContext";
-import { storeContext } from "../../contexts/StoreContext";
 
 export default function LoginForm() {
   const { authState: { isAuathenticated, authloading }, loginUer, checkuseradm } = useContext(Authcontext);
   const { getStorageCart } = useContext(StorageCartContext);
-  const { getListStore } = useContext(storeContext);
   const navigate = useNavigate();
   const location = useLocation();
   const [form, setForm] = useState({ username: "", password: "" });
@@ -27,7 +25,7 @@ export default function LoginForm() {
       setError(result?.message || "Thông tin đăng nhập chưa chính xác. Vui lòng thử lại.");
       return;
     }
-    await Promise.all([getStorageCart(), getListStore()]);
+    await getStorageCart();
     navigate(result.user?.admin === true || checkuseradm === true ? "/admin" : from, { replace: true });
   };
 

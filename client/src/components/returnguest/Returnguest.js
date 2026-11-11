@@ -97,6 +97,8 @@ const Returnguest = () => {
           <a className="active" href="#guest-home">Trang chủ</a>
           <a href="#guest-products">Sản phẩm</a>
           <a href="#guest-benefits">Về chúng tôi</a>
+          <a href="#guest-benefits">LIÊN HỆ XUÂN HIẾU: 0389998053</a>
+    
         </nav>
         <div className="guest-actions">
           <Link to="/login" className="guest-login"><FiUser /> Đăng nhập</Link>

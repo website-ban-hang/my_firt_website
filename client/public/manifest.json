@@ -1,6 +1,6 @@
 {
-  "short_name": "Xuân Trung",
-  "name": "Xuân Trung Điện Máy - Máy bơm và thiết bị điện",
+  "short_name": "Hoàng Ánh",
+  "name": "Hoàng Ánh Điện Máy - Máy bơm và thiết bị điện",
   "icons": [
     {
       "src": "favicon.ico",
@@ -20,6 +20,6 @@
   ],
   "start_url": ".",
   "display": "standalone",
-  "theme_color": "#000000",
+  "theme_color": "#0b1f38",
   "background_color": "#ffffff"
 }

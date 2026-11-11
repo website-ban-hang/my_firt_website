@@ -69,7 +69,8 @@ const AtuthContextProvider = ({ children }) => {
       if (response.data.success) {
         localStorage.setItem("token", response.data.accessToken);
         setAuthToken(response.data.accessToken);
-        await loaduser();
+        const userData = await loaduser();
+        return { ...response.data, user: userData?.user || null };
       }
       return response.data;
     } catch (error) {

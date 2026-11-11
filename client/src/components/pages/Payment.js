@@ -9,7 +9,7 @@ import AlertMessage from '../../View/AlertMessage';
 const Payment = () => {
     const push = useNavigate()
     const path = PORT;
-    const { listStorage, sendlistpayment,getStorageCart } = useContext(StorageCartContext)
+    const { listStorage, sendlistpayment,getStorageCart,storageLoading } = useContext(StorageCartContext)
     const [alert, setalert] = useState(null)
     const arr = listStorage.map((data) => Number(data.toltalmoney || 0))
 
@@ -59,7 +59,7 @@ const Payment = () => {
            setalert({ type: "danger", message: "Không thể kết nối để tạo đơn hàng. Vui lòng thử lại." });
        }
     }
-    if (loadingpaymen) return (<Spinner style={{ position: "fixed", marginBottom: "25%", marginLeft: "50%" }}
+    if (loadingpaymen || !storageLoading) return (<Spinner style={{ position: "fixed", marginBottom: "25%", marginLeft: "50%" }}
         className="landing-inner"
         animation="border"
         variant="info"

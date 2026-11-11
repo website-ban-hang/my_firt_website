@@ -3,6 +3,7 @@ const router = express.Router()
 const verifyToken = require("../middleware/auth")
 const TheOder = require("../models/TheOder")
 const StorageCart = require("../models/StorageCart")
+const User = require("../models/User")
 
 class TheOderController {
     async postoder(req, res) {
@@ -48,11 +49,17 @@ class TheOderController {
     }
     async deleteoder (req, res) {
         try {
-            const id = req.params.id
-            await TheOder.findByIdAndDelete(id)
-            res.json({ success: true })
+            const user = await User.findById(req.userId).select("admin")
+            if (!user) return res.status(401).json({ success: false, message: "Phiên đăng nhập không hợp lệ" })
+            const condition = user.admin === true
+                ? { _id: req.params.id }
+                : { _id: req.params.id, user: req.userId, status: false }
+            const deleted = await TheOder.findOneAndDelete(condition)
+            if (!deleted) return res.status(404).json({ success: false, message: "Không tìm thấy đơn hàng hoặc đơn đã được xác nhận" })
+            return res.json({ success: true, message: "Đã xóa đơn hàng" })
         } catch (error) {
-            console.log(error);
+            console.error("Delete order error:", error && error.name)
+            return res.status(500).json({ success: false, message: "Không thể xóa đơn hàng" })
         }
     }
 }

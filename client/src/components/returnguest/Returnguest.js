@@ -181,7 +181,7 @@ const Returnguest = () => {
                       alt={item.title || "Sản phẩm"}
                       onError={(event) => { event.currentTarget.style.visibility = "hidden"; }}
                     />
-                    <span className="guest-image-badge">XUÂN TRUNG ĐIỆN MÁY</span>
+                    <span className="guest-image-badge">HOÀNG ÁNH ĐIỆN MÁY</span>
                   </button>
                   <div className="guest-product-info">
                     <span className="guest-product-category">THIẾT BỊ ĐIỆN</span>
@@ -220,7 +220,7 @@ const Returnguest = () => {
 
       <footer className="guest-footer">
         <Link to="/returnguest" className="guest-footer-brand"><span className="guest-brand-mark"><FiZap /></span> HOÀNG ÁNH ĐIỆN MÁY</Link>
-        <span>Thiết bị tốt · Điện nước an toàn · Phục vụ tận tâm. © {new Date().getFullYear()} Xuân Trung Điện Máy.</span>
+        <span>Thiết bị tốt · Điện nước an toàn · Phục vụ tận tâm. © {new Date().getFullYear()} Hoàng Ánh Điện Máy.</span>
         <div><Link to="/login">Đăng nhập</Link><Link to="/register">Đăng ký</Link></div>
       </footer>
     </main>

@@ -69,7 +69,8 @@ const StorageCartProvider = ({ children }) => {
       return response.data;
     } catch (error) {
       console.error("Không thể tải giỏ hàng:", error);
-      return { success: false, message: error.message };
+      dispath({ type: "SET_LISTSTORAGE", payload: [] });
+      return { success: false, message: error.response?.data?.message || error.message };
     }
   };
 

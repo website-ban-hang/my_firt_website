@@ -6,7 +6,7 @@ const Finishedoder = () => {
     
   useEffect(() => {
    setTimeout(() => {
-    push("/login")
+    push("/")
    }, 1000);
   }, []);
     return <div className='containerfinishoder'>
@@ -17,7 +17,7 @@ const Finishedoder = () => {
             ></Spinner>
         <div className='textfinishoder'>
             <h1>Đặt hàng thành công</h1>
-            <h1>Vui lòng Chờ để quay lại trang chủ</h1>
+            <h1>Cảm ơn bạn đã mua sắm tại Hoàng Ánh Điện Máy</h1>
         </div>
         
     </div>;

@@ -84,7 +84,7 @@ const Returnguest = () => {
   return (
     <main className="guest-shop">
       <div className="guest-topline">
-        <span>THIẾT BỊ ĐIỆN CHÍNH HÃNG · TƯ VẤN KỸ THUẬT TẬN TÂM - QUẢN L:Ý HỆ THỐNG : XUÂN HIẾU - 0389998053</span>
+        <span>THIẾT BỊ ĐIỆN CHÍNH HÃNG · TƯ VẤN KỸ THUẬT TẬN TÂM - QUẢN TRỊ HỆ THỐNG : XUÂN HIẾU - 0389998053</span>
         <span className="guest-topline-right"><FiTruck /> Giao hàng tiện lợi trên toàn quốc</span>
       </div>
 

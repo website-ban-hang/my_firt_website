@@ -18,7 +18,8 @@ const ListoderContextProvider=({children})=>{
             // setlisttheoder( reponse.data.response)
             dispath({type:"SET_LISTTHEODER",payload: {listtheoder:reponse.data.response,loadingListoder:false}})
         } catch (error) {
-            return
+            dispath({ type: "SET_LISTTHEODER", payload: { listtheoder: [], loadingListoder: false } });
+            return { success: false, message: error.response?.data?.message || error.message };
         }
     }
     const getlsitcartoderadmin = async () => {
@@ -27,7 +28,8 @@ const ListoderContextProvider=({children})=>{
             // setlisttheoder( reponse.data.response)
             dispath({type:"SET_LISTTHEODER",payload: {listtheoder:reponse.data.response,loadingListoder:false}})
         } catch (error) {
-            return
+            dispath({ type: "SET_LISTTHEODER", payload: { listtheoder: [], loadingListoder: false } });
+            return { success: false, message: error.response?.data?.message || error.message };
         }
     }
     const ListodeContextData={listtheoder,getlsitcartoder,loadingListoder,getlsitcartoderadmin}

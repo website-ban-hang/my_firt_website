@@ -1,4 +1,6 @@
-import { Navigate, Route, Routes } from "react-router-dom";
+import React from "react";
+import { Navigate, Route, Routes, useLocation } from "react-router-dom";
+import { Spinner } from "react-bootstrap";
 import "./App.css";
 import "./design-system.css";
 import Admin from "./components/auth/Admin";
@@ -10,12 +12,10 @@ import Listmember from "./components/auth/interfaceAdmin/Listmember";
 import LoginForm from "./components/auth/LoginForm";
 import Register from "./components/auth/Register";
 import Contact from "./components/NavBar/Contact";
-import Nav from "./components/NavBar/Nav";
-import AtuthContextProvider from "./contexts/Authcontext";
+import AtuthContextProvider, { Authcontext } from "./contexts/Authcontext";
 import PostConTextProvider from "./contexts/PostContext";
 import StoreProvider from "./contexts/StoreContext";
-import Dashboard from "./View/Dashboard";
-import StorageCartProvider from "./contexts/storagecartContext"
+import StorageCartProvider from "./contexts/storagecartContext";
 import Viewcart from "./View/viewcart";
 import Payment from "./components/pages/Payment";
 import Finishedoder from "./View/Finishedoder";
@@ -24,6 +24,45 @@ import Listorders from "./View/Listorders";
 import ListoderContextProvider from "./contexts/ListoderContext";
 import Statistical from "./View/Statistical";
 import Returnguest from "./components/returnguest/Returnguest";
+
+function RequireCustomer({ children }) {
+  const { authState: { authloading, isAuathenticated }, checkuseradm } = React.useContext(Authcontext);
+  const location = useLocation();
+  if (authloading) return <div className="ha-route-loading"><Spinner animation="border" /><span>Đang kiểm tra phiên đăng nhập...</span></div>;
+  if (!isAuathenticated) return <Navigate to="/login" replace state={{ from: location }} />;
+  if (checkuseradm === true) return <Navigate to="/admin" replace />;
+  return children;
+}
+
+function AppRoutes() {
+  return (
+    <Routes>
+      <Route path="/" element={<Returnguest />} />
+      <Route path="/products/:id" element={<Detailcrat />} />
+      <Route path="/contact" element={<Contact />} />
+      <Route path="/login" element={<LoginForm />} />
+      <Route path="/register" element={<Register />} />
+      <Route path="/returnguest" element={<Navigate to="/" replace />} />
+      <Route path="/dashboard" element={<Navigate to="/" replace />} />
+      <Route path="/dashboard/:id" element={<Navigate to="/" replace />} />
+      <Route path="/viewcart" element={<RequireCustomer><Viewcart /></RequireCustomer>} />
+      <Route path="/payment" element={<RequireCustomer><Payment /></RequireCustomer>} />
+      <Route path="/cartoder" element={<RequireCustomer><Cartoder /></RequireCustomer>} />
+      <Route path="/finishedoder" element={<RequireCustomer><Finishedoder /></RequireCustomer>} />
+      <Route path="/admin" element={<Admin />}>
+        <Route index element={<Navigate to="homeadmin" replace />} />
+        <Route path="addmember" element={<AddMember />} />
+        <Route path="homeadmin" element={<Home />} />
+        <Route path="additem" element={<AddItem />} />
+        <Route path="listorders" element={<Listorders />} />
+        <Route path="listmember" element={<Listmember />} />
+        <Route path="statistical" element={<Statistical />} />
+      </Route>
+      <Route path="*" element={<Navigate to="/" replace />} />
+    </Routes>
+  );
+}
+
 function App() {
   return (
     <StoreProvider>
@@ -31,40 +70,13 @@ function App() {
         <PostConTextProvider>
           <StorageCartProvider>
             <ListoderContextProvider>
-              <Routes>
-                <Route path="/" element={<Nav></Nav>}>
-                  <Route path="dashboard" element={<Dashboard></Dashboard>}> </Route>
-                  <Route path="/dashboard/:id" element={<Detailcrat></Detailcrat>}></Route>
-                  <Route path="contact" element={<Contact></Contact>}> </Route>
-                  <Route path="viewcart" element={<Viewcart></Viewcart>}> </Route>
-                  <Route path="payment" element={<Payment></Payment>}> </Route>
-                  <Route path="cartoder" element={<Cartoder></Cartoder>}> </Route>
-                  <Route path="finishedoder" element={<Finishedoder></Finishedoder>}> </Route>
-                  <Route path="*" element={<Navigate to="login"></Navigate>}></Route>
-                
-                </Route>
-              
-                <Route path="/login" element={<LoginForm></LoginForm>}>  </Route>
-                <Route path="/register" element={<Register></Register>}></Route>
-                <Route path="returnguest" element={<Returnguest></Returnguest>}></Route>
-                <Route path="/admin" element={<Admin></Admin>}>
-                  <Route index element={<Navigate to="homeadmin" replace />} />
-                  <Route path="addmember" element={<AddMember></AddMember>}></Route>
-                  <Route path="homeadmin" element={<Home></Home>}></Route>
-                  <Route path="additem" element={<AddItem></AddItem>}></Route>
-                  <Route path="listorders" element={<Listorders></Listorders>}></Route>
-                  <Route path="listmember" element={<Listmember></Listmember>}></Route>
-                  <Route path="statistical" element={<Statistical></Statistical>}></Route>
-                </Route>
-              </Routes>
+              <AppRoutes />
             </ListoderContextProvider>
           </StorageCartProvider>
         </PostConTextProvider>
       </AtuthContextProvider>
     </StoreProvider>
   );
-
-
 }
 
 export default App;

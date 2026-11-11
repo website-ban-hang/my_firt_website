@@ -1,10 +1,9 @@
 import React from "react";
-import { Navigate, Route, Routes, useLocation } from "react-router-dom";
+import { Navigate, Route, Routes, useLocation, useParams } from "react-router-dom";
 import { Spinner } from "react-bootstrap";
 import "./App.css";
 import "./design-system.css";
 import Admin from "./components/auth/Admin";
-import Home from "./components/auth/Home";
 import AddItem from "./components/auth/interfaceAdmin/AddItem";
 import AddMember from "./components/auth/interfaceAdmin/AddMember";
 import Detailcrat from "./components/auth/interfaceAdmin/Detailcrat";
@@ -34,6 +33,11 @@ function RequireCustomer({ children }) {
   return children;
 }
 
+function LegacyProductRedirect() {
+  const { id } = useParams();
+  return <Navigate to={"/products/" + id} replace />;
+}
+
 function AppRoutes() {
   return (
     <Routes>
@@ -44,7 +48,7 @@ function AppRoutes() {
       <Route path="/register" element={<Register />} />
       <Route path="/returnguest" element={<Navigate to="/" replace />} />
       <Route path="/dashboard" element={<Navigate to="/" replace />} />
-      <Route path="/dashboard/:id" element={<Navigate to="/" replace />} />
+      <Route path="/dashboard/:id" element={<LegacyProductRedirect />} />
       <Route path="/viewcart" element={<RequireCustomer><Viewcart /></RequireCustomer>} />
       <Route path="/payment" element={<RequireCustomer><Payment /></RequireCustomer>} />
       <Route path="/cartoder" element={<RequireCustomer><Cartoder /></RequireCustomer>} />

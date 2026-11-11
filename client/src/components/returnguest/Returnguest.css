@@ -14,6 +14,18 @@
   font-family: "DM Sans", sans-serif;
   overflow: hidden;
 }
+.guest-topline {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.guest-topline span:nth-child(2) {
+  margin-left: auto;
+  color: #00a86b;
+  font-weight: 700;
+  white-space: nowrap;
+}
 .guest-shop * { box-sizing: border-box; }
 .guest-shop a { text-decoration: none; }
 .guest-topline {

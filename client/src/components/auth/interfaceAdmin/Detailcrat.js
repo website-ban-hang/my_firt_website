@@ -34,7 +34,7 @@ export default function Detailcrat() {
     }
     if (!product) return;
     setSaving(true);
-    const result = await addstorageCart(product, quantity, "Quảng Nam");
+    const result = await addstorageCart(product, quantity, "");
     setSaving(false);
     if (result && result.success !== false) setMessage("Đã thêm sản phẩm vào giỏ hàng.");
     else setMessage(result?.message || "Không thể thêm vào giỏ hàng. Vui lòng thử lại.");
@@ -49,7 +49,7 @@ export default function Detailcrat() {
       <section className="ha-detail-card">
         <div className="ha-detail-image"><img src={imageUrl(product.img)} alt={product.title} onError={(event) => { event.currentTarget.style.opacity = 0; }} /></div>
         <div className="ha-detail-info">
-          <span className="ha-detail-eyebrow">HOÀNG ÁNH ĐIỆN MÁY · THIẾT BỊ CHÍNH HÃNG</span>
+          <span className="ha-detail-eyebrow">HOÀNG ÁNH ĐIỆN MÁY · THIẾT BỊ ĐIỆN VÀ MÁY BƠM</span>
           <h1>{product.title}</h1>
           <div className="ha-detail-price">{money(product.money)}</div>
           <p className="ha-detail-description">{product.status || "Thông tin chi tiết sản phẩm đang được cập nhật."}</p>

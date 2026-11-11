@@ -25,7 +25,7 @@ export default function Detailcrat() {
 
   useEffect(() => {
     if (!product && !storeLoading) getlistCartreturnguest();
-  }, [product, storeLoading, getlistCartreturnguest]);
+  }, [id]);
 
   const addToCart = async () => {
     if (!isAuathenticated) {

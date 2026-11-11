@@ -97,18 +97,6 @@ const Returnguest = () => {
           <a className="active" href="#guest-home">Trang chủ</a>
           <a href="#guest-products">Sản phẩm</a>
           <a href="#guest-benefits">Về chúng tôi</a>
-        <a
-  href="#guchest-benefits"
-  style="
-    color: #0066CC;
-    font-size: 20px;
-    font-weight: 700;
-    text-decoration: none;
-  "
->
-  QUẢN TRỊ HỆ THỐNG - XUÂN HIẾU: 0389998053
-</a>
-    
         </nav>
         <div className="guest-actions">
           <Link to="/login" className="guest-login"><FiUser /> Đăng nhập</Link>

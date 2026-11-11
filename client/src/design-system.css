@@ -656,3 +656,19 @@ button,a,input,select,textarea{-webkit-tap-highlight-color:transparent}
   .electrical-contact-page .containerContact { flex-direction: column; gap: 20px; }
   .electrical-contact-page .descriptionContact { padding: 20px; }
 }
+
+.ha-account-page { min-height: 75vh; padding: clamp(24px,5vw,60px) 20px; background: #f3f6fa; color: #172b43; }
+.ha-account-shell { width: min(100%,900px); margin: auto; }
+.ha-account-heading > span { color: #1769aa; font-size: 10px; font-weight: 900; letter-spacing: .16em; }
+.ha-account-heading h1 { margin: 12px 0 8px; color: #0b1f38; font-size: clamp(27px,4vw,38px); font-weight: 900; }
+.ha-account-heading p { color: #728196; }
+.ha-account-card { margin-top: 26px; padding: clamp(20px,4vw,36px); display: flex; gap: 24px; align-items: flex-start; border: 1px solid #e3ebf2; border-radius: 18px; background: #fff; box-shadow: 0 16px 42px rgba(11,31,56,.06); }
+.ha-account-avatar { width: 70px; height: 70px; flex: 0 0 70px; display: grid; place-items: center; border-radius: 20px; background: #e8f1f8; color: #1769aa; font-size: 27px; font-weight: 900; }
+.ha-account-data { display: grid; gap: 7px; }
+.ha-account-data small { margin-top: 7px; color: #8292a2; font-size: 9px; font-weight: 900; letter-spacing: .13em; }
+.ha-account-data strong { color: #0b1f38; font-size: 16px; }
+.ha-account-data p { max-width: 620px; margin: 10px 0 0; color: #728196; font-size: 12px; line-height: 1.7; }
+.ha-account-actions { margin-top: 18px; display: flex; flex-wrap: wrap; gap: 10px; }
+.ha-account-actions a,.ha-account-actions button { min-height: 42px; padding: 11px 16px; display: inline-flex; align-items: center; justify-content: center; border: 1px solid #dce5ed; border-radius: 9px; background: #fff; color: #1769aa; font-size: 12px; font-weight: 800; text-decoration: none; }
+.ha-account-actions button { background: #fff5f2; border-color: #f0d1ca; color: #a64234; }
+@media (max-width:560px) { .ha-account-card { flex-direction: column; } .ha-account-actions a,.ha-account-actions button { flex: 1 1 100%; } }

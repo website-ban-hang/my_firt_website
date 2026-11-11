@@ -94,7 +94,7 @@ const Returnguest = () => {
           <a href="#guest-benefits">Về chúng tôi</a>
         </nav>
         <div className="guest-actions">
-          {isAuathenticated ? <Link to="/viewcart" className="guest-login"><FiShoppingBag /> Giỏ hàng ({listStorage.length})</Link> : <Link to="/login" className="guest-login"><FiUser /> Đăng nhập</Link>}
+          {isAuathenticated ? <><Link to="/account" className="guest-login"><FiUser /> Tài khoản</Link><Link to="/viewcart" className="guest-login"><FiShoppingBag /> Giỏ hàng ({listStorage.length})</Link></> : <Link to="/login" className="guest-login"><FiUser /> Đăng nhập</Link>}
           {isAuathenticated && checkuseradm === true && <Link to="/admin" className="guest-login">Quản trị</Link>}
           <Link to="/register" className="guest-register">Tạo tài khoản <FiArrowRight /></Link>
         </div>

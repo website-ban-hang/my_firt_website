@@ -4,6 +4,7 @@ const router = express.Router()
 const argon2 = require("argon2")
 const jwt = require("jsonwebtoken")
 const verifyToken = require("../middleware/auth")
+const verifyAdmin = require("../middleware/admin")
 const AuthController = require("../controllers/AuthController")
 
 
@@ -33,7 +34,7 @@ const AuthController = require("../controllers/AuthController")
 // }
 // })
 //sửa thông tin từ admin
-router.put("/:id",verifyToken,AuthController.editadmin)
+router.put("/:id",verifyToken,verifyAdmin,AuthController.editadmin)
 //get APi/ath
 // router.get("/login", verifyToken, async (req, res) => {
 //     try {

@@ -755,3 +755,377 @@ button,a,input,select,textarea{-webkit-tap-highlight-color:transparent}
   }
   .ha-detail-cart-link svg { width: 18px; height: 18px; }
 }
+
+
+/* Shared finish pass for authentication, account, checkout and admin pages */
+.ha-auth-page {
+  background: #f5f8fb;
+  color: #172b43;
+}
+.ha-auth-showcase {
+  background:
+    radial-gradient(circle at 85% 18%, rgba(35,136,209,.3), transparent 30%),
+    linear-gradient(145deg,#081d34 0%,#10395d 58%,#1769aa 100%);
+}
+.ha-auth-showcase-copy h1 { max-width: 620px; }
+.ha-auth-decoration { pointer-events: none; }
+.ha-auth-form-side { background: linear-gradient(145deg,#fff 0%,#f8fbfd 100%); }
+.ha-auth-back { min-height: 40px; display: inline-flex; align-items: center; }
+.ha-auth-form > input,.ha-auth-password { min-height: 50px; border-radius: 10px; }
+.ha-auth-form > input:focus,.ha-auth-password:focus-within {
+  border-color: #79b6d8;
+  box-shadow: 0 0 0 4px rgba(8,116,183,.09);
+}
+.ha-auth-submit { min-height: 52px; border-radius: 10px; }
+.ha-auth-register a { color: #0874b7; }
+.ha-auth-showcase-foot { letter-spacing: .13em; }
+.ha-account-page { background: #f4f8fb; }
+.ha-account-card { border-color: #e1ebf2; box-shadow: 0 16px 42px rgba(8,54,84,.065); }
+.ha-account-avatar { background: linear-gradient(145deg,#e8f4fb,#d8ebf7); color: #0874b7; }
+.ha-account-actions a,.ha-account-actions button { min-height: 44px; border-radius: 10px; }
+.itemPayment,.itemPayment2,.boxitem,.containerlistorders,.DetailCart {
+  border-color: #e1ebf2;
+  box-shadow: 0 16px 42px rgba(8,54,84,.065);
+}
+.itemPayment > button,.ha-primary-btn,.ha-form-actions .btn-primary { border-radius: 10px; }
+.itemPayment > button { background: linear-gradient(105deg,#0874b7,#075586); }
+.itemPayment > button:hover { background: #073d63; }
+@media (max-width: 850px) {
+  .ha-auth-page { grid-template-columns: minmax(0,1fr); }
+  .ha-auth-showcase { min-height: auto; }
+  .ha-auth-form-side { min-height: 620px; }
+  .ha-auth-back { margin-bottom: 34px; }
+}
+@media (max-width: 560px) {
+  .ha-auth-showcase { padding: 22px 20px; }
+  .ha-auth-showcase-copy { margin: 34px 0 26px; }
+  .ha-auth-showcase-copy h1 { font-size: clamp(31px,8.5vw,42px); }
+  .ha-auth-showcase-copy p { font-size: 13px; }
+  .ha-auth-points { gap: 8px; font-size: 11px; }
+  .ha-auth-showcase-foot { font-size: 8px; }
+  .ha-auth-form-side { min-height: 0; padding: 30px 20px 40px; }
+  .ha-auth-form-wrap { max-width: 480px; }
+  .ha-auth-heading h2 { font-size: 27px; }
+  .ha-auth-legal { margin-top: 25px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ha-auth-page *, .ha-account-page *, .ha-admin * {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+
+/* HOANG ANH — premium product detail experience */
+.ha-product-detail {
+  position: relative;
+  isolation: isolate;
+  min-height: 82vh;
+  padding: clamp(76px, 8vw, 112px) clamp(18px, 5vw, 76px) 88px;
+  overflow: hidden;
+  background:
+    radial-gradient(ellipse at 8% 10%, rgba(198, 228, 246, .62), transparent 34%),
+    radial-gradient(ellipse at 92% 76%, rgba(255, 224, 184, .30), transparent 30%),
+    linear-gradient(145deg, #f7fbfe 0%, #f1f6fa 52%, #f9fbfd 100%);
+  color: #102d45;
+  font-family: "DM Sans", system-ui, sans-serif;
+}
+.ha-product-detail::before {
+  position: absolute;
+  z-index: -1;
+  top: 12%;
+  right: -150px;
+  width: 420px;
+  height: 420px;
+  border: 1px solid rgba(8, 116, 183, .10);
+  border-radius: 50%;
+  box-shadow: 0 0 0 32px rgba(8,116,183,.025), 0 0 0 68px rgba(8,116,183,.018);
+  content: "";
+  pointer-events: none;
+}
+.ha-detail-breadcrumb {
+  width: min(100%, 1180px);
+  margin: 0 auto 22px;
+  align-items: center;
+  gap: 12px;
+  color: #8294a3;
+  font-size: 12px;
+  font-weight: 600;
+}
+.ha-detail-breadcrumb a {
+  color: #0874b7;
+  font-weight: 800;
+  transition: color .2s ease;
+}
+.ha-detail-breadcrumb a:hover { color: #f09a20; }
+.ha-detail-breadcrumb span:last-child {
+  max-width: min(55vw, 520px);
+  overflow: hidden;
+  color: #536d81;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.ha-detail-card {
+  position: relative;
+  width: min(100%, 1180px);
+  padding: clamp(20px, 4vw, 48px);
+  grid-template-columns: minmax(0, 1.04fr) minmax(0, .96fr);
+  gap: clamp(28px, 5vw, 68px);
+  border: 1px solid rgba(215, 230, 240, .95);
+  border-radius: 26px;
+  background: rgba(255,255,255,.94);
+  box-shadow: 0 28px 80px rgba(8, 48, 76, .09), 0 3px 12px rgba(8,48,76,.035);
+  backdrop-filter: blur(12px);
+  animation: ha-detail-rise .55s cubic-bezier(.2,.7,.2,1) both;
+}
+.ha-detail-image {
+  position: relative;
+  min-height: clamp(330px, 40vw, 490px);
+  padding: clamp(20px, 3vw, 38px);
+  border: 1px solid #e4eef5;
+  border-radius: 20px;
+  background:
+    radial-gradient(circle at 50% 46%, #fff 0%, rgba(255,255,255,.82) 42%, transparent 70%),
+    linear-gradient(145deg, #f0f7fb, #e7f1f7 58%, #f6fafc);
+}
+.ha-detail-image::before {
+  position: absolute;
+  inset: 16px;
+  border: 1px dashed rgba(8,116,183,.13);
+  border-radius: 15px;
+  content: "";
+  pointer-events: none;
+}
+.ha-detail-image::after {
+  position: absolute;
+  top: 22px;
+  left: 22px;
+  padding: 7px 10px;
+  border: 1px solid #dcebf5;
+  border-radius: 7px;
+  background: rgba(255,255,255,.88);
+  color: #47718d;
+  content: "HOÀNG ÁNH • CHÍNH HÃNG";
+  font-size: 8px;
+  font-weight: 900;
+  letter-spacing: .12em;
+}
+.ha-detail-image img {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  max-height: 440px;
+  object-fit: contain;
+  filter: drop-shadow(0 18px 20px rgba(16,45,69,.10));
+  transition: transform .45s cubic-bezier(.2,.7,.2,1);
+}
+.ha-detail-image:hover img { transform: scale(1.035); }
+.ha-detail-info { min-width: 0; padding: 8px 0; }
+.ha-detail-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: #0874b7;
+  font-size: 9px;
+  font-weight: 900;
+  letter-spacing: .16em;
+  line-height: 1.7;
+}
+.ha-detail-eyebrow::before {
+  width: 22px;
+  height: 2px;
+  border-radius: 2px;
+  background: #f5a623;
+  content: "";
+}
+.ha-detail-info h1 {
+  margin: 17px 0 20px;
+  color: #0b3553;
+  font-size: clamp(29px, 3.2vw, 43px);
+  font-weight: 900;
+  letter-spacing: -.045em;
+  line-height: 1.15;
+  overflow-wrap: anywhere;
+}
+.ha-detail-price {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  margin: 0;
+  color: #e58a13;
+  font-size: clamp(27px, 3vw, 36px);
+  font-weight: 900;
+  letter-spacing: -.035em;
+}
+.ha-detail-price::before {
+  color: #8193a1;
+  content: "GIÁ BÁN";
+  font-size: 9px;
+  font-weight: 900;
+  letter-spacing: .13em;
+}
+.ha-detail-stock {
+  margin: 17px 0 20px;
+  padding: 11px 14px;
+  border-color: #d8ebdf;
+  border-radius: 10px;
+  background: linear-gradient(100deg,#f1faf4,#f8fcf9);
+  color: #527262;
+  font-size: 12px;
+}
+.ha-detail-stock strong { color: #245b3d; }
+.ha-detail-stock.out { border-color: #f1d8d4; background: #fff6f5; }
+.ha-detail-description {
+  margin: 22px 0;
+  padding: 17px 18px;
+  border-left: 3px solid #b8d8eb;
+  border-radius: 0 11px 11px 0;
+  background: #f6f9fb;
+  color: #647b8d;
+  font-size: 13px;
+  line-height: 1.85;
+  white-space: pre-wrap;
+}
+.ha-detail-quantity {
+  max-width: 100%;
+  min-height: 54px;
+  margin: 20px 0 16px;
+  padding: 11px 13px;
+  border: 1px solid #e4edf3;
+  border-radius: 12px;
+  background: #fbfdfe;
+}
+.ha-detail-quantity > label { color: #34536b; font-size: 12px; font-weight: 800; }
+.ha-detail-quantity .ha-quantity-control {
+  border-color: #d9e7f0;
+  border-radius: 9px;
+  box-shadow: 0 2px 6px rgba(8,54,84,.035);
+}
+.ha-detail-quantity .ha-quantity-control button {
+  width: 40px;
+  height: 40px;
+  background: #edf6fb;
+  color: #0874b7;
+  transition: background .18s ease, color .18s ease;
+}
+.ha-detail-quantity .ha-quantity-control button:not(:disabled):hover { background: #0874b7; color: #fff; }
+.ha-detail-quantity .ha-quantity-control input { height: 40px; color: #153b56; font-weight: 900; }
+.ha-detail-total {
+  margin: 16px 0 18px;
+  padding: 15px 0;
+  border-top: 1px solid #e9f0f4;
+  border-bottom: 1px solid #e9f0f4;
+  color: #718596;
+  font-size: 12px;
+  font-weight: 700;
+}
+.ha-detail-total strong { color: #0b3553; font-size: 20px; font-weight: 900; }
+.ha-detail-add {
+  min-height: 56px;
+  border-radius: 12px;
+  background: linear-gradient(105deg,#0874b7,#075586);
+  box-shadow: 0 12px 24px rgba(8,116,183,.22);
+  font-size: 13px;
+  font-weight: 900;
+  letter-spacing: .025em;
+  transition: transform .2s ease, box-shadow .2s ease, filter .2s ease;
+}
+.ha-detail-add:hover:not(:disabled) {
+  background: linear-gradient(105deg,#075586,#063b60);
+  box-shadow: 0 16px 30px rgba(8,80,126,.26);
+  transform: translateY(-2px);
+}
+.ha-detail-add:disabled { opacity: .55; box-shadow: none; cursor: not-allowed; }
+.ha-detail-message {
+  padding: 11px 13px;
+  border: 1px solid #cde9d7;
+  border-radius: 9px;
+  background: #f2fbf5;
+  color: #187345;
+  font-weight: 700;
+}
+.ha-detail-note { color: #8293a0; line-height: 1.7; }
+.ha-detail-back {
+  margin-top: 18px;
+  color: #0874b7;
+  font-size: 12px;
+  font-weight: 900;
+  transition: color .2s ease, transform .2s ease;
+}
+.ha-detail-back:hover { color: #e58a13; transform: translateX(-2px); }
+.ha-detail-cart-link {
+  top: 18px;
+  right: clamp(14px, 3vw, 38px);
+  min-height: 48px;
+  padding: 0 16px;
+  border-color: #dceaf3;
+  border-radius: 13px;
+  background: rgba(255,255,255,.94);
+  color: #075b91;
+  box-shadow: 0 10px 28px rgba(8,54,84,.13);
+  backdrop-filter: blur(12px);
+  transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease;
+}
+.ha-detail-cart-link:hover {
+  border-color: #a8cfe5;
+  background: #fff;
+  box-shadow: 0 14px 32px rgba(8,54,84,.17);
+  transform: translateY(-2px);
+}
+.ha-detail-cart-link strong {
+  background: linear-gradient(135deg,#ffc15a,#f19a1b);
+  color: #153b56;
+  font-weight: 900;
+}
+.ha-detail-empty {
+  padding: clamp(28px,5vw,54px);
+  border: 1px solid #e2ebf2;
+  background: rgba(255,255,255,.96);
+  box-shadow: 0 22px 60px rgba(8,54,84,.08);
+}
+.ha-detail-empty h1 { color: #0b3553; font-weight: 900; }
+.ha-detail-empty p { color: #718596; line-height: 1.7; }
+.ha-product-detail a:focus-visible,
+.ha-product-detail button:focus-visible,
+.ha-product-detail input:focus-visible {
+  outline: 3px solid rgba(245,166,35,.82);
+  outline-offset: 3px;
+}
+@keyframes ha-detail-rise {
+  from { opacity: 0; transform: translateY(14px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@media (max-width: 850px) {
+  .ha-product-detail { padding-top: 78px; }
+  .ha-detail-card { grid-template-columns: minmax(0,1fr); gap: 26px; }
+  .ha-detail-image { min-height: 300px; }
+  .ha-detail-image img { max-height: 390px; }
+  .ha-detail-info { padding: 0 2px 4px; }
+}
+@media (max-width: 560px) {
+  .ha-product-detail { padding: 72px 13px 48px; }
+  .ha-detail-breadcrumb { margin-bottom: 14px; gap: 8px; font-size: 10px; }
+  .ha-detail-card { padding: 13px; gap: 20px; border-radius: 18px; }
+  .ha-detail-image { min-height: 235px; padding: 16px; border-radius: 14px; }
+  .ha-detail-image::before { inset: 9px; }
+  .ha-detail-image::after { top: 14px; left: 14px; padding: 6px 7px; font-size: 7px; }
+  .ha-detail-image img { max-height: 270px; }
+  .ha-detail-eyebrow { font-size: 8px; letter-spacing: .11em; }
+  .ha-detail-info h1 { margin: 12px 0 14px; font-size: clamp(25px,7vw,32px); }
+  .ha-detail-price { font-size: 27px; }
+  .ha-detail-description { margin: 17px 0; padding: 13px; font-size: 12px; }
+  .ha-detail-quantity { align-items: center; gap: 8px; padding: 9px; }
+  .ha-detail-quantity > label { font-size: 11px; }
+  .ha-detail-quantity .ha-quantity-control button { width: 36px; height: 38px; }
+  .ha-detail-quantity .ha-quantity-control input { width: 44px; height: 38px; }
+  .ha-detail-total strong { font-size: 18px; }
+  .ha-detail-add { min-height: 52px; }
+  .ha-detail-cart-link { top: 11px; right: 11px; min-height: 42px; padding: 0 10px; gap: 6px; font-size: 11px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ha-detail-card,.ha-detail-image img,.ha-detail-add,.ha-detail-cart-link,.ha-detail-back {
+    animation: none !important;
+    transition: none !important;
+  }
+}

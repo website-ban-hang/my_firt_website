@@ -90,3 +90,57 @@
   .cart-remove-mobile { display:inline; margin-top:8px; padding:0; border:0; background:none; color:#a6b0a8; font-size:10px; text-decoration:underline; }
   .cart-summary { padding:20px 17px; }
 }
+
+
+/* HOÀNG ÁNH — align the cart with the navy / electric-blue storefront */
+.cart-page {
+  --cart-ink: #102d45;
+  --cart-muted: #718596;
+  --cart-green: #0874b7;
+  --cart-line: #e1ebf2;
+  background:
+    radial-gradient(ellipse at 8% 0%, rgba(218,237,248,.72), transparent 35%),
+    #f4f8fb;
+  color: var(--cart-ink);
+}
+.cart-breadcrumb a,.cart-continue-link,.cart-back-row a { color: #0874b7; }
+.cart-kicker { color: #d18a20; }
+.cart-heading h1,.cart-items-title h2,.cart-summary h2,.cart-empty h2 { color: #0b3553; font-family: "DM Sans",Arial,sans-serif; font-weight: 850; }
+.cart-items-panel,.cart-summary,.cart-empty {
+  border-color: #e1ebf2;
+  border-radius: 18px;
+  box-shadow: 0 16px 42px rgba(8,54,84,.065);
+}
+.cart-image-frame { background: linear-gradient(145deg,#f1f7fb,#e7f1f7); border-color: #e1ebf2; }
+.cart-product-copy h3 { color: #153b56; }
+.cart-quantity button { color: #0874b7; border-color: #d8e7f1; background: #f5f9fc; min-width: 34px; min-height: 34px; }
+.cart-quantity > span { color: #153b56; border-color: #d8e7f1; min-width: 38px; min-height: 34px; }
+.cart-line-total,.cart-summary-total strong { color: #0874b7; }
+.cart-primary-button {
+  min-height: 49px;
+  border-radius: 10px;
+  background: linear-gradient(105deg,#0874b7,#075586);
+  box-shadow: 0 9px 20px rgba(8,116,183,.18);
+}
+.cart-primary-button:hover { background: linear-gradient(105deg,#075586,#063b60); }
+.cart-remove-mobile,.cart-remove-desktop { color: #9a6a60; }
+.cart-empty-icon { color: #f0a12b; }
+.cart-notice { border-color: #f1d7b5; background: #fff9ef; color: #8d5b17; }
+.cart-page a:focus-visible,.cart-page button:focus-visible {
+  outline: 3px solid rgba(245,166,35,.8);
+  outline-offset: 3px;
+}
+@media (max-width: 640px) {
+  .cart-page { padding-top: 18px; }
+  .cart-heading h1 { font-size: clamp(27px,8vw,35px); }
+  .cart-items-panel,.cart-summary { border-radius: 14px; }
+  .cart-quantity button { width: 36px; height: 36px; }
+  .cart-quantity > span { height: 36px; }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .cart-items-panel,.cart-summary,.cart-empty { animation: ha-cart-enter .45s ease both; }
+  @keyframes ha-cart-enter {
+    from { opacity: 0; transform: translateY(9px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+}

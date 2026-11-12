@@ -4,6 +4,7 @@ import { Spinner } from "react-bootstrap";
 import "./App.css";
 import "./design-system.css";
 import Admin from "./components/auth/Admin";
+import Home from "./components/auth/Home";
 import AddItem from "./components/auth/interfaceAdmin/AddItem";
 import AddMember from "./components/auth/interfaceAdmin/AddMember";
 import Detailcrat from "./components/auth/interfaceAdmin/Detailcrat";

@@ -16,9 +16,10 @@ class StoreController {
       return res.status(400).json({ success: false, message: "Vui lòng chọn hình ảnh sản phẩm" });
     }
 
-    const { title, status, money } = req.body || {};
+    const { title, status, money, stock } = req.body || {};
     const price = Number(money);
-    if (!title || !Number.isFinite(price) || price < 0) {
+    const inventory = stock === undefined || stock === "" ? 0 : Number(stock);
+    if (!title || !Number.isFinite(price) || price < 0 || !Number.isInteger(inventory) || inventory < 0) {
       return res.status(400).json({ success: false, message: "Tên hoặc giá sản phẩm không hợp lệ" });
     }
 
@@ -27,6 +28,7 @@ class StoreController {
         title,
         status,
         money: price,
+        stock: inventory,
         uer: req.userId,
         img: "",
         imageData: req.file.buffer.toString("base64"),
@@ -115,10 +117,17 @@ class StoreController {
   }
 
   async putstorage(req, res) {
-    const { title, status, money } = req.body || {};
+    const { title, status, money, stock } = req.body || {};
     const update = {};
     if (title !== undefined) update.title = title;
     if (status !== undefined) update.status = status;
+    if (stock !== undefined) {
+      const inventory = Number(stock);
+      if (!Number.isInteger(inventory) || inventory < 0) {
+        return res.status(400).json({ success: false, message: "Số lượng tồn kho phải là số nguyên không âm" });
+      }
+      update.stock = inventory;
+    }
     if (money !== undefined) {
       const price = Number(money);
       if (!Number.isFinite(price) || price < 0) {

@@ -1,98 +1,66 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { Button, Card, Col, Container, Form, Row, Spinner } from 'react-bootstrap';
-import { useNavigate, useParams } from 'react-router-dom';
-import { StorageCartContext } from '../../../contexts/storagecartContext';
-import { storeContext } from '../../../contexts/StoreContext';
+import React, { useContext, useEffect, useMemo, useState } from "react";
+import { Link, useNavigate, useParams } from "react-router-dom";
+import { Spinner } from "react-bootstrap";
+import { Authcontext } from "../../../contexts/Authcontext";
+import { storeContext } from "../../../contexts/StoreContext";
+import { StorageCartContext } from "../../../contexts/storagecartContext";
+import { PORT } from "../../../constants";
 
-const Detailcrat = () => {
-  const params = useParams()
-  const { Findcartbyid, detail, detaillCarLoading,getListStore,detailcart } = useContext(storeContext)
-  const { addstorageCart,listStorage } = useContext(StorageCartContext)
-  const totalcart = 1
-  const [quantily, setquantily] = useState(1)
-  const [address, setAddress] = useState("Quảng nam")
-  const path = "http://localhost:3000/";
-  const navigate = useNavigate();
-
-  const handlechange = (e) => {
-    setquantily((e.target.value) > 50 || (e.target.value) < 1 ? quantily : [e.target.name] = e.target.value)
-  }
-  const addstorage = () => {
-    addstorageCart(detail[0], quantily,address)
-  }
-
-  useEffect(()=>{
-    detailcart(params)
-  },[])
-  if (detaillCarLoading)
-    return (<Spinner style={{ position: "fixed", marginBottom: "20%", marginLeft: "50%" }} className="landing-inner" animation="border" variant="info"></Spinner>)
-  return <Container style={{ width: "100%", padding: "0%" }}>
-    <div className='DetailCart'>
-      <Row className='containerdetail'>
-        <Col className='detaimoney1'>
-          <Row >
-            <Card.Img className='itemimg'
-              variant="top"
-              src={path + detail[0].img}
-            />
-          </Row>
-          <Row className='statusdetail'>{detail[0].status}
-          </Row>
-        </Col>
-
-        <Col className='detaimoney2' >{detail[0].title}
-          <Row className='mt-5 childrendetaimoney2'>
-            <Col lg="4">Số lượng : Còn Hàng</Col>
-            <Col style={{ fontWeight: "normal", textTransform: "uppercase", opacity: "0.5" }} >ĐÃ bán</Col>
-          </Row>
-          <Row className=' childrendetaimoney2' ><h2>{((detail[0].money) * quantily).toLocaleString("vi-VN", {
-            style: "currency",
-            currency: "VND",
-          })}</h2>
-          </Row>
-          <Row className='mt-3 childrendetaimoney2'>
-            <Col lg="4">Vận chuyển</Col>
-            <Col lg="3">Vận chuyển Đến</Col>
-            <Col lg="3" >
-              <Form.Select onChange={(e) => {
-                  setAddress((e.target.options[e.target.options.selectedIndex]).text)
-                }} aria-label="Default select ">
-                <option disabled  >Chọn Nơi Đến </option>x
-                <option value="1">Quảng nam</option>
-                <option value="2">Đà Nẵng</option>
-                <option value="3">Hồ Chí Minh </option>
-              </Form.Select>
-            </Col>
-          </Row>
-          <Row className='mt-3 childrendetaimoney2'>
-            <Col lg="4" >Số lượng</Col>
-            <Col lg="2" ><Form.Control
-              value={quantily} onChange={(e) => handlechange(e)} name="quantily" min="1" max="50" type="number"></Form.Control></Col>
-            <Col lg="1" ></Col>
-            <Col lg="4" >Còn lại 2</Col>
-
-          </Row >
-          <Row className='mt-4 childrendetaimoney2 '>
-            <Col ><Button className='btndetail' style={{ background: "black", border: "none", color: "white" }} onClick={(e) => {
-              e.preventDefault()
-              addstorage(detail[0])
-            }}>Thêm Vào giỏ hàng</Button></Col>
-            <Col ><Button className='btndetail' style={{ background: "black", border: "2px solid white", color: "white" }} onClick={(e) => {
-              e.preventDefault()
-              addstorage(detail[0])
-              setTimeout(() => navigate("/viewcart"), 1000)
-           
-            }}>Mua Ngay</Button></Col>
-
-          </Row>
-
-        </Col>
-
-
-      </Row>
-
-    </div>
-  </Container>;
+const imageUrl = (value) => {
+  if (!value) return "";
+  return /^https?:\/\//i.test(value) ? value : PORT + String(value).replace(/^\/+/, "");
 };
+const money = (value) => Number(value || 0).toLocaleString("vi-VN", { style: "currency", currency: "VND", maximumFractionDigits: 0 });
 
-export default Detailcrat;
+export default function Detailcrat() {
+  const { id } = useParams();
+  const navigate = useNavigate();
+  const { authState: { isAuathenticated } } = useContext(Authcontext);
+  const { listpost = [], storeLoading, getlistCartreturnguest } = useContext(storeContext);
+  const { addstorageCart } = useContext(StorageCartContext);
+  const [quantity, setQuantity] = useState(1);
+  const [saving, setSaving] = useState(false);
+  const [message, setMessage] = useState("");
+  const product = useMemo(() => (Array.isArray(listpost) ? listpost : []).find((item) => String(item._id || item.id) === String(id)), [listpost, id]);
+
+  useEffect(() => {
+    if (!product && !storeLoading) getlistCartreturnguest();
+  }, [id]);
+
+  const addToCart = async () => {
+    if (!isAuathenticated) {
+      navigate("/login", { state: { from: { pathname: "/products/" + id } } });
+      return;
+    }
+    if (!product) return;
+    setSaving(true);
+    const result = await addstorageCart(product, quantity, "");
+    setSaving(false);
+    if (result && result.success !== false) setMessage("Đã thêm sản phẩm vào giỏ hàng.");
+    else setMessage(result?.message || "Không thể thêm vào giỏ hàng. Vui lòng thử lại.");
+  };
+
+  if (storeLoading && !product) return <div className="ha-route-loading"><Spinner animation="border" />Đang tải thông tin sản phẩm...</div>;
+  if (!product) return <main className="ha-product-detail"><div className="ha-detail-empty"><h1>Không tìm thấy sản phẩm</h1><p>Sản phẩm có thể đã được gỡ khỏi cửa hàng hoặc đường dẫn không chính xác.</p><Link to="/">Quay về trang chủ</Link></div></main>;
+
+  return (
+    <main className="ha-product-detail">
+      <div className="ha-detail-breadcrumb"><Link to="/">Trang chủ</Link><span>/</span><span>{product.title}</span></div>
+      <section className="ha-detail-card">
+        <div className="ha-detail-image"><img src={imageUrl(product.img)} alt={product.title} onError={(event) => { event.currentTarget.style.opacity = 0; }} /></div>
+        <div className="ha-detail-info">
+          <span className="ha-detail-eyebrow">HOÀNG ÁNH ĐIỆN MÁY · THIẾT BỊ ĐIỆN VÀ MÁY BƠM</span>
+          <h1>{product.title}</h1>
+          <div className="ha-detail-price">{money(product.money)}</div>
+          <p className="ha-detail-description">{product.status || "Thông tin chi tiết sản phẩm đang được cập nhật."}</p>
+          <div className="ha-detail-quantity"><label htmlFor="product-quantity">Số lượng</label><div><button type="button" onClick={() => setQuantity((value) => Math.max(1, value - 1))} aria-label="Giảm số lượng">−</button><input id="product-quantity" type="number" min="1" max="50" value={quantity} onChange={(event) => setQuantity(Math.min(50, Math.max(1, Number(event.target.value) || 1)))} /><button type="button" onClick={() => setQuantity((value) => Math.min(50, value + 1))} aria-label="Tăng số lượng">＋</button></div></div>
+          <div className="ha-detail-total">Tạm tính <strong>{money(Number(product.money || 0) * quantity)}</strong></div>
+          <button className="ha-detail-add" type="button" disabled={saving} onClick={addToCart}>{saving ? "Đang thêm..." : isAuathenticated ? "Thêm vào giỏ hàng" : "Đăng nhập để thêm vào giỏ"}</button>
+          {message && <p className="ha-detail-message" role="status">{message}</p>}
+          {!isAuathenticated && <p className="ha-detail-note">Bạn có thể xem sản phẩm mà không cần tài khoản. Hệ thống giỏ hàng và đặt đơn hiện yêu cầu đăng nhập.</p>}
+          <Link className="ha-detail-back" to="/">← Tiếp tục xem sản phẩm</Link>
+        </div>
+      </section>
+    </main>
+  );
+}

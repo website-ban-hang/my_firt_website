@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import { NavLink, Navigate, Outlet, useLocation } from "react-router-dom";
+import { NavLink, Navigate, Outlet, useLocation, useNavigate } from "react-router-dom";
 import { Authcontext } from "../../contexts/Authcontext";
 
 const navGroups = [
@@ -20,10 +20,12 @@ const navGroups = [
 ];
 
 export default function Admin() {
-  const { authState: { isAuathenticated, user }, checkuseradm, logoutUser } = useContext(Authcontext);
+  const { authState: { isAuathenticated, authloading, user }, checkuseradm, logoutUser } = useContext(Authcontext);
   const [menuOpen, setMenuOpen] = useState(false);
   const location = useLocation();
-  if (!isAuathenticated || checkuseradm !== true) return <Navigate to="/login" replace />;
+  const navigate = useNavigate();
+  if (authloading) return <div className="ha-route-loading">Đang xác minh quyền quản trị...</div>;
+  if (!isAuathenticated || checkuseradm !== true) return <Navigate to="/login" replace state={{ from: location }} />;
   const activeTitle = navGroups.flatMap(group => group.items).find(item => item.to === location.pathname)?.label || "Trung tâm quản trị";
   return (
     <div className="ha-admin">
@@ -44,7 +46,7 @@ export default function Admin() {
         </div>)}
         <div className="ha-sidebar-bottom">
           <div className="ha-secure-note"><span>●</span><div><b>Phiên quản trị an toàn</b><small>Đã xác thực ADMIN</small></div></div>
-          <button className="ha-logout" onClick={logoutUser}><span>↪</span> Đăng xuất</button>
+          <button className="ha-logout" onClick={async () => { await logoutUser(); navigate("/", { replace: true }); }}><span>↪</span> Đăng xuất</button>
         </div>
       </aside>
       <section className="ha-admin-main">

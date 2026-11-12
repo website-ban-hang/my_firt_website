@@ -1,6 +1,7 @@
 const express = require("express")
 const router = express.Router()
 const verifyToken = require("../middleware/auth")
+const verifyAdmin = require("../middleware/admin")
 const TheOder = require("../models/TheOder")
 const StorageCart = require("../models/StorageCart")
 const TheOderController = require("../controllers/TheOderController")
@@ -43,7 +44,7 @@ router.get("/", verifyToken,TheOderController.getoder)
 //     }
 // })
 //lấy ra mặt hàng cho admin ( tất cả )
-router.get("/admintheoder", verifyToken, TheOderController.getoderadmin)
+router.get("/admintheoder", verifyToken, verifyAdmin, TheOderController.getoderadmin)
 // chấp nhận đơn hàng từ admin
 
 // router.put("/:id",verifyToken,async(req,res)=>{
@@ -59,7 +60,7 @@ router.get("/admintheoder", verifyToken, TheOderController.getoderadmin)
 // })
 // chấp nhận đơn hàng từ admin
 
-router.put("/:id",verifyToken,TheOderController.acceptoderadmin)
+router.put("/:id",verifyToken,verifyAdmin,TheOderController.acceptoderadmin)
 
 //xoa oder
 // router.delete("/:id", verifyToken, async (req, res) => {

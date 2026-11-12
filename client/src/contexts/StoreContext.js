@@ -35,7 +35,8 @@ const StoreProvider = ({ children }) => {
       return response.data;
     } catch (error) {
       console.error("Không thể tải danh sách sản phẩm:", error);
-      return { success: false, message: error.message };
+      dispath({ type: "GET_LISTCART", payload: [] });
+      return { success: false, message: error.response?.data?.message || error.message };
     }
   };
 
@@ -51,7 +52,8 @@ const StoreProvider = ({ children }) => {
       return response.data;
     } catch (error) {
       console.error("Không thể tải sản phẩm cho khách:", error);
-      return { success: false, message: error.message };
+      dispath({ type: "GET_LISTCART", payload: [] });
+      return { success: false, message: error.response?.data?.message || error.message };
     }
   };
 

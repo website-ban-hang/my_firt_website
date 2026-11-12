@@ -2,6 +2,7 @@ const express = require("express");
 const multer = require("multer");
 const router = express.Router();
 const verifyToken = require("../middleware/auth");
+const verifyAdmin = require("../middleware/admin");
 const storecontroller = require("../controllers/storecontroller");
 
 // Vercel functions have ephemeral filesystems. Keep small product images in MongoDB.
@@ -29,12 +30,12 @@ const uploadProductImage = (req, res, next) => {
   });
 };
 
-router.post("/", verifyToken, uploadProductImage, storecontroller.poststorage);
+router.post("/", verifyToken, verifyAdmin, uploadProductImage, storecontroller.poststorage);
 router.get("/image/:id", storecontroller.getimage);
-router.get("/getlistCart", verifyToken, storecontroller.getstorage);
+router.get("/getlistCart", verifyToken, verifyAdmin, storecontroller.getstorage);
 router.get("/getlistCartreturnguest", storecontroller.getkhachvanglai);
-router.delete("/deletecart/:id", verifyToken, storecontroller.deletestorage);
-router.put("/editcart/:id", verifyToken, uploadProductImage, storecontroller.putstorage);
-router.get("/detailcart/:id", verifyToken, storecontroller.detailstorage);
+router.delete("/deletecart/:id", verifyToken, verifyAdmin, storecontroller.deletestorage);
+router.put("/editcart/:id", verifyToken, verifyAdmin, uploadProductImage, storecontroller.putstorage);
+router.get("/detailcart/:id", verifyToken, verifyAdmin, storecontroller.detailstorage);
 
 module.exports = router;

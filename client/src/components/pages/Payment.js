@@ -2,23 +2,19 @@ import React, { useContext, useEffect, useState } from 'react';
 import { StorageCartContext } from '../../contexts/storagecartContext';
 import { useNavigate } from 'react-router-dom'
 import { Spinner } from 'react-bootstrap';
+import { PORT } from '../../constants';
 import AlertMessage from '../../View/AlertMessage';
 
 
 const Payment = () => {
     const push = useNavigate()
-    const path = "http://localhost:3000/";
-    const { listStorage, sendlistpayment,getStorageCart } = useContext(StorageCartContext)
+    const path = PORT;
+    const { listStorage, sendlistpayment,getStorageCart,storageLoading } = useContext(StorageCartContext)
     const [alert, setalert] = useState(null)
-    const arr = listStorage.map((data, index) => {
-        return [data.toltalmoney]
-    })
+    const arr = listStorage.map((data) => Number(data.toltalmoney || 0))
 
     const [loadingpaymen, setloadingpaymen] = useState(false)
-    var sum = arr.reduce(function (total, number) {
-        const newnumber = +number
-        return total + newnumber 
-    }, 30000);
+    const sum = arr.reduce((total, amount) => total + amount, 30000);
     const [addresss, setAddress] = useState({
         address: "",
         tell: ""
@@ -36,23 +32,34 @@ const Payment = () => {
     }, []);
     const submittheoder = async () => {
        try {
-       
-        if(tell===""){
-         setalert({ type: "danger", message:"Số Điện Thoại KHông được bỏ trống" })
+        if (!address.trim()) {
+            setalert({ type: "danger", message: "Vui lòng nhập địa chỉ nhận hàng." });
+            return;
+        }
+        if (!Array.isArray(listStorage) || listStorage.length === 0) {
+            setalert({ type: "danger", message: "Giỏ hàng đang trống. Vui lòng chọn sản phẩm trước khi đặt hàng." });
+            return;
+        }
+        if (!/^0[0-9]{9,10}$/.test(tell)) {
+         setalert({ type: "danger", message:"Vui lòng nhập số điện thoại hợp lệ (10–11 chữ số)." })
          return   setTimeout(() => {
                 setalert(null)
             }, 2000);
         }
         setloadingpaymen(true)
-        await sendlistpayment(tell, address, listStorage)
-    setTimeout(()=>{
+        const result = await sendlistpayment(address, tell)
+        if (result?.success === false) {
+            setloadingpaymen(false)
+            setalert({ type: "danger", message: result.message || "Không thể tạo đơn hàng. Vui lòng thử lại." })
+            return
+        }
         push("/finishedoder")
-    },200)
        } catch (error) {
-           return console.log(error)
+           setloadingpaymen(false);
+           setalert({ type: "danger", message: "Không thể kết nối để tạo đơn hàng. Vui lòng thử lại." });
        }
     }
-    if (loadingpaymen) return (<Spinner style={{ position: "fixed", marginBottom: "25%", marginLeft: "50%" }}
+    if (loadingpaymen || !storageLoading) return (<Spinner style={{ position: "fixed", marginBottom: "25%", marginLeft: "50%" }}
         className="landing-inner"
         animation="border"
         variant="info"
@@ -75,13 +82,13 @@ const Payment = () => {
            </div>
             <div>
                 <h4 style={{ textAlign: "center", color: "white" ,fontWeight:"300" ,fontSize:"20px"}}>Điạ Chỉ</h4>
-                <input name="address" value={address} onChange={(e) => {
+                <input name="address" required value={address} placeholder="Nhập địa chỉ nhận hàng" onChange={(e) => {
                     onchangeInputAddress(e)
                 }} size={50} style={{ height: "50px" }}></input>
             </div>
             <div >
                 <h4 className='mt-5' style={{ textAlign: "center", color: "white" }}>Số điện thoại</h4>
-                <input   maxLength={11}  onChange={(e) => {
+                <input   maxLength={11} required placeholder="Nhập số điện thoại" onChange={(e) => {
                     onchangeInputAddress(e)
                 }} name="tell" value={tell} min={0} max={15} size={20} type="tel" ></input>
             </div>

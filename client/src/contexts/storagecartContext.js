@@ -37,7 +37,7 @@ const StorageCartProvider = ({ children }) => {
   };
 
   const increasequantily = async (quanlity, id, money) => {
-    dispath({ type: "SET_QUANLITY2", payload: { loadingquanlyti: false } });
+    dispath({ type: "SET_QUANLITY2", payload: true });
     const data = { quantily: quanlity, toltalmoney: quanlity * money };
     try {
       const response = await axios.put(`${PORT}storagecart/quantily/${id}`, data);
@@ -46,7 +46,8 @@ const StorageCartProvider = ({ children }) => {
       return response.data;
     } catch (error) {
       console.error("Không thể cập nhật số lượng:", error);
-      return { success: false, message: error.message };
+      dispath({ type: "SET_QUANLITY2", payload: false });
+      return { success: false, message: error.response?.data?.message || error.message };
     }
   };
 
@@ -69,7 +70,8 @@ const StorageCartProvider = ({ children }) => {
       return response.data;
     } catch (error) {
       console.error("Không thể tải giỏ hàng:", error);
-      return { success: false, message: error.message };
+      dispath({ type: "SET_LISTSTORAGE", payload: [] });
+      return { success: false, message: error.response?.data?.message || error.message };
     }
   };
 

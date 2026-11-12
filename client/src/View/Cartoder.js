@@ -2,6 +2,8 @@
 import React, { useContext, useEffect, useState } from 'react';
 import axios from 'axios';
 import { Spinner } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
+import brandLogo from '../assets/logo.svg';
 import { PORT } from '../constants';
 import { ListOderCOntext } from '../contexts/ListoderContext';
 import { StorageCartContext } from '../contexts/storagecartContext';
@@ -31,14 +33,19 @@ const Cartoder = () => {
         getStorageCart() 
         getlsitcartoder()
     }, []);
-    if (loadingListoder === true) {
-        return <Spinner style={{ position: "fixed", marginBottom: "30%", marginLeft: "1%", right: "50%" }}
-            className="landing-inner"
-            animation="border"
-            variant="info"
-        ></Spinner>
-    }
-    return <div className='containerCartoder mt-5'>
+    return <div className='cartoder-page'>
+        <header className='cartoder-header'>
+            <Link to='/' className='cartoder-brand' aria-label='Hoàng Ánh Điện Máy - Trang chủ'>
+                <img src={brandLogo} alt='' />
+                <span>HOÀNG ÁNH <strong>ĐIỆN MÁY</strong></span>
+            </Link>
+            <Link to='/' className='cartoder-home-link' aria-label='Quay về trang chủ'>
+                <span aria-hidden='true'>⌂</span> Trang chủ
+            </Link>
+        </header>
+        {loadingListoder === true ? (
+            <div className='cartoder-loading'><Spinner animation='border' variant='info' /></div>
+        ) : <div className='containerCartoder mt-5'>
         <div className='boxitem'>
 
             {listtheoder.map((data, index) => (
@@ -84,6 +91,7 @@ const Cartoder = () => {
 
         </div>
 
+        </div>}
     </div>;
 };
 

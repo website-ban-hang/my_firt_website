@@ -37,5 +37,7 @@ router.get("/getlistCartreturnguest", storecontroller.getkhachvanglai);
 router.delete("/deletecart/:id", verifyToken, verifyAdmin, storecontroller.deletestorage);
 router.put("/editcart/:id", verifyToken, verifyAdmin, uploadProductImage, storecontroller.putstorage);
 router.get("/detailcart/:id", verifyToken, verifyAdmin, storecontroller.detailstorage);
+// Public read-only endpoint for the public product detail page.
+router.get("/detailcartguest/:id", storecontroller.detailstorage);
 
 module.exports = router;

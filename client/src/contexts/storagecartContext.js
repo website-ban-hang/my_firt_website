@@ -41,13 +41,16 @@ const StorageCartProvider = ({ children }) => {
     const data = { quantily: quanlity, toltalmoney: quanlity * money };
     try {
       const response = await axios.put(`${PORT}storagecart/quantily/${id}`, data);
-      await getStorageCart();
-      dispath({ type: "SET_QUANLITY", payload: response.data.quantily });
+      dispath({
+        type: "UPDATE_STORAGE_QUANTITY",
+        payload: { id, quantily: quanlity, toltalmoney: data.toltalmoney }
+      });
       return response.data;
     } catch (error) {
       console.error("Không thể cập nhật số lượng:", error);
-      dispath({ type: "SET_QUANLITY2", payload: false });
       return { success: false, message: error.response?.data?.message || error.message };
+    } finally {
+      dispath({ type: "SET_QUANLITY2", payload: false });
     }
   };
 

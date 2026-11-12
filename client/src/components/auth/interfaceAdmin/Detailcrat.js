@@ -22,6 +22,9 @@ export default function Detailcrat() {
   const [saving, setSaving] = useState(false);
   const [message, setMessage] = useState("");
   const product = useMemo(() => (Array.isArray(listpost) ? listpost : []).find((item) => String(item._id || item.id) === String(id)), [listpost, id]);
+  const stockTracked = product?.stock !== undefined && product?.stock !== null && Number.isFinite(Number(product.stock));
+  const stock = stockTracked ? Math.max(0, Number(product.stock)) : null;
+  const maxPurchase = stockTracked ? Math.min(50, stock) : 50;
 
   useEffect(() => {
     if (!product && !storeLoading) getlistCartreturnguest();
@@ -33,6 +36,8 @@ export default function Detailcrat() {
       return;
     }
     if (!product) return;
+    if (stockTracked && stock === 0) { setMessage("Sản phẩm hiện đã hết hàng."); return; }
+    if (stockTracked && quantity > stock) { setMessage(`Kho chỉ còn ${stock} sản phẩm.`); return; }
     setSaving(true);
     const result = await addstorageCart(product, quantity, "");
     setSaving(false);
@@ -52,10 +57,11 @@ export default function Detailcrat() {
           <span className="ha-detail-eyebrow">HOÀNG ÁNH ĐIỆN MÁY · THIẾT BỊ ĐIỆN VÀ MÁY BƠM</span>
           <h1>{product.title}</h1>
           <div className="ha-detail-price">{money(product.money)}</div>
+          <div className={`ha-detail-stock ${stockTracked && stock === 0 ? "out" : ""}`}><span className="ha-stock-dot" />{stockTracked ? (stock > 0 ? `Còn ${stock} sản phẩm trong kho` : "Tạm hết hàng") : "Tồn kho chưa được cập nhật"}</div>
           <p className="ha-detail-description">{product.status || "Thông tin chi tiết sản phẩm đang được cập nhật."}</p>
-          <div className="ha-detail-quantity"><label htmlFor="product-quantity">Số lượng</label><div><button type="button" onClick={() => setQuantity((value) => Math.max(1, value - 1))} aria-label="Giảm số lượng">−</button><input id="product-quantity" type="number" min="1" max="50" value={quantity} onChange={(event) => setQuantity(Math.min(50, Math.max(1, Number(event.target.value) || 1)))} /><button type="button" onClick={() => setQuantity((value) => Math.min(50, value + 1))} aria-label="Tăng số lượng">＋</button></div></div>
+          <div className="ha-detail-quantity"><label htmlFor="product-quantity">Số lượng</label><div><button type="button" onClick={() => setQuantity((value) => Math.max(1, value - 1))} aria-label="Giảm số lượng">−</button><input id="product-quantity" type="number" min="1" max={maxPurchase || 1} value={quantity} onChange={(event) => setQuantity(Math.min(maxPurchase || 1, Math.max(1, Number(event.target.value) || 1)))} /><button type="button" onClick={() => setQuantity((value) => Math.min(maxPurchase || 1, value + 1))} aria-label="Tăng số lượng">＋</button></div></div>
           <div className="ha-detail-total">Tạm tính <strong>{money(Number(product.money || 0) * quantity)}</strong></div>
-          <button className="ha-detail-add" type="button" disabled={saving} onClick={addToCart}>{saving ? "Đang thêm..." : isAuathenticated ? "Thêm vào giỏ hàng" : "Đăng nhập để thêm vào giỏ"}</button>
+          <button className="ha-detail-add" type="button" disabled={saving || (stockTracked && stock === 0)} onClick={addToCart}>{saving ? "Đang thêm..." : stockTracked && stock === 0 ? "Tạm hết hàng" : isAuathenticated ? "Thêm vào giỏ hàng" : "Đăng nhập để thêm vào giỏ"}</button>
           {message && <p className="ha-detail-message" role="status">{message}</p>}
           {!isAuathenticated && <p className="ha-detail-note">Bạn có thể xem sản phẩm mà không cần tài khoản. Hệ thống giỏ hàng và đặt đơn hiện yêu cầu đăng nhập.</p>}
           <Link className="ha-detail-back" to="/">← Tiếp tục xem sản phẩm</Link>

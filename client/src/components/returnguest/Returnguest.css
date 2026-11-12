@@ -305,3 +305,31 @@
  .guest-owner-banner a{padding:7px 9px;font-size:12px}
 }
 @media(prefers-reduced-motion:reduce){.guest-owner-banner,.guest-owner-banner-glow{animation:none}}
+
+/* Mobile storefront: remove oversized decorative circles that can overlap content. */
+@media (max-width: 680px) {
+  .guest-art-orbit,
+  .guest-hero-decoration,
+  .electrical-hero-illustration::before {
+    display: none !important;
+    content: none !important;
+  }
+  .guest-hero-art {
+    min-width: 0;
+    overflow: visible;
+    isolation: isolate;
+  }
+  .electrical-hero-illustration {
+    position: relative;
+    z-index: 1;
+  }
+  .guest-art-sticker,
+  .guest-art-caption {
+    z-index: 2;
+  }
+  .guest-benefits,
+  .guest-products-section {
+    position: relative;
+    z-index: 1;
+  }
+}

@@ -755,3 +755,62 @@ button,a,input,select,textarea{-webkit-tap-highlight-color:transparent}
   }
   .ha-detail-cart-link svg { width: 18px; height: 18px; }
 }
+
+
+/* Shared finish pass for authentication, account, checkout and admin pages */
+.ha-auth-page {
+  background: #f5f8fb;
+  color: #172b43;
+}
+.ha-auth-showcase {
+  background:
+    radial-gradient(circle at 85% 18%, rgba(35,136,209,.3), transparent 30%),
+    linear-gradient(145deg,#081d34 0%,#10395d 58%,#1769aa 100%);
+}
+.ha-auth-showcase-copy h1 { max-width: 620px; }
+.ha-auth-decoration { pointer-events: none; }
+.ha-auth-form-side { background: linear-gradient(145deg,#fff 0%,#f8fbfd 100%); }
+.ha-auth-back { min-height: 40px; display: inline-flex; align-items: center; }
+.ha-auth-form > input,.ha-auth-password { min-height: 50px; border-radius: 10px; }
+.ha-auth-form > input:focus,.ha-auth-password:focus-within {
+  border-color: #79b6d8;
+  box-shadow: 0 0 0 4px rgba(8,116,183,.09);
+}
+.ha-auth-submit { min-height: 52px; border-radius: 10px; }
+.ha-auth-register a { color: #0874b7; }
+.ha-auth-showcase-foot { letter-spacing: .13em; }
+.ha-account-page { background: #f4f8fb; }
+.ha-account-card { border-color: #e1ebf2; box-shadow: 0 16px 42px rgba(8,54,84,.065); }
+.ha-account-avatar { background: linear-gradient(145deg,#e8f4fb,#d8ebf7); color: #0874b7; }
+.ha-account-actions a,.ha-account-actions button { min-height: 44px; border-radius: 10px; }
+.itemPayment,.itemPayment2,.boxitem,.containerlistorders,.DetailCart {
+  border-color: #e1ebf2;
+  box-shadow: 0 16px 42px rgba(8,54,84,.065);
+}
+.itemPayment > button,.ha-primary-btn,.ha-form-actions .btn-primary { border-radius: 10px; }
+.itemPayment > button { background: linear-gradient(105deg,#0874b7,#075586); }
+.itemPayment > button:hover { background: #073d63; }
+@media (max-width: 850px) {
+  .ha-auth-page { grid-template-columns: minmax(0,1fr); }
+  .ha-auth-showcase { min-height: auto; }
+  .ha-auth-form-side { min-height: 620px; }
+  .ha-auth-back { margin-bottom: 34px; }
+}
+@media (max-width: 560px) {
+  .ha-auth-showcase { padding: 22px 20px; }
+  .ha-auth-showcase-copy { margin: 34px 0 26px; }
+  .ha-auth-showcase-copy h1 { font-size: clamp(31px,8.5vw,42px); }
+  .ha-auth-showcase-copy p { font-size: 13px; }
+  .ha-auth-points { gap: 8px; font-size: 11px; }
+  .ha-auth-showcase-foot { font-size: 8px; }
+  .ha-auth-form-side { min-height: 0; padding: 30px 20px 40px; }
+  .ha-auth-form-wrap { max-width: 480px; }
+  .ha-auth-heading h2 { font-size: 27px; }
+  .ha-auth-legal { margin-top: 25px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ha-auth-page *, .ha-account-page *, .ha-admin * {
+    animation: none !important;
+    transition: none !important;
+  }
+}

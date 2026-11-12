@@ -13,6 +13,7 @@ import {
   FiShoppingCart,
   FiTruck,
   FiUser,
+  FiLogOut,
 } from "react-icons/fi";
 import { Authcontext } from "../../contexts/Authcontext";
 import { StorageCartContext } from "../../contexts/storagecartContext";
@@ -43,6 +44,7 @@ const Returnguest = () => {
   const {
     authState: { isAuathenticated },
     checkuseradm,
+    logoutUser,
   } = useContext(Authcontext);
   const { listpost, storeLoading } = useContext(storeContext);
   const { listStorage = [] } = useContext(StorageCartContext);
@@ -96,8 +98,8 @@ const Returnguest = () => {
           <a href="#guest-benefits">Về chúng tôi</a>
         </nav>
         <div className="guest-actions">
-          {isAuathenticated ? <><Link to="/account" className="guest-login"><FiUser /> Tài khoản</Link><Link to="/viewcart" className="guest-cart-link" aria-label={`Giỏ hàng, ${cartItemCount} sản phẩm`} title="Giỏ hàng"><FiShoppingCart aria-hidden="true" /><span className="guest-cart-label">Giỏ hàng</span><span className="guest-cart-count" aria-live="polite">{cartItemCount > 99 ? "99+" : cartItemCount}</span></Link></> : <Link to="/login" className="guest-login"><FiUser /> Đăng nhập</Link>}
-          {isAuathenticated && checkuseradm === true && <Link to="/admin" className="guest-login">Quản trị</Link>}
+          {isAuathenticated ? <><Link to="/account" className="guest-login guest-account-link" aria-label="Tài khoản"><FiUser /><span>Tài khoản</span></Link><Link to="/viewcart" className="guest-cart-link" aria-label={`Giỏ hàng, ${cartItemCount} sản phẩm`} title="Giỏ hàng"><FiShoppingCart aria-hidden="true" /><span className="guest-cart-label">Giỏ hàng</span><span className="guest-cart-count" aria-live="polite">{cartItemCount > 99 ? "99+" : cartItemCount}</span></Link></> : <Link to="/login" className="guest-login"><FiUser /> Đăng nhập</Link>}
+          {isAuathenticated && checkuseradm === true && <><Link to="/admin" className="guest-login guest-admin-link">Quản trị</Link><button type="button" className="guest-logout" onClick={async () => { await logoutUser(); }}><FiLogOut aria-hidden="true" /><span>Đăng xuất</span></button></>}
           {!isAuathenticated && <Link to="/register" className="guest-register">Tạo tài khoản <FiArrowRight /></Link>}
         </div>
       </header>

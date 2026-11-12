@@ -906,3 +906,51 @@
   .guest-header .guest-actions .guest-logout { padding-inline: 6px; font-size: 9px; }
   .guest-header .guest-actions .guest-account-link { width: 34px; min-width: 34px; }
 }
+
+
+/* Keep every signed-in action visible on narrow phones: actions get their own row. */
+@media (max-width: 680px) {
+  .guest-header {
+    height: auto;
+    min-height: 0;
+    align-items: center;
+    row-gap: 9px;
+  }
+  .guest-header .guest-actions {
+    order: 2;
+    flex: 1 0 100%;
+    width: 100%;
+    min-width: 0;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 7px;
+    padding-top: 8px;
+    border-top: 1px solid #edf2f6;
+  }
+  .guest-header .guest-nav {
+    order: 3;
+    flex: 1 0 100%;
+  }
+  .guest-header .guest-actions .guest-logout {
+    flex: 0 0 auto;
+    min-width: 86px;
+    min-height: 42px;
+    padding: 0 10px;
+    font-size: 11px;
+    color: #a52820;
+    background: #fff1ee;
+    border: 1px solid #e9b8b1;
+    visibility: visible;
+    opacity: 1;
+  }
+}
+@media (max-width: 380px) {
+  .guest-header .guest-actions { gap: 5px; }
+  .guest-header .guest-actions .guest-logout {
+    min-width: 82px;
+    padding-inline: 8px;
+    font-size: 10px;
+  }
+}

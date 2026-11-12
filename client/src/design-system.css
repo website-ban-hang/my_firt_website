@@ -672,3 +672,16 @@ button,a,input,select,textarea{-webkit-tap-highlight-color:transparent}
 .ha-account-actions a,.ha-account-actions button { min-height: 42px; padding: 11px 16px; display: inline-flex; align-items: center; justify-content: center; border: 1px solid #dce5ed; border-radius: 9px; background: #fff; color: #1769aa; font-size: 12px; font-weight: 800; text-decoration: none; }
 .ha-account-actions button { background: #fff5f2; border-color: #f0d1ca; color: #a64234; }
 @media (max-width:560px) { .ha-account-card { flex-direction: column; } .ha-account-actions a,.ha-account-actions button { flex: 1 1 100%; } }
+
+
+/* Order history page header with a clear route back to the storefront. */
+.cartoder-page { min-height: 100vh; background: var(--pet-cream, #f7f7f1); }
+.cartoder-header { position: relative; z-index: 20; min-height: 78px; width: 100%; padding: 12px clamp(18px,5vw,64px); display: flex; align-items: center; justify-content: space-between; gap: 18px; background: rgba(255,254,250,.96); border-bottom: 1px solid var(--pet-line, #e5e8df); box-shadow: 0 4px 18px rgba(25,45,35,.05); }
+.cartoder-brand { display: inline-flex; align-items: center; gap: 12px; color: var(--pet-green-dark, #234c3a); font-size: 14px; font-weight: 900; letter-spacing: .04em; text-decoration: none; }
+.cartoder-brand img { width: 42px; height: 42px; object-fit: contain; }
+.cartoder-brand strong { display: block; color: #1769aa; }
+.cartoder-home-link { min-height: 42px; padding: 0 18px; display: inline-flex; align-items: center; justify-content: center; gap: 8px; border-radius: 999px; background: #1769aa; color: #fff !important; font-size: 13px; font-weight: 800; text-decoration: none !important; box-shadow: 0 6px 16px rgba(23,105,170,.2); transition: background .18s ease, transform .18s ease; }
+.cartoder-home-link span { font-size: 20px; line-height: 1; }
+.cartoder-home-link:hover,.cartoder-home-link:focus-visible { background: #0d4778; color: #fff !important; transform: translateY(-1px); outline: 2px solid #9fc9e8; outline-offset: 3px; }
+.cartoder-loading { min-height: 55vh; display: grid; place-items: center; }
+@media (max-width: 520px) { .cartoder-header { min-height: 68px; padding: 10px 14px; } .cartoder-brand { gap: 8px; font-size: 11px; } .cartoder-brand img { width: 36px; height: 36px; } .cartoder-home-link { min-height: 40px; padding: 0 13px; font-size: 12px; } }

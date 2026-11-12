@@ -12,19 +12,20 @@ const AddItem = () => {
   const [title, setTitle] = useState("");
   const [status, setStatus] = useState("");
   const [money, setMoney] = useState("");
+  const [stock, setStock] = useState("0");
   const [file, setFile] = useState(null);
   const [preview, setPreview] = useState("");
   const pageSize = 8;
   const filtered = useMemo(() => listpost.filter(item => [item.title,item.status].some(value => String(value || "").toLocaleLowerCase("vi").includes(query.toLocaleLowerCase("vi")))), [listpost,query]);
   const pages = Math.max(1, Math.ceil(filtered.length / pageSize));
   const rows = filtered.slice((page-1)*pageSize,page*pageSize);
-  const clearForm = () => { setEditing(null); setTitle(""); setStatus(""); setMoney(""); setFile(null); setPreview(""); };
+  const clearForm = () => { setEditing(null); setTitle(""); setStatus(""); setMoney(""); setStock("0"); setFile(null); setPreview(""); };
   const chooseFile = event => { const selected = event.target.files?.[0] || null; setFile(selected); setPreview(selected ? URL.createObjectURL(selected) : ""); };
-  const startEdit = item => { setEditing(item); setTitle(item.title || ""); setStatus(item.status || ""); setMoney(String(item.money ?? "")); setFile(null); setPreview(item.img ? (String(item.img).startsWith("http") ? item.img : PORT + String(item.img).replace(/^\/+/, "")) : ""); window.scrollTo({top:0,behavior:"smooth"}); };
+  const startEdit = item => { setEditing(item); setTitle(item.title || ""); setStatus(item.status || ""); setMoney(String(item.money ?? "")); setStock(String(item.stock ?? 0)); setFile(null); setPreview(item.img ? (String(item.img).startsWith("http") ? item.img : PORT + String(item.img).replace(/^\/+/, "")) : ""); window.scrollTo({top:0,behavior:"smooth"}); };
   const submit = async event => {
     event.preventDefault();
     if (!title.trim() || !money || (!editing && !file)) { setalert({type:"danger",message:"Vui lòng nhập tên, giá bán và chọn ảnh cho sản phẩm mới."}); return; }
-    const form = new FormData(); form.append("title",title.trim()); form.append("status",status); form.append("money",money); if(file) form.append("file",file);
+    const form = new FormData(); form.append("title",title.trim()); form.append("status",status); form.append("money",money); form.append("stock",stock); if(file) form.append("file",file);
     setSaving(true);
     const result = editing ? await EditCartItem2(editing,form) : await send(form);
     setSaving(false);
@@ -40,17 +41,18 @@ const AddItem = () => {
         <Form onSubmit={submit}>
           <Form.Group className="mb-3"><Form.Label>Tên sản phẩm <span>*</span></Form.Label><Form.Control value={title} onChange={e=>setTitle(e.target.value)} placeholder="VD: Máy bơm nước 750W" required /></Form.Group>
           <Form.Group className="mb-3"><Form.Label>Giá bán (VNĐ) <span>*</span></Form.Label><Form.Control type="number" min="0" value={money} onChange={e=>setMoney(e.target.value)} placeholder="Nhập giá bán" required /></Form.Group>
+          <Form.Group className="mb-3"><Form.Label>Số lượng tồn kho (sản phẩm) <span>*</span></Form.Label><Form.Control type="number" min="0" step="1" value={stock} onChange={e=>setStock(e.target.value)} placeholder="Nhập số lượng tồn kho" required /></Form.Group>
           <Form.Group className="mb-3"><Form.Label>Mô tả sản phẩm</Form.Label><Form.Control as="textarea" rows={4} value={status} onChange={e=>setStatus(e.target.value)} placeholder="Thông số, công dụng, bảo hành..." /></Form.Group>
           <Form.Group className="mb-3"><Form.Label>Ảnh sản phẩm {!editing && <span>*</span>}</Form.Label><Form.Control type="file" accept="image/jpeg,image/png,image/webp,image/gif" onChange={chooseFile}/><Form.Text>JPG, PNG, WEBP hoặc GIF · tối đa 3 MB · ảnh mới lưu trong MongoDB.</Form.Text></Form.Group>
           {preview && <div className="ha-image-preview"><img src={preview} alt="Xem trước sản phẩm"/><button type="button" onClick={()=>{setFile(null);setPreview(editing?.img ? PORT + String(editing.img).replace(/^\/+/, "") : "");}}>×</button></div>}
           <div className="ha-form-actions"><Button type="submit" disabled={saving}>{saving ? "Đang lưu..." : editing ? "Lưu thay đổi" : "＋ Thêm sản phẩm"}</Button>{editing && <Button type="button" variant="light" onClick={clearForm}>Hủy sửa</Button>}</div>
         </Form>
-        <div className="ha-data-note">Backend hiện tại hỗ trợ tên, mô tả, giá bán và một ảnh đại diện cho mỗi sản phẩm. Các trường mã SKU, giá nhập, danh mục, tồn kho và nhiều ảnh chưa có API/schema tương ứng nên chưa được hiển thị như thể đã hoạt động.</div>
+        <div className="ha-data-note">Số lượng tồn kho được lưu cùng thông tin sản phẩm và hiển thị ở trang chi tiết. Với sản phẩm cũ chưa có số liệu, hãy chọn Sửa và nhập số lượng thực tế.</div>
       </section>
       <section className="ha-panel ha-product-list"><div className="ha-panel-heading"><div><h2>Danh sách sản phẩm</h2><p>Tìm kiếm và thao tác trên dữ liệu thật</p></div></div>
         <div className="ha-search"><span>⌕</span><input value={query} onChange={e=>{setQuery(e.target.value);setPage(1);}} placeholder="Tìm theo tên hoặc mô tả sản phẩm..."/></div>
-        <div className="ha-product-table-wrap"><table className="ha-product-table"><thead><tr><th>SẢN PHẨM</th><th>GIÁ BÁN</th><th>THAO TÁC</th></tr></thead><tbody>
-          {rows.map(item=><tr key={item._id}><td><div className="ha-product-cell"><img src={item.img ? (String(item.img).startsWith("http") ? item.img : PORT+String(item.img).replace(/^\/+/, "")) : ""} alt="" onError={e=>{e.currentTarget.style.opacity=0;}}/><div><b>{item.title || "Chưa đặt tên"}</b><small>{item.status || "Chưa có mô tả"}</small></div></div></td><td><strong>{Number(item.money || 0).toLocaleString("vi-VN")} ₫</strong></td><td><div className="ha-row-actions"><button onClick={()=>startEdit(item)}>Sửa</button><button className="danger" onClick={()=>remove(item)}>Xóa</button></div></td></tr>)}
+        <div className="ha-product-table-wrap"><table className="ha-product-table"><thead><tr><th>SẢN PHẨM</th><th>GIÁ BÁN</th><th>TỒN KHO</th><th>THAO TÁC</th></tr></thead><tbody>
+          {rows.map(item=><tr key={item._id}><td><div className="ha-product-cell"><img src={item.img ? (String(item.img).startsWith("http") ? item.img : PORT+String(item.img).replace(/^\/+/, "")) : ""} alt="" onError={e=>{e.currentTarget.style.opacity=0;}}/><div><b>{item.title || "Chưa đặt tên"}</b><small>{item.status || "Chưa có mô tả"}</small></div></div></td><td><strong>{Number(item.money || 0).toLocaleString("vi-VN")} ₫</strong></td><td><strong>{item.stock == null ? "Chưa cập nhật" : `${item.stock} sản phẩm`}</strong></td><td><div className="ha-row-actions"><button onClick={()=>startEdit(item)}>Sửa</button><button className="danger" onClick={()=>remove(item)}>Xóa</button></div></td></tr>)}
         </tbody></table></div>
         {!rows.length && <div className="ha-empty">Không tìm thấy sản phẩm phù hợp.</div>}
         <div className="ha-pagination"><span>Trang {page}/{pages} · {filtered.length} sản phẩm</span><div><button disabled={page===1} onClick={()=>setPage(page-1)}>←</button><button disabled={page===pages} onClick={()=>setPage(page+1)}>→</button></div></div>

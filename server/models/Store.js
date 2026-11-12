@@ -10,6 +10,7 @@ const StoreSchema = new Schema({
   status: { type: String },
   uer: { type: Schema.Types.ObjectId, ref: "users" },
   money: { type: Number },
+  stock: { type: Number, min: 0, default: 0 },
   createAt: { type: Date, default: Date.now }
 });
 

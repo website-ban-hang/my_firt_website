@@ -42,7 +42,7 @@ function LegacyProductRedirect() {
 
 function AppRoutes() {
   const location = useLocation();
-  const showGlobalHomeLink = location.pathname !== "/";
+  const showGlobalHomeLink = location.pathname !== "/" && location.pathname !== "/login";
   return (
     <>
       {showGlobalHomeLink && (

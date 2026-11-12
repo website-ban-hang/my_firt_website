@@ -1027,11 +1027,11 @@ border-radius: 10px;
   text-align: start;
 }
 
-/* Global shortcut to return to the storefront homepage on every route. */
+/* Fixed top-left shortcut to return to the storefront homepage on every route. */
 .global-home-link {
   position: fixed;
-  right: max(20px, env(safe-area-inset-right));
-  bottom: max(20px, env(safe-area-inset-bottom));
+  left: max(20px, env(safe-area-inset-left));
+  top: max(20px, env(safe-area-inset-top));
   z-index: 10000;
   display: inline-flex;
   align-items: center;
@@ -1061,5 +1061,5 @@ border-radius: 10px;
   outline-offset: 3px;
 }
 @media (max-width: 480px) {
-  .global-home-link { right: 14px; bottom: 14px; min-height: 44px; padding: 0 15px; }
+  .global-home-link { left: 14px; top: 14px; min-height: 44px; padding: 0 15px; }
 }

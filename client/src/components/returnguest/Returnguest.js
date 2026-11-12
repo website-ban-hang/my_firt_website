@@ -10,6 +10,7 @@ import {
   FiSearch,
   FiShield,
   FiShoppingBag,
+  FiShoppingCart,
   FiTruck,
   FiUser,
 } from "react-icons/fi";
@@ -45,6 +46,7 @@ const Returnguest = () => {
   } = useContext(Authcontext);
   const { listpost, storeLoading } = useContext(storeContext);
   const { listStorage = [] } = useContext(StorageCartContext);
+  const cartItemCount = listStorage.reduce((sum, item) => sum + Math.max(0, Number(item.quantily) || 0), 0);
   const navigate = useNavigate();
   const products = Array.isArray(listpost) ? listpost : [];
   const [search, setSearch] = useState("");
@@ -94,7 +96,7 @@ const Returnguest = () => {
           <a href="#guest-benefits">Về chúng tôi</a>
         </nav>
         <div className="guest-actions">
-          {isAuathenticated ? <><Link to="/account" className="guest-login"><FiUser /> Tài khoản</Link><Link to="/viewcart" className="guest-login"><FiShoppingBag /> Giỏ hàng ({listStorage.length})</Link></> : <Link to="/login" className="guest-login"><FiUser /> Đăng nhập</Link>}
+          {isAuathenticated ? <><Link to="/account" className="guest-login"><FiUser /> Tài khoản</Link><Link to="/viewcart" className="guest-cart-link" aria-label={`Giỏ hàng, ${cartItemCount} sản phẩm`} title="Giỏ hàng"><FiShoppingCart aria-hidden="true" /><span className="guest-cart-label">Giỏ hàng</span><span className="guest-cart-count" aria-live="polite">{cartItemCount > 99 ? "99+" : cartItemCount}</span></Link></> : <Link to="/login" className="guest-login"><FiUser /> Đăng nhập</Link>}
           {isAuathenticated && checkuseradm === true && <Link to="/admin" className="guest-login">Quản trị</Link>}
           {!isAuathenticated && <Link to="/register" className="guest-register">Tạo tài khoản <FiArrowRight /></Link>}
         </div>

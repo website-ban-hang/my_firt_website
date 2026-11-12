@@ -34,7 +34,7 @@ export default function Detailcrat() {
     setLoadingProduct(true);
     setLoadError("");
     setProduct(null);
-    axios.get(`${PORT}store/detailcart/${id}`)
+    axios.get(`${PORT}store/detailcartguest/${id}`)
       .then((response) => {
         const detail = response.data?.detail;
         const found = Array.isArray(detail) ? detail[0] : detail;

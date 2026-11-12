@@ -1,5 +1,5 @@
 import React from "react";
-import { Navigate, Route, Routes, useLocation, useParams } from "react-router-dom";
+import { Link, Navigate, Route, Routes, useLocation, useParams } from "react-router-dom";
 import { Spinner } from "react-bootstrap";
 import "./App.css";
 import "./design-system.css";
@@ -42,7 +42,12 @@ function LegacyProductRedirect() {
 
 function AppRoutes() {
   return (
-    <Routes>
+    <>
+      <Link to="/" className="global-home-link" aria-label="Quay về trang chủ">
+        <span aria-hidden="true">⌂</span>
+        <span>Trang chủ</span>
+      </Link>
+      <Routes>
       <Route path="/" element={<Returnguest />} />
       <Route path="/products/:id" element={<Detailcrat />} />
       <Route path="/contact" element={<Contact />} />
@@ -66,7 +71,8 @@ function AppRoutes() {
         <Route path="statistical" element={<Statistical />} />
       </Route>
       <Route path="*" element={<Navigate to="/" replace />} />
-    </Routes>
+      </Routes>
+    </>
   );
 }
 

@@ -1026,3 +1026,40 @@ border-radius: 10px;
   width: 200px;
   text-align: start;
 }
+
+/* Global shortcut to return to the storefront homepage on every route. */
+.global-home-link {
+  position: fixed;
+  right: max(20px, env(safe-area-inset-right));
+  bottom: max(20px, env(safe-area-inset-bottom));
+  z-index: 10000;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  min-height: 46px;
+  padding: 0 18px;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  border-radius: 999px;
+  background: linear-gradient(135deg, #1769aa, #0d4778);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.28);
+  color: #fff !important;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1;
+  text-decoration: none !important;
+  transition: transform 160ms ease, box-shadow 160ms ease, filter 160ms ease;
+}
+.global-home-link span:first-child { font-size: 23px; line-height: 1; }
+.global-home-link:hover,
+.global-home-link:focus-visible {
+  color: #fff !important;
+  filter: brightness(1.12);
+  transform: translateY(-2px);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.34);
+  outline: 2px solid rgba(255, 255, 255, 0.75);
+  outline-offset: 3px;
+}
+@media (max-width: 480px) {
+  .global-home-link { right: 14px; bottom: 14px; min-height: 44px; padding: 0 15px; }
+}

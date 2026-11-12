@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { Spinner } from "react-bootstrap";
+import { FiShoppingCart } from "react-icons/fi";
 import { Authcontext } from "../../../contexts/Authcontext";
 import { storeContext } from "../../../contexts/StoreContext";
 import { StorageCartContext } from "../../../contexts/storagecartContext";
@@ -18,7 +19,8 @@ export default function Detailcrat() {
   const navigate = useNavigate();
   const { authState: { isAuathenticated } } = useContext(Authcontext);
   const { getlistCartreturnguest } = useContext(storeContext);
-  const { addstorageCart } = useContext(StorageCartContext);
+  const { addstorageCart, listStorage = [], getStorageCart } = useContext(StorageCartContext);
+  const cartCount = listStorage.reduce((total, item) => total + Math.max(0, Number(item.quantily) || 1), 0);
   const [product, setProduct] = useState(null);
   const [loadingProduct, setLoadingProduct] = useState(true);
   const [loadError, setLoadError] = useState("");
@@ -28,6 +30,10 @@ export default function Detailcrat() {
   const stockTracked = product?.stock !== undefined && product?.stock !== null && Number.isFinite(Number(product.stock));
   const stock = stockTracked ? Math.max(0, Number(product.stock)) : null;
   const maxPurchase = stockTracked ? Math.min(50, stock) : 50;
+
+  useEffect(() => {
+    if (isAuathenticated) getStorageCart();
+  }, [isAuathenticated]);
 
   useEffect(() => {
     let active = true;
@@ -68,6 +74,11 @@ export default function Detailcrat() {
 
   return (
     <main className="ha-product-detail">
+      <Link to={isAuathenticated ? "/viewcart" : "/login"} className="ha-detail-cart-link" aria-label={`Giỏ hàng, ${cartCount} sản phẩm`}>
+        <FiShoppingCart aria-hidden="true" />
+        <span>Giỏ hàng</span>
+        <strong>{cartCount}</strong>
+      </Link>
       <div className="ha-detail-breadcrumb"><Link to="/">Trang chủ</Link><span>/</span><span>{product.title}</span></div>
       <section className="ha-detail-card">
         <div className="ha-detail-image"><img src={imageUrl(product.img)} alt={product.title} onError={(event) => { event.currentTarget.style.opacity = 0; }} /></div>

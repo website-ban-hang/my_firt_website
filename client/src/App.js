@@ -41,12 +41,16 @@ function LegacyProductRedirect() {
 }
 
 function AppRoutes() {
+  const location = useLocation();
+  const showGlobalHomeLink = location.pathname !== "/";
   return (
     <>
-      <Link to="/" className="global-home-link" aria-label="Quay về trang chủ">
-        <span aria-hidden="true">⌂</span>
-        <span>Trang chủ</span>
-      </Link>
+      {showGlobalHomeLink && (
+        <Link to="/" className="global-home-link" aria-label="Quay về trang chủ">
+          <span aria-hidden="true">⌂</span>
+          <span>Trang chủ</span>
+        </Link>
+      )}
       <Routes>
       <Route path="/" element={<Returnguest />} />
       <Route path="/products/:id" element={<Detailcrat />} />

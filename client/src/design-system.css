@@ -707,3 +707,51 @@ button,a,input,select,textarea{-webkit-tap-highlight-color:transparent}
 .ha-detail-quantity .ha-quantity-control input::-webkit-inner-spin-button,
 .ha-detail-quantity .ha-quantity-control input::-webkit-outer-spin-button{-webkit-appearance:none;margin:0}
 @media(max-width:560px){.ha-detail-quantity{max-width:100%;align-items:center}.ha-detail-quantity .ha-quantity-control button{width:40px}.ha-detail-quantity .ha-quantity-control input{width:52px}}
+
+
+/* Cart shortcut on product detail pages */
+.ha-detail-cart-link {
+  position: fixed;
+  top: 18px;
+  right: 20px;
+  z-index: 1100;
+  min-height: 46px;
+  padding: 0 14px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  border: 1px solid #d8e7f3;
+  border-radius: 999px;
+  background: #fff;
+  color: #145b91;
+  box-shadow: 0 8px 24px rgba(11, 50, 80, .16);
+  font-size: 13px;
+  font-weight: 800;
+  text-decoration: none;
+}
+.ha-detail-cart-link svg { width: 19px; height: 19px; }
+.ha-detail-cart-link strong {
+  min-width: 23px;
+  height: 23px;
+  padding: 0 6px;
+  display: inline-grid;
+  place-items: center;
+  border-radius: 999px;
+  background: #f59b23;
+  color: #17354b;
+  font-size: 11px;
+  line-height: 1;
+}
+.ha-detail-cart-link:hover { background: #f0f7fc; color: #073d63; text-decoration: none; }
+@media (max-width: 560px) {
+  .ha-detail-cart-link {
+    top: 12px;
+    right: 12px;
+    min-height: 42px;
+    padding: 0 11px;
+    gap: 7px;
+    font-size: 12px;
+  }
+  .ha-detail-cart-link svg { width: 18px; height: 18px; }
+}

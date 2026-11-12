@@ -766,3 +766,81 @@
     transition-duration: .01ms !important;
   }
 }
+
+
+/* Mobile-friendly cart shortcut in the storefront header */
+.guest-cart-link {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-width: 44px;
+  min-height: 44px;
+  padding: 0 13px;
+  border: 1px solid #d8e7f1;
+  border-radius: 11px;
+  background: #f5f9fc;
+  color: #075b91;
+  font-size: 13px;
+  font-weight: 750;
+  text-decoration: none;
+  transition: background .2s ease, border-color .2s ease, transform .2s ease;
+}
+.guest-cart-link > svg { width: 20px; height: 20px; flex: 0 0 auto; }
+.guest-cart-link:hover {
+  transform: translateY(-1px);
+  border-color: #a9cde2;
+  background: #eaf5fb;
+}
+.guest-cart-count {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 21px;
+  height: 21px;
+  padding: 0 5px;
+  border: 2px solid #fff;
+  border-radius: 999px;
+  background: #f29b1b;
+  color: #15334a;
+  font-size: 10px;
+  font-weight: 900;
+  line-height: 1;
+  box-shadow: 0 2px 7px rgba(12,55,82,.15);
+}
+@media (max-width: 680px) {
+  .guest-header { flex-wrap: wrap; }
+  .guest-header .guest-brand { min-width: 0; flex: 1 1 auto; }
+  .guest-header .guest-nav { order: 3; width: 100%; justify-content: center; }
+  .guest-header .guest-actions {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    flex: 0 0 auto;
+    gap: 7px;
+  }
+  .guest-header .guest-actions .guest-login { min-height: 40px; }
+  .guest-header .guest-actions .guest-cart-link {
+    width: 44px;
+    min-width: 44px;
+    height: 44px;
+    padding: 0;
+    gap: 0;
+    border-radius: 12px;
+  }
+  .guest-cart-label { display: none; }
+  .guest-cart-count {
+    position: absolute;
+    top: -6px;
+    right: -6px;
+    min-width: 20px;
+    height: 20px;
+    padding-inline: 4px;
+    border-width: 2px;
+  }
+}
+@media (max-width: 380px) {
+  .guest-header .guest-actions { gap: 5px; }
+  .guest-header .guest-actions .guest-cart-link { width: 42px; min-width: 42px; height: 42px; }
+}

@@ -279,3 +279,29 @@
 }
 @media(max-width:360px){.guest-product-grid{grid-template-columns:1fr}.guest-product-image{height:210px}.guest-brand-name{font-size:15px}}
 @media(prefers-reduced-motion:reduce){.guest-shop *{scroll-behavior:auto!important;transition:none!important}}
+
+
+/* Owner identity banner: centered, vivid, responsive */
+.guest-owner-banner{
+  position:relative;isolation:isolate;overflow:hidden;
+  width:fit-content;max-width:calc(100% - 32px);margin:22px auto 0;
+  min-height:58px;padding:11px 25px;display:flex;align-items:center;justify-content:center;gap:13px;
+  border:1px solid rgba(255,255,255,.8);border-radius:16px;
+  background:linear-gradient(105deg,#073d63 0%,#0874b7 48%,#12a6a0 100%);
+  color:#fff;box-shadow:0 10px 28px rgba(7,91,145,.22),0 0 0 5px rgba(8,116,183,.07);
+  animation:guest-owner-float 3.2s ease-in-out infinite;
+}
+.guest-owner-banner-glow{position:absolute;z-index:-1;inset:-60%;background:linear-gradient(110deg,transparent 38%,rgba(255,255,255,.26) 50%,transparent 62%);transform:translateX(-55%);animation:guest-owner-shine 4s ease-in-out infinite}
+.guest-owner-banner-label{font-size:11px;font-weight:800;letter-spacing:.15em;color:#d7f2ff}
+.guest-owner-banner strong{font-size:19px;font-weight:900;letter-spacing:.1em;color:#fff;text-shadow:0 2px 12px rgba(0,0,0,.18)}
+.guest-owner-banner a{display:inline-flex;align-items:center;gap:6px;padding:8px 12px;border-radius:9px;background:#ffb52e;color:#18364b;font-size:14px;font-weight:900;letter-spacing:.04em;box-shadow:0 4px 12px rgba(0,0,0,.13)}
+.guest-owner-banner a:hover{background:#ffd16e;color:#12324a}
+@keyframes guest-owner-float{0%,100%{transform:translateY(0);box-shadow:0 10px 28px rgba(7,91,145,.22),0 0 0 5px rgba(8,116,183,.07)}50%{transform:translateY(-4px);box-shadow:0 16px 34px rgba(7,91,145,.3),0 0 0 8px rgba(8,116,183,.06)}}
+@keyframes guest-owner-shine{0%,25%{transform:translateX(-65%)}70%,100%{transform:translateX(65%)}}
+@media(max-width:680px){
+ .guest-owner-banner{margin:15px auto 0;padding:10px 12px;gap:8px;border-radius:13px;flex-wrap:wrap}
+ .guest-owner-banner-label{font-size:9px;letter-spacing:.1em}
+ .guest-owner-banner strong{font-size:16px}
+ .guest-owner-banner a{padding:7px 9px;font-size:12px}
+}
+@media(prefers-reduced-motion:reduce){.guest-owner-banner,.guest-owner-banner-glow{animation:none}}

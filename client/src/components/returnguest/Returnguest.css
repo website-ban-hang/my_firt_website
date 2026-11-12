@@ -844,3 +844,65 @@
   .guest-header .guest-actions { gap: 5px; }
   .guest-header .guest-actions .guest-cart-link { width: 42px; min-width: 42px; height: 42px; }
 }
+
+
+/* Admin logout action — positioned immediately after the Admin link */
+.guest-logout {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  min-height: 42px;
+  padding: 0 14px;
+  border: 1px solid #f3d6d1;
+  border-radius: 10px;
+  background: #fff7f5;
+  color: #bd382c;
+  font: inherit;
+  font-size: 12px;
+  font-weight: 800;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background .2s ease, border-color .2s ease, color .2s ease, transform .2s ease;
+}
+.guest-logout svg { width: 16px; height: 16px; flex: 0 0 auto; }
+.guest-logout:hover {
+  transform: translateY(-1px);
+  border-color: #e9aaa1;
+  background: #ffebe7;
+  color: #98251d;
+}
+.guest-logout:focus-visible {
+  outline: 3px solid rgba(245,166,35,.8);
+  outline-offset: 3px;
+}
+@media (max-width: 680px) {
+  .guest-header .guest-actions { gap: 5px; }
+  .guest-header .guest-actions .guest-account-link {
+    width: 38px;
+    min-width: 38px;
+    padding: 0;
+    font-size: 0;
+  }
+  .guest-account-link svg { width: 18px; height: 18px; }
+  .guest-header .guest-actions .guest-admin-link {
+    min-height: 40px;
+    padding-inline: 8px;
+    font-size: 10px;
+    white-space: nowrap;
+  }
+  .guest-header .guest-actions .guest-logout {
+    min-height: 40px;
+    gap: 4px;
+    padding-inline: 8px;
+    border-radius: 9px;
+    font-size: 10px;
+  }
+  .guest-header .guest-actions .guest-logout svg { width: 14px; height: 14px; }
+}
+@media (max-width: 380px) {
+  .guest-header .guest-actions { gap: 4px; }
+  .guest-header .guest-actions .guest-admin-link,
+  .guest-header .guest-actions .guest-logout { padding-inline: 6px; font-size: 9px; }
+  .guest-header .guest-actions .guest-account-link { width: 34px; min-width: 34px; }
+}

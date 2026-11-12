@@ -13,7 +13,6 @@ export default function LoginForm() {
   const [showPassword, setShowPassword] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState("");
-  const from = location.state?.from?.pathname || location.state?.from || "/";
 
   const submit = async (event) => {
     event.preventDefault();
@@ -26,11 +25,11 @@ export default function LoginForm() {
       return;
     }
     await getStorageCart();
-    navigate(result.user?.admin === true || checkuseradm === true ? "/admin" : from, { replace: true });
+    navigate("/", { replace: true });
   };
 
   if (authloading) return <div className="ha-route-loading"><Spinner animation="border" />Đang kiểm tra phiên đăng nhập...</div>;
-  if (isAuathenticated) return <Navigate to={checkuseradm === true ? "/admin" : from} replace />;
+  if (isAuathenticated) return <Navigate to="/" replace />;
 
   return (
     <main className="ha-auth-page">

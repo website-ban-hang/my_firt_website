@@ -79,7 +79,7 @@ const Returnguest = () => {
     return (
     <main className="guest-shop">
       <div className="guest-topline">
-        <span>THIẾT BỊ ĐIỆN · MÁY BƠM · TƯ VẤN KỸ THUẬT · QUẢN TRỊ HỆ THỐNG - XUÂN HIẾU : 0389998053</span>
+        <span>THIẾT BỊ ĐIỆN · MÁY BƠM · TƯ VẤN KỸ THUẬT</span>
         <span className="guest-topline-right"><FiTruck /> Hỗ trợ giao hàng theo khu vực</span>
       </div>
 
@@ -99,6 +99,13 @@ const Returnguest = () => {
           {!isAuathenticated && <Link to="/register" className="guest-register">Tạo tài khoản <FiArrowRight /></Link>}
         </div>
       </header>
+
+      <div className="guest-owner-banner" role="status" aria-label="Quản trị hệ thống Xuân Hiếu, số điện thoại 0389998053">
+        <span className="guest-owner-banner-glow" aria-hidden="true" />
+        <span className="guest-owner-banner-label">QUẢN TRỊ HỆ THỐNG</span>
+        <strong>XUÂN HIẾU</strong>
+        <a href="tel:0389998053" aria-label="Gọi Xuân Hiếu theo số 0389998053">☎ 0389998053</a>
+      </div>
 
       <section className="guest-hero" id="guest-home">
         <div className="guest-hero-copy">

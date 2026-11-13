@@ -991,3 +991,11 @@
  .guest-product-image{height:clamp(135px,40vw,180px)}
  .guest-product-info{padding:12px}
 }
+
+/* Admin shortcuts on the storefront header */
+.guest-actions.guest-admin-actions{gap:9px}
+.guest-admin-action{padding:10px 13px;border:1px solid #dce8f0;border-radius:9px;background:#f4f9fc;color:#075b91;white-space:nowrap;transition:background .2s,border-color .2s,transform .2s}
+.guest-admin-action:hover{background:#e8f3fa;border-color:#a9cce0;transform:translateY(-1px);color:#06466e}
+.guest-admin-action svg{font-size:16px}
+@media(max-width:900px){.guest-actions.guest-admin-actions{gap:5px}.guest-admin-action{padding:9px 10px;font-size:11px}}
+@media(max-width:680px){.guest-actions.guest-admin-actions{width:100%;justify-content:center;flex-wrap:wrap;padding:8px 0}.guest-admin-action,.guest-actions .guest-logout{font-size:10px;padding:9px 10px}.guest-admin-action svg{font-size:14px}}

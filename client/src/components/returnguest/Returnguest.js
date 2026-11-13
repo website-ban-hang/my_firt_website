@@ -97,10 +97,19 @@ const Returnguest = () => {
           <a href="#guest-products">Sản phẩm</a>
           <a href="#guest-benefits">Về chúng tôi</a>
         </nav>
-        <div className="guest-actions">
-          {isAuathenticated ? <><Link to="/account" className="guest-login guest-account-link" aria-label="Tài khoản"><FiUser /><span>Tài khoản</span></Link><Link to="/viewcart" className="guest-cart-link" aria-label={`Giỏ hàng, ${cartItemCount} sản phẩm`} title="Giỏ hàng"><FiShoppingCart aria-hidden="true" /><span className="guest-cart-label">Giỏ hàng</span><span className="guest-cart-count" aria-live="polite">{cartItemCount > 99 ? "99+" : cartItemCount}</span></Link>{checkuseradm !== true && <button type="button" className="guest-logout" onClick={async () => { await logoutUser(); }}><FiLogOut aria-hidden="true" /><span>Đăng xuất</span></button>}</> : <Link to="/login" className="guest-login"><FiUser /> Đăng nhập</Link>}
-          {isAuathenticated && checkuseradm === true && <><Link to="/admin" className="guest-login guest-admin-link">Quản trị</Link><button type="button" className="guest-logout" onClick={async () => { await logoutUser(); }}><FiLogOut aria-hidden="true" /><span>Đăng xuất</span></button></>}
-          {!isAuathenticated && <Link to="/register" className="guest-register">Tạo tài khoản <FiArrowRight /></Link>}
+        <div className={`guest-actions ${isAuathenticated && checkuseradm === true ? "guest-admin-actions" : ""}`}>
+          {isAuathenticated && checkuseradm === true ? <>
+            <Link to="/admin/listorders" className="guest-login guest-admin-action" aria-label="Quản lý đơn hàng" title="Quản lý đơn hàng"><FiPackage /><span>Quản lý đơn hàng</span></Link>
+            <Link to="/admin/additem" className="guest-login guest-admin-action" aria-label="Quản lý sản phẩm" title="Quản lý sản phẩm"><FiShoppingBag /><span>Quản lý sản phẩm</span></Link>
+            <button type="button" className="guest-logout" onClick={async () => { await logoutUser(); }}><FiLogOut aria-hidden="true" /><span>Đăng xuất</span></button>
+          </> : isAuathenticated ? <>
+            <Link to="/account" className="guest-login guest-account-link" aria-label="Tài khoản"><FiUser /><span>Tài khoản</span></Link>
+            <Link to="/viewcart" className="guest-cart-link" aria-label={`Giỏ hàng, ${cartItemCount} sản phẩm`} title="Giỏ hàng"><FiShoppingCart aria-hidden="true" /><span className="guest-cart-label">Giỏ hàng</span><span className="guest-cart-count" aria-live="polite">{cartItemCount > 99 ? "99+" : cartItemCount}</span></Link>
+            <button type="button" className="guest-logout" onClick={async () => { await logoutUser(); }}><FiLogOut aria-hidden="true" /><span>Đăng xuất</span></button>
+          </> : <>
+            <Link to="/login" className="guest-login"><FiUser /> Đăng nhập</Link>
+            <Link to="/register" className="guest-register">Tạo tài khoản <FiArrowRight /></Link>
+          </>}
         </div>
       </header>
 

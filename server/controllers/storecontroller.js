@@ -16,7 +16,7 @@ class StoreController {
       return res.status(400).json({ success: false, message: "Vui lòng chọn hình ảnh sản phẩm" });
     }
 
-    const { title, status, money, stock } = req.body || {};
+    const { title, status, money, stock, isHot, isBestSelling } = req.body || {};
     const price = Number(money);
     const inventory = stock === undefined || stock === "" ? 0 : Number(stock);
     if (!title || !Number.isFinite(price) || price < 0 || !Number.isInteger(inventory) || inventory < 0) {
@@ -29,6 +29,8 @@ class StoreController {
         status,
         money: price,
         stock: inventory,
+        isHot: isHot === "true" || isHot === true,
+        isBestSelling: isBestSelling === "true" || isBestSelling === true,
         uer: req.userId,
         img: "",
         imageData: req.file.buffer.toString("base64"),
@@ -117,10 +119,12 @@ class StoreController {
   }
 
   async putstorage(req, res) {
-    const { title, status, money, stock } = req.body || {};
+    const { title, status, money, stock, isHot, isBestSelling } = req.body || {};
     const update = {};
     if (title !== undefined) update.title = title;
     if (status !== undefined) update.status = status;
+    if (isHot !== undefined) update.isHot = isHot === "true" || isHot === true;
+    if (isBestSelling !== undefined) update.isBestSelling = isBestSelling === "true" || isBestSelling === true;
     if (stock !== undefined) {
       const inventory = Number(stock);
       if (!Number.isInteger(inventory) || inventory < 0) {

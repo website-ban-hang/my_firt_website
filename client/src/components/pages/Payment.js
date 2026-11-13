@@ -5,6 +5,7 @@ import { Spinner } from "react-bootstrap";
 import { StorageCartContext } from "../../contexts/storagecartContext";
 import { PORT } from "../../constants";
 import AlertMessage from "../../View/AlertMessage";
+import "./Payment.css";
 
 const Payment = () => {
   const navigate = useNavigate();

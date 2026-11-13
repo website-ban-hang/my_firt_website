@@ -11,6 +11,8 @@ const StoreSchema = new Schema({
   uer: { type: Schema.Types.ObjectId, ref: "users" },
   money: { type: Number },
   stock: { type: Number, min: 0, default: 0 },
+  isHot: { type: Boolean, default: false },
+  isBestSelling: { type: Boolean, default: false },
   createAt: { type: Date, default: Date.now }
 });
 

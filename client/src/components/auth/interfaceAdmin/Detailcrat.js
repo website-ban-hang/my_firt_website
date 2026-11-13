@@ -106,7 +106,7 @@ export default function Detailcrat() {
       </Link>
       <div className="ha-detail-breadcrumb"><Link to="/">Trang chủ</Link><span>/</span><span>{product.title}</span></div>
       <section className="ha-detail-card">
-        <div className="ha-detail-image"><img src={imageUrl(product.img)} alt={product.title} onError={(event) => { event.currentTarget.style.opacity = 0; }} /></div>
+        <div className="ha-detail-image"><img src={imageUrl(product.img)} alt={product.title} onError={(event) => { event.currentTarget.style.opacity = 0; }} />{(product.isHot || product.isBestSelling) && <div className={`ha-detail-trend ${product.isHot ? "is-hot" : "is-best"}`}>{product.isHot ? "🔥 ĐANG HOT" : "🏆 BÁN CHẠY"}</div>}</div>
         <div className="ha-detail-info">
           <span className="ha-detail-eyebrow">HOÀNG ÁNH ĐIỆN MÁY · THIẾT BỊ ĐIỆN VÀ MÁY BƠM</span>
           <h1>{product.title}</h1>

@@ -202,6 +202,7 @@ const Returnguest = () => {
                       onError={(event) => { event.currentTarget.style.visibility = "hidden"; }}
                     />
                     <span className="guest-image-badge">HOÀNG ÁNH ĐIỆN MÁY</span>
+                    {(item.isHot || item.isBestSelling) && <span className={`guest-product-trend ${item.isHot ? "is-hot" : "is-best"}`}>{item.isHot ? <><FiZap /> ĐANG HOT</> : <>🏆 BÁN CHẠY</>}</span>}
                   </button>
                   <div className="guest-product-info">
                     <span className="guest-product-category">THIẾT BỊ ĐIỆN</span>

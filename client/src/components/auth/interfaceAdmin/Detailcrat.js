@@ -54,6 +54,31 @@ export default function Detailcrat() {
     return () => { active = false; };
   }, [id]);
 
+  const animateProductToCart = () => {
+    const source = document.querySelector(".ha-detail-image img");
+    const target = document.querySelector(".ha-detail-cart-link");
+    if (!source || !target || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const from = source.getBoundingClientRect();
+    const to = target.getBoundingClientRect();
+    const flying = source.cloneNode(true);
+    Object.assign(flying.style, {
+      position: "fixed", zIndex: "99999", left: from.left + "px", top: from.top + "px",
+      width: Math.min(from.width, 150) + "px", height: Math.min(from.height, 150) + "px",
+      objectFit: "contain", padding: "8px", borderRadius: "16px", background: "#fff",
+      boxShadow: "0 12px 35px rgba(5,45,72,.24)", pointerEvents: "none", margin: "0"
+    });
+    document.body.appendChild(flying);
+    const dx = to.left + to.width / 2 - (from.left + from.width / 2);
+    const dy = to.top + to.height / 2 - (from.top + from.height / 2);
+    const animation = flying.animate([
+      { transform: "translate(0,0) scale(1)", opacity: 1, borderRadius: "16px" },
+      { transform: "translate(" + (dx * .55) + "px," + (dy * .55 - 70) + "px) scale(.55)", opacity: .95, offset: .65 },
+      { transform: "translate(" + dx + "px," + dy + "px) scale(.08)", opacity: 0, borderRadius: "50%" }
+    ], { duration: 780, easing: "cubic-bezier(.2,.75,.25,1)" });
+    animation.onfinish = () => flying.remove();
+    target.animate([{ transform: "scale(1)" }, { transform: "scale(1.16)" }, { transform: "scale(1)" }], { duration: 380 });
+  };
+
   const addToCart = async () => {
     if (!isAuathenticated) {
       navigate("/login", { state: { from: { pathname: "/products/" + id } } });
@@ -65,7 +90,7 @@ export default function Detailcrat() {
     setSaving(true);
     const result = await addstorageCart(product, quantity, "");
     setSaving(false);
-    if (result && result.success !== false) setMessage("Đã thêm sản phẩm vào giỏ hàng.");
+    if (result && result.success !== false) { setMessage("Đã thêm sản phẩm vào giỏ hàng."); animateProductToCart(); }
     else setMessage(result?.message || "Không thể thêm vào giỏ hàng. Vui lòng thử lại.");
   };
 

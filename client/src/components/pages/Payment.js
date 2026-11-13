@@ -1,123 +1,89 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { StorageCartContext } from '../../contexts/storagecartContext';
-import { useNavigate } from 'react-router-dom'
-import { Spinner } from 'react-bootstrap';
-import { PORT } from '../../constants';
-import AlertMessage from '../../View/AlertMessage';
-
+import React, { useContext, useEffect, useMemo, useState } from "react";
+import axios from "axios";
+import { Link, useNavigate } from "react-router-dom";
+import { Spinner } from "react-bootstrap";
+import { StorageCartContext } from "../../contexts/storagecartContext";
+import { PORT } from "../../constants";
+import AlertMessage from "../../View/AlertMessage";
+import "./Payment.css";
 
 const Payment = () => {
-    const push = useNavigate()
-    const path = PORT;
-    const { listStorage, sendlistpayment,getStorageCart,storageLoading } = useContext(StorageCartContext)
-    const [alert, setalert] = useState(null)
-    const arr = listStorage.map((data) => Number(data.toltalmoney || 0))
+  const navigate = useNavigate();
+  const { listStorage = [], sendlistpayment, getStorageCart, storageLoading } = useContext(StorageCartContext);
+  const [addresses, setAddresses] = useState([]);
+  const [selectedId, setSelectedId] = useState("");
+  const [loadingAddresses, setLoadingAddresses] = useState(true);
+  const [submitting, setSubmitting] = useState(false);
+  const [alert, setAlert] = useState(null);
+  const total = useMemo(() => listStorage.reduce((sum, item) => sum + Number(item.toltalmoney || 0), 30000), [listStorage]);
+  const selectedAddress = addresses.find(item => item._id === selectedId);
 
-    const [loadingpaymen, setloadingpaymen] = useState(false)
-    const sum = arr.reduce((total, amount) => total + amount, 30000);
-    const [addresss, setAddress] = useState({
-        address: "",
-        tell: ""
-    })
-    const { address, tell } = addresss
+  useEffect(() => {
+    getStorageCart();
+    axios.get(`${PORT}auth/addresses`)
+      .then(response => {
+        const saved = Array.isArray(response.data?.addresses) ? response.data.addresses : [];
+        setAddresses(saved);
+        const preferred = saved.find(item => item.isDefault) || saved[0];
+        if (preferred) setSelectedId(preferred._id);
+      })
+      .catch(() => setAlert({ type: "danger", message: "Không thể tải sổ địa chỉ. Vui lòng tải lại trang." }))
+      .finally(() => setLoadingAddresses(false));
+  }, []);
 
-
-
-    const onchangeInputAddress = (e) => {
-        setAddress({ ...addresss, [e.target.name]: e.target.value })
+  const submitOrder = async () => {
+    if (!selectedAddress) {
+      setAlert({ type: "danger", message: "Vui lòng thêm và chọn địa chỉ nhận hàng trong sổ địa chỉ." });
+      return;
     }
-
-    useEffect(() => {
-        getStorageCart() 
-    }, []);
-    const submittheoder = async () => {
-       try {
-        if (!address.trim()) {
-            setalert({ type: "danger", message: "Vui lòng nhập địa chỉ nhận hàng." });
-            return;
-        }
-        if (!Array.isArray(listStorage) || listStorage.length === 0) {
-            setalert({ type: "danger", message: "Giỏ hàng đang trống. Vui lòng chọn sản phẩm trước khi đặt hàng." });
-            return;
-        }
-        if (!/^0[0-9]{9,10}$/.test(tell)) {
-         setalert({ type: "danger", message:"Vui lòng nhập số điện thoại hợp lệ (10–11 chữ số)." })
-         return   setTimeout(() => {
-                setalert(null)
-            }, 2000);
-        }
-        setloadingpaymen(true)
-        const result = await sendlistpayment(address, tell)
-        if (result?.success === false) {
-            setloadingpaymen(false)
-            setalert({ type: "danger", message: result.message || "Không thể tạo đơn hàng. Vui lòng thử lại." })
-            return
-        }
-        push("/finishedoder")
-       } catch (error) {
-           setloadingpaymen(false);
-           setalert({ type: "danger", message: "Không thể kết nối để tạo đơn hàng. Vui lòng thử lại." });
-       }
+    if (!listStorage.length) {
+      setAlert({ type: "danger", message: "Giỏ hàng đang trống. Vui lòng chọn sản phẩm trước khi đặt hàng." });
+      return;
     }
-    if (loadingpaymen || !storageLoading) return (<Spinner style={{ position: "fixed", marginBottom: "25%", marginLeft: "50%" }}
-        className="landing-inner"
-        animation="border"
-        variant="info"
-    ></Spinner>)
-    else
-    return <div className='containerPaymenent mt-5'>
+    setSubmitting(true);
+    setAlert(null);
+    const result = await sendlistpayment(selectedAddress.address, selectedAddress.phone, selectedAddress.recipient);
+    setSubmitting(false);
+    if (result?.success === false) {
+      setAlert({ type: "danger", message: result.message || "Không thể tạo đơn hàng. Vui lòng thử lại." });
+      return;
+    }
+    navigate("/finishedoder");
+  };
 
-        <div className='itemPayment'>
-            <div className='topcontainerPayment'>
-                <marquee >
-                    Nếu Bạn muốn Hổ trợ Vui lòng Liên hệ  0389998053 Hoặc Email:xhieu213@gmail.com
-                </marquee>
-            </div>
-            <AlertMessage info={alert}></AlertMessage>
-           <div className='d-flex justify-content-center'>
-      <span style={{ color: "lawngreen" ,fontSize:"30px" ,fontWeight:"600"}}>Số tiền bạn thanh toán  là : {sum.toLocaleString("vi-VN", {
-                style: "currency",
-                currency: "VND",
-            })}</span>
-           </div>
-            <div>
-                <h4 style={{ textAlign: "center", color: "white" ,fontWeight:"300" ,fontSize:"20px"}}>Điạ Chỉ</h4>
-                <input name="address" required value={address} placeholder="Nhập địa chỉ nhận hàng" onChange={(e) => {
-                    onchangeInputAddress(e)
-                }} size={50} style={{ height: "50px" }}></input>
-            </div>
-            <div >
-                <h4 className='mt-5' style={{ textAlign: "center", color: "white" }}>Số điện thoại</h4>
-                <input   maxLength={11} required placeholder="Nhập số điện thoại" onChange={(e) => {
-                    onchangeInputAddress(e)
-                }} name="tell" value={tell} min={0} max={15} size={20} type="tel" ></input>
-            </div>
-            <button onClick={() => submittheoder()} className='mt-3'>Đặt Hàng</button>
+  if (submitting || !storageLoading || loadingAddresses) {
+    return <div className="ha-route-loading"><Spinner animation="border" /><span>Đang chuẩn bị đơn hàng...</span></div>;
+  }
+
+  return (
+    <main className="ha-checkout-page">
+      <div className="ha-checkout-shell">
+        <nav className="ha-checkout-breadcrumb"><Link to="/">Trang chủ</Link><span>/</span><Link to="/viewcart">Giỏ hàng</Link><span>/</span><b>Thanh toán</b></nav>
+        <header className="ha-checkout-heading"><span>HOÀNG ÁNH ĐIỆN MÁY</span><h1>Hoàn tất đơn hàng</h1><p>Chọn địa chỉ đã lưu để chúng tôi giao hàng đến đúng nơi.</p></header>
+        {alert && <AlertMessage info={alert} />}
+        <div className="ha-checkout-layout">
+          <section className="ha-checkout-address-panel">
+            <div className="ha-checkout-panel-heading"><div><h2>Địa chỉ nhận hàng</h2><p>Chọn một địa chỉ và số điện thoại đã đăng ký</p></div><Link to="/account#addresses">+ Quản lý địa chỉ</Link></div>
+            {addresses.length ? <div className="ha-saved-address-list">
+              {addresses.map(item => <label className={`ha-saved-address ${selectedId === item._id ? "selected" : ""}`} key={item._id}>
+                <input type="radio" name="shipping-address" value={item._id} checked={selectedId === item._id} onChange={() => setSelectedId(item._id)} />
+                <span className="ha-address-radio" />
+                <span className="ha-address-copy"><span className="ha-address-title">{item.label || "Địa chỉ"} {item.isDefault && <b>MẶC ĐỊNH</b>}</span><strong>{item.recipient} · {item.phone}</strong><small>{item.address}</small></span>
+              </label>)}
+            </div> : <div className="ha-no-address"><h3>Bạn chưa lưu địa chỉ giao hàng</h3><p>Thêm địa chỉ và số điện thoại trong tài khoản trước khi đặt hàng.</p><Link to="/account#addresses">Thêm địa chỉ nhận hàng</Link></div>}
+            <div className="ha-checkout-help">Cần thay đổi địa chỉ? <Link to="/account#addresses">Cập nhật sổ địa chỉ</Link></div>
+          </section>
+          <aside className="ha-checkout-summary">
+            <h2>Đơn hàng của bạn</h2>
+            {listStorage.map((item, index) => <div className="ha-checkout-item" key={item._id || index}><div><strong>{item.title}</strong><small>Số lượng: {item.quantily}</small></div><b>{Number(item.toltalmoney || 0).toLocaleString("vi-VN")}₫</b></div>)}
+            <div className="ha-checkout-fee"><span>Phí giao hàng tạm tính</span><b>30.000₫</b></div>
+            <div className="ha-checkout-total"><span>Tổng thanh toán</span><strong>{total.toLocaleString("vi-VN")}₫</strong></div>
+            <button type="button" disabled={!selectedAddress || !listStorage.length} onClick={submitOrder}>Xác nhận đặt hàng</button>
+            <p>Đơn hàng sẽ được cửa hàng xác nhận và cập nhật trạng thái trong mục lịch sử đơn hàng.</p>
+          </aside>
         </div>
-        <div className='itemPayment2'>
-            {listStorage.map((data, index, arr) => (
-                <div key={index} className="childrenboxcart">
-                    <img src={path + data.img} alt="ảnh pull" />
-                    <h4 style={{fontWeight:"500" ,fontSize:"20px",marginLeft:"5px"}}>{data.title}</h4>
-                    <div style={{ display: "flex", justifyContent:"center", alignItems:"center" }}>
-                        <button style={{ width: "5rem", background: "#333", color: "white", border: "none", fontWeight: "bold" }} onClick={() => {
-                        }}  >Số lượng</button>
-                        <p style={{ textAlign: "center", fontWeight: "bold" ,border:"1px solid white" ,margin:"0px"}} >{data.quantily}</p>
-
-
-                    </div>
-                    <p style={{ width: "10rem" }}>{data.toltalmoney.toLocaleString("vi-VN", {
-                        style: "currency",
-                        currency: "VND",
-                    })}</p>
-
-                </div>
-
-            ))}
-        </div>
-    </div>;
+      </div>
+    </main>
+  );
 };
-
-
-
-export default Payment; 
+export default Payment;

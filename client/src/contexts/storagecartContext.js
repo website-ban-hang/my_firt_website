@@ -7,9 +7,7 @@ export const StorageCartContext = createContext();
 
 const StorageCartProvider = ({ children }) => {
   const [storageState, dispath] = useReducer(storageCartreducer, {
-    storageLoading: false,
-    listStorage: [],
-    loadingquanlyti: false
+    storageLoading: false, listStorage: [], loadingquanlyti: false
   });
   const { loadingquanlyti, listStorage, storageLoading } = storageState;
 
@@ -20,19 +18,18 @@ const StorageCartProvider = ({ children }) => {
       await getStorageCart();
       return response.data;
     } catch (error) {
-      return { success: false, message: error.message };
+      return { success: false, message: error.response?.data?.message || error.message };
     }
   };
 
-  const sendlistpayment = async (address, tell) => {
-    const data = { address, tell, listStorage };
+  const sendlistpayment = async (address, tell, recipient) => {
     try {
-      const response = await axios.post(`${PORT}theoder`, data);
+      const response = await axios.post(`${PORT}theoder`, { address, tell, recipient, listStorage });
       await getStorageCart();
       return response.data;
     } catch (error) {
       console.error("Không thể tạo đơn hàng:", error);
-      return { success: false, message: error.message };
+      return { success: false, message: error.response?.data?.message || error.message };
     }
   };
 
@@ -41,10 +38,7 @@ const StorageCartProvider = ({ children }) => {
     const data = { quantily: quanlity, toltalmoney: quanlity * money };
     try {
       const response = await axios.put(`${PORT}storagecart/quantily/${id}`, data);
-      dispath({
-        type: "UPDATE_STORAGE_QUANTITY",
-        payload: { id, quantily: quanlity, toltalmoney: data.toltalmoney }
-      });
+      dispath({ type: "UPDATE_STORAGE_QUANTITY", payload: { id, quantily: quanlity, toltalmoney: data.toltalmoney } });
       return response.data;
     } catch (error) {
       console.error("Không thể cập nhật số lượng:", error);
@@ -62,7 +56,7 @@ const StorageCartProvider = ({ children }) => {
       return response.data;
     } catch (error) {
       console.error("Không thể xóa giỏ hàng:", error);
-      return { success: false, message: error.message };
+      return { success: false, message: error.response?.data?.message || error.message };
     }
   };
 
@@ -82,12 +76,6 @@ const StorageCartProvider = ({ children }) => {
     sendlistpayment, deletesoragecart2, addstorageCart, getStorageCart,
     listStorage, storageLoading, increasequantily, loadingquanlyti
   };
-
-  return (
-    <StorageCartContext.Provider value={storagecartdata}>
-      {children}
-    </StorageCartContext.Provider>
-  );
+  return <StorageCartContext.Provider value={storagecartdata}>{children}</StorageCartContext.Provider>;
 };
-
 export default StorageCartProvider;

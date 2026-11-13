@@ -1,1 +1,79 @@
-.ha-checkout-page{min-height:100vh;padding:36px 20px 75px;background:linear-gradient(145deg,#f2f8fc,#fff 55%,#edf5fa);color:#143b56}.ha-checkout-shell{max-width:1160px;margin:auto}.ha-checkout-breadcrumb{display:flex;gap:10px;margin-bottom:28px;color:#8295a2;font-size:12px}.ha-checkout-breadcrumb a{color:#0874b7;text-decoration:none}.ha-checkout-heading>span{color:#d18a20;font-size:10px;font-weight:900;letter-spacing:.16em}.ha-checkout-heading h1{margin:9px 0;color:#0b3553;font-size:clamp(30px,4vw,42px);letter-spacing:-.04em}.ha-checkout-heading p{color:#71899a}.ha-checkout-layout{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(300px,.75fr);gap:22px;margin-top:26px}.ha-checkout-address-panel,.ha-checkout-summary{padding:25px;border:1px solid #dfebf3;border-radius:18px;background:#fff;box-shadow:0 14px 38px #1236500b}.ha-checkout-panel-heading{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:20px}.ha-checkout-panel-heading h2,.ha-checkout-summary h2{margin:0;color:#123b58;font-size:19px}.ha-checkout-panel-heading p{margin:6px 0 0;color:#8497a4;font-size:12px}.ha-checkout-panel-heading>a,.ha-checkout-help a{color:#0874b7;font-size:12px;font-weight:800;text-decoration:none}.ha-saved-address-list{display:grid;gap:12px}.ha-saved-address{display:flex;align-items:flex-start;gap:12px;padding:16px;border:1px solid #e2ebf1;border-radius:12px;background:#fbfdfe;cursor:pointer;transition:border-color .2s,background .2s}.ha-saved-address.selected{border-color:#72afd2;background:#f2f9fd;box-shadow:0 0 0 3px #0874b710}.ha-saved-address>input{position:absolute;opacity:0;pointer-events:none}.ha-address-radio{width:18px;height:18px;flex:0 0 18px;margin-top:2px;border:2px solid #a8bbc8;border-radius:50%;background:#fff}.ha-saved-address.selected .ha-address-radio{border:5px solid #0874b7}.ha-address-copy{display:grid;gap:6px}.ha-address-title{display:flex;align-items:center;gap:8px;color:#49697e;font-size:12px;font-weight:800}.ha-address-title b{padding:4px 7px;border-radius:20px;background:#e7f3fa;color:#0874b7;font-size:8px;letter-spacing:.08em}.ha-address-copy strong{color:#153b56;font-size:13px}.ha-address-copy small{color:#71899a;font-size:12px;line-height:1.6}.ha-checkout-help{margin-top:18px;padding-top:15px;border-top:1px solid #edf2f5;color:#8195a3;font-size:11px}.ha-no-address{padding:24px;border:1px dashed #cddde7;border-radius:12px;background:#f9fcfe}.ha-no-address h3{margin:0 0 7px;color:#153b56;font-size:16px}.ha-no-address p{color:#758c9c;font-size:12px}.ha-no-address a{display:inline-block;padding:10px 14px;border-radius:8px;background:#0874b7;color:#fff;font-size:12px;font-weight:800;text-decoration:none}.ha-checkout-summary h2{margin-bottom:20px}.ha-checkout-item{display:flex;justify-content:space-between;gap:12px;padding:13px 0;border-bottom:1px solid #edf2f5}.ha-checkout-item>div{display:grid;gap:5px}.ha-checkout-item strong{color:#254b64;font-size:12px}.ha-checkout-item small{color:#8195a3;font-size:10px}.ha-checkout-item>b{color:#214a65;font-size:12px;white-space:nowrap}.ha-checkout-fee,.ha-checkout-total{display:flex;justify-content:space-between;gap:10px;padding:15px 0;color:#71899a;font-size:12px}.ha-checkout-total{align-items:center;border-top:1px solid #e5edf2;color:#153b56}.ha-checkout-total strong{color:#0874b7;font-size:22px}.ha-checkout-summary>button{width:100%;min-height:48px;border:0;border-radius:10px;background:linear-gradient(110deg,#0874b7,#075586);color:#fff;font-weight:900;cursor:pointer}.ha-checkout-summary>button:disabled{opacity:.45;cursor:not-allowed}.ha-checkout-summary>p{margin:12px 0 0;color:#8a9ba6;font-size:10px;line-height:1.6}.ha-status.processing{background:#fff4df;color:#a86a05}.ha-status.shipped{background:#eaf4ff;color:#1769a8}.ha-status.delivered{background:#eaf8ef;color:#25804a}.ha-order-progress{display:flex;gap:8px;margin:24px 0 10px}.ha-order-step{display:flex;align-items:center;gap:7px;flex:1;padding:10px;border:1px solid #e3ebf1;border-radius:9px;color:#91a0aa;font-size:10px}.ha-order-step span{display:grid;place-items:center;width:22px;height:22px;border-radius:50%;background:#edf2f5;font-weight:900}.ha-order-step.active{border-color:#8abbd7;background:#f2f9fd;color:#075b91}.ha-order-step.active span{background:#0874b7;color:#fff}@media(max-width:800px){.ha-checkout-page{padding:22px 12px 48px}.ha-checkout-layout{grid-template-columns:1fr}.ha-checkout-address-panel,.ha-checkout-summary{padding:18px}.ha-order-progress{flex-direction:column}}
+/* Premium checkout experience — visual-only styles; checkout logic remains unchanged */
+.ha-checkout-page{
+  position:relative;isolation:isolate;min-height:100vh;overflow:hidden;padding:38px 20px 82px;
+  color:#17354c;background:radial-gradient(ellipse at 8% 8%,rgba(91,180,224,.19),transparent 34%),
+  radial-gradient(ellipse at 94% 30%,rgba(246,190,103,.16),transparent 30%),
+  linear-gradient(145deg,#edf5fb 0%,#f8fbfe 46%,#eaf2f8 100%);
+}
+.ha-checkout-page:before,.ha-checkout-page:after{content:"";position:absolute;z-index:-1;pointer-events:none;border-radius:50%;filter:blur(1px)}
+.ha-checkout-page:before{width:420px;height:420px;top:210px;left:-260px;border:1px solid rgba(42,130,181,.12);box-shadow:0 0 0 34px rgba(42,130,181,.025),0 0 0 72px rgba(42,130,181,.02)}
+.ha-checkout-page:after{width:360px;height:360px;right:-220px;bottom:30px;background:rgba(91,180,224,.08);filter:blur(35px)}
+.ha-checkout-shell{position:relative;max-width:1160px;margin:auto;animation:haCheckoutEnter .65s cubic-bezier(.2,.75,.25,1) both}
+@keyframes haCheckoutEnter{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+.ha-checkout-breadcrumb{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-bottom:25px;color:#8a9eac;font-size:12px}
+.ha-checkout-breadcrumb a{color:#267cae;text-decoration:none;transition:color .2s}
+.ha-checkout-breadcrumb a:hover{color:#0b456d}
+.ha-checkout-breadcrumb b{color:#36566b}
+.ha-checkout-heading{position:relative;overflow:hidden;margin-bottom:26px;padding:34px 38px;border:1px solid rgba(255,255,255,.18);border-radius:24px;
+  background:linear-gradient(112deg,rgba(7,42,67,.97),rgba(12,82,119,.94) 58%,rgba(18,111,150,.88)),
+  url("https://images.unsplash.com/photo-1498049794561-7780e7231661?auto=format&fit=crop&w=1800&q=85") center 48%/cover;
+  box-shadow:0 20px 50px rgba(12,54,81,.18);color:#fff}
+.ha-checkout-heading:before{content:"";position:absolute;width:290px;height:290px;right:5%;top:-190px;border:1px solid rgba(255,255,255,.18);border-radius:50%;box-shadow:0 0 0 28px rgba(255,255,255,.035),0 0 0 58px rgba(255,255,255,.025)}
+.ha-checkout-heading:after{content:"";position:absolute;width:190px;height:190px;right:17%;bottom:-155px;border-radius:50%;background:rgba(91,190,222,.17);filter:blur(10px)}
+.ha-checkout-heading>span,.ha-checkout-heading h1,.ha-checkout-heading p{position:relative;z-index:1}
+.ha-checkout-heading>span{display:inline-flex;align-items:center;gap:9px;color:#f5c77c;font-size:10px;font-weight:900;letter-spacing:.2em}
+.ha-checkout-heading>span:before{content:"";width:22px;height:2px;border-radius:4px;background:#f5c77c}
+.ha-checkout-heading h1{margin:11px 0 7px;color:#fff;font-size:clamp(30px,4vw,43px);font-weight:850;letter-spacing:-.045em}
+.ha-checkout-heading p{max-width:560px;margin:0;color:rgba(239,248,255,.78);font-size:13px;line-height:1.7}
+.ha-checkout-layout{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(310px,.75fr);align-items:start;gap:22px}
+.ha-checkout-address-panel,.ha-checkout-summary{position:relative;padding:27px;border:1px solid rgba(214,229,239,.9);border-radius:20px;background:rgba(255,255,255,.9);box-shadow:0 16px 42px rgba(22,67,94,.075);backdrop-filter:blur(14px);transition:box-shadow .25s,border-color .25s}
+.ha-checkout-address-panel:hover,.ha-checkout-summary:hover{border-color:#c6deed;box-shadow:0 20px 48px rgba(22,67,94,.11)}
+.ha-checkout-panel-heading{display:flex;justify-content:space-between;align-items:flex-start;gap:14px;margin-bottom:21px}
+.ha-checkout-panel-heading h2,.ha-checkout-summary h2{margin:0;color:#143b57;font-size:19px;font-weight:850;letter-spacing:-.025em}
+.ha-checkout-panel-heading p{margin:7px 0 0;color:#8297a6;font-size:12px;line-height:1.6}
+.ha-checkout-panel-heading>a,.ha-checkout-help a{color:#1479b2;font-size:12px;font-weight:850;text-decoration:none;white-space:nowrap;transition:color .2s}
+.ha-checkout-panel-heading>a:hover,.ha-checkout-help a:hover{color:#084b78}
+.ha-saved-address-list{display:grid;gap:12px}
+.ha-saved-address{position:relative;display:flex;align-items:flex-start;gap:13px;padding:17px;border:1px solid #e2ebf1;border-radius:14px;background:linear-gradient(135deg,#fff,#f9fcfe);cursor:pointer;transition:transform .22s,border-color .22s,box-shadow .22s,background .22s}
+.ha-saved-address:hover{transform:translateY(-2px);border-color:#a9cfe4;box-shadow:0 9px 22px rgba(26,91,128,.07)}
+.ha-saved-address.selected{border-color:#63a8ce;background:linear-gradient(120deg,#f0f8fd,#fff);box-shadow:0 0 0 3px rgba(24,126,180,.09),0 9px 22px rgba(26,91,128,.06)}
+.ha-saved-address>input{position:absolute;opacity:0;pointer-events:none}
+.ha-address-radio{position:relative;width:19px;height:19px;flex:0 0 19px;margin-top:2px;border:2px solid #b5c6d1;border-radius:50%;background:#fff;transition:border .2s,box-shadow .2s}
+.ha-saved-address.selected .ha-address-radio{border:6px solid #147caf;box-shadow:0 0 0 3px rgba(20,124,175,.1)}
+.ha-address-copy{display:grid;gap:7px;min-width:0}
+.ha-address-title{display:flex;flex-wrap:wrap;align-items:center;gap:8px;color:#547186;font-size:11px;font-weight:850;letter-spacing:.035em}
+.ha-address-title b{padding:4px 8px;border-radius:30px;background:#e5f4fb;color:#147caf;font-size:8px;letter-spacing:.1em}
+.ha-address-copy strong{color:#183e58;font-size:13px;font-weight:800}
+.ha-address-copy small{color:#71899a;font-size:12px;line-height:1.65;overflow-wrap:anywhere}
+.ha-checkout-help{margin-top:20px;padding-top:16px;border-top:1px solid #edf2f5;color:#879aa7;font-size:11px}
+.ha-no-address{padding:26px;border:1px dashed #bcd2df;border-radius:15px;background:linear-gradient(135deg,#f8fcff,#f1f8fc)}
+.ha-no-address h3{margin:0 0 8px;color:#173e59;font-size:16px}
+.ha-no-address p{color:#758c9c;font-size:12px;line-height:1.65}
+.ha-no-address a{display:inline-flex;align-items:center;justify-content:center;min-height:40px;padding:0 16px;border-radius:9px;background:linear-gradient(110deg,#1688bd,#075886);color:#fff;font-size:12px;font-weight:850;text-decoration:none;box-shadow:0 7px 17px rgba(9,101,151,.2);transition:transform .2s,box-shadow .2s}
+.ha-no-address a:hover{transform:translateY(-2px);box-shadow:0 10px 22px rgba(9,101,151,.25)}
+.ha-checkout-summary{position:sticky;top:22px;padding:26px}
+.ha-checkout-summary h2{display:flex;align-items:center;gap:10px;margin-bottom:18px}
+.ha-checkout-summary h2:before{content:"";width:4px;height:20px;border-radius:5px;background:linear-gradient(#31a4d3,#075886)}
+.ha-checkout-item{display:flex;justify-content:space-between;gap:12px;padding:14px 0;border-bottom:1px solid #edf2f5}
+.ha-checkout-item>div{display:grid;gap:6px;min-width:0}
+.ha-checkout-item strong{color:#254b64;font-size:12px;line-height:1.5}
+.ha-checkout-item small{color:#8195a3;font-size:10px}
+.ha-checkout-item>b{color:#214a65;font-size:12px;white-space:nowrap}
+.ha-checkout-fee,.ha-checkout-total{display:flex;justify-content:space-between;gap:10px;padding:15px 0;color:#71899a;font-size:12px}
+.ha-checkout-fee b{color:#46657a}
+.ha-checkout-total{align-items:center;margin-top:2px;border-top:1px solid #e5edf2;color:#153b56}
+.ha-checkout-total strong{color:#0874b7;font-size:clamp(20px,2.5vw,25px);font-weight:900;letter-spacing:-.035em;white-space:nowrap}
+.ha-checkout-summary>button{position:relative;overflow:hidden;width:100%;min-height:51px;margin-top:7px;border:0;border-radius:11px;background:linear-gradient(110deg,#1389bd,#075586);color:#fff;font-size:13px;font-weight:900;letter-spacing:.01em;cursor:pointer;box-shadow:0 9px 20px rgba(7,95,145,.2);transition:transform .22s,box-shadow .22s,filter .22s}
+.ha-checkout-summary>button:after{content:"";position:absolute;top:-50%;left:-35%;width:22%;height:200%;transform:rotate(25deg);background:rgba(255,255,255,.2);transition:left .55s}
+.ha-checkout-summary>button:hover:not(:disabled){transform:translateY(-2px);filter:saturate(1.12);box-shadow:0 13px 25px rgba(7,95,145,.27)}
+.ha-checkout-summary>button:hover:not(:disabled):after{left:120%}
+.ha-checkout-summary>button:active:not(:disabled){transform:translateY(0)}
+.ha-checkout-summary>button:disabled{opacity:.45;cursor:not-allowed;box-shadow:none}
+.ha-checkout-summary>p{margin:13px 0 0;color:#8a9ba6;font-size:10px;line-height:1.7;text-align:center}
+.ha-route-loading{display:flex;min-height:55vh;flex-direction:column;align-items:center;justify-content:center;gap:13px;color:#52768c;background:linear-gradient(145deg,#edf5fb,#fff)}
+.ha-route-loading .spinner-border{color:#147caf!important}
+.ha-status.processing{background:#fff4df;color:#a86a05}.ha-status.shipped{background:#eaf4ff;color:#1769a8}.ha-status.delivered{background:#eaf8ef;color:#25804a}
+.ha-order-progress{display:flex;gap:8px;margin:24px 0 10px}.ha-order-step{display:flex;align-items:center;gap:7px;flex:1;padding:10px;border:1px solid #e3ebf1;border-radius:9px;color:#91a0aa;font-size:10px}.ha-order-step span{display:grid;place-items:center;width:22px;height:22px;border-radius:50%;background:#edf2f5;font-weight:900}.ha-order-step.active{border-color:#8abbd7;background:#f2f9fd;color:#075b91}.ha-order-step.active span{background:#0874b7;color:#fff}
+@media(max-width:800px){.ha-checkout-page{padding:22px 13px 52px}.ha-checkout-heading{padding:27px 23px;border-radius:19px}.ha-checkout-layout{grid-template-columns:1fr}.ha-checkout-summary{position:relative;top:auto;order:2}.ha-checkout-address-panel{order:1}}
+@media(max-width:520px){.ha-checkout-page{padding:16px 10px 38px}.ha-checkout-breadcrumb{margin-bottom:17px;font-size:11px}.ha-checkout-heading{margin-bottom:17px;padding:24px 19px}.ha-checkout-heading h1{font-size:30px}.ha-checkout-heading p{font-size:12px}.ha-checkout-address-panel,.ha-checkout-summary{padding:19px 16px;border-radius:16px}.ha-checkout-panel-heading{flex-direction:column;gap:9px}.ha-checkout-panel-heading h2,.ha-checkout-summary h2{font-size:17px}.ha-saved-address{padding:14px}.ha-checkout-total strong{font-size:21px}}
+@media(prefers-reduced-motion:reduce){.ha-checkout-shell{animation:none!important}.ha-checkout-page *{scroll-behavior:auto!important;transition:none!important}}

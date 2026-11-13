@@ -1042,3 +1042,12 @@
 }
 @media(max-width:380px){.guest-product-grid{gap:10px}.guest-product-info{padding:10px}.guest-product-bottom strong{font-size:9px}}
 @media(prefers-reduced-motion:reduce){.guest-product-card,.guest-product-image img,.guest-product-bottom button,.guest-pagination button{transition:none!important}}
+
+
+/* Product trend badges — HOT / best-selling */
+.guest-product-image { isolation: isolate; }
+.guest-product-trend { position:absolute; z-index:3; top:12px; right:12px; display:inline-flex; align-items:center; gap:5px; padding:8px 11px; border:1px solid rgba(255,255,255,.72); border-radius:999px; color:#fff; font-size:9px; font-weight:900; letter-spacing:.07em; box-shadow:0 7px 20px rgba(20,35,48,.2); backdrop-filter:blur(8px); }
+.guest-product-trend.is-hot { background:linear-gradient(120deg,#ff7a18,#e62e05); animation:guest-hot-pulse 1.8s ease-in-out infinite; }
+.guest-product-trend.is-best { background:linear-gradient(120deg,#bd8b25,#8b5a08); }
+@keyframes guest-hot-pulse { 0%,100% { transform:translateY(0) scale(1); box-shadow:0 7px 20px rgba(230,46,5,.2); } 50% { transform:translateY(-2px) scale(1.045); box-shadow:0 10px 25px rgba(230,46,5,.34); } }
+@media (prefers-reduced-motion:reduce) { .guest-product-trend.is-hot { animation:none; } }

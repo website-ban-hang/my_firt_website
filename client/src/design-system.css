@@ -1310,3 +1310,21 @@ button,a,input,select,textarea{-webkit-tap-highlight-color:transparent}
 @media (prefers-reduced-motion: reduce) {
   .ha-detail-image img { transition: none !important; }
 }
+
+
+/* Admin product flags and customer-facing product trend labels */
+.ha-product-flags { display:grid; gap:11px; margin:5px 0 20px; padding:15px 16px; border:1px solid #e4edf3; border-radius:13px; background:linear-gradient(120deg,#f8fbfd,#fff); }
+.ha-product-flags .form-check { display:flex; align-items:center; gap:9px; min-height:24px; margin:0; }
+.ha-product-flags .form-check-input { width:18px; height:18px; margin:0; cursor:pointer; }
+.ha-product-flags .form-check-label { color:#294b63; font-size:13px; font-weight:800; cursor:pointer; }
+.ha-admin-product-flags { display:flex; flex-wrap:wrap; gap:5px; }
+.ha-admin-product-flags span { display:inline-flex; align-items:center; padding:5px 7px; border-radius:999px; font-size:10px; font-weight:900; white-space:nowrap; }
+.ha-admin-hot { color:#fff; background:linear-gradient(120deg,#ff7a18,#e33a12); }
+.ha-admin-best { color:#fff; background:linear-gradient(120deg,#bd8b25,#8b5a08); }
+.ha-detail-image { position:relative; }
+.ha-detail-trend { position:absolute; z-index:4; top:22px; right:22px; display:inline-flex; align-items:center; padding:10px 15px; border:1px solid rgba(255,255,255,.78); border-radius:999px; color:#fff; font-size:11px; font-weight:900; letter-spacing:.06em; box-shadow:0 10px 25px rgba(20,35,48,.2); }
+.ha-detail-trend.is-hot { background:linear-gradient(120deg,#ff7a18,#e52e05); animation:ha-detail-hot 1.8s ease-in-out infinite; }
+.ha-detail-trend.is-best { background:linear-gradient(120deg,#bd8b25,#8b5a08); }
+@keyframes ha-detail-hot { 0%,100% { transform:scale(1); } 50% { transform:scale(1.06); } }
+@media(max-width:560px) { .ha-detail-trend { top:13px; right:13px; padding:8px 10px; font-size:9px; } }
+@media(prefers-reduced-motion:reduce) { .ha-detail-trend.is-hot { animation:none; } }

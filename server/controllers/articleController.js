@@ -12,10 +12,9 @@ class ArticleController {
   async listPublic(req, res) {
     try {
       const articles = await Article.find({ status: "published" })
-        .select("-coverImageData -coverImageContentType")
         .sort({ publishedAt: -1, createdAt: -1 })
         .lean();
-      return res.json({ success: true, articles: articles.map(item => ({ ...item, hasCoverImage: Boolean(item.coverImageData) })) });
+      return res.json({ success: true, articles: articles.map(publicArticle) });
     } catch (error) {
       console.error("Public article list error:", error && error.name);
       return res.status(500).json({ success: false, message: "Không thể tải bài viết" });
@@ -25,9 +24,9 @@ class ArticleController {
   async detailPublic(req, res) {
     try {
       const article = await Article.findOne({ _id: req.params.id, status: "published" })
-        .select("-coverImageData -coverImageContentType").lean();
+        .lean();
       if (!article) return res.status(404).json({ success: false, message: "Không tìm thấy bài viết" });
-      return res.json({ success: true, article });
+      return res.json({ success: true, article: publicArticle(article) });
     } catch (error) {
       return res.status(400).json({ success: false, message: "Mã bài viết không hợp lệ" });
     }
@@ -47,9 +46,8 @@ class ArticleController {
 
   async listAdmin(req, res) {
     try {
-      const articles = await Article.find({}).select("-coverImageData -coverImageContentType")
-        .sort({ updatedAt: -1 }).lean();
-      return res.json({ success: true, articles: articles.map(item => ({ ...item, hasCoverImage: Boolean(item.coverImageData) })) });
+      const articles = await Article.find({}).sort({ updatedAt: -1 }).lean();
+      return res.json({ success: true, articles: articles.map(publicArticle) });
     } catch (error) {
       return res.status(500).json({ success: false, message: "Không thể tải danh sách bài viết" });
     }

@@ -100,7 +100,7 @@ const Returnguest = () => {
         <nav className="guest-nav" aria-label="Điều hướng chính">
           <a className="active" href="#guest-home">Trang chủ</a>
           <a href="#guest-products">Sản phẩm</a>
-          <a href="#guest-benefits">Về chúng tôi</a>
+          <Link to="/blog">Về chúng tôi</Link>
         </nav>
         <div className={`guest-actions ${isAuathenticated && checkuseradm === true ? "guest-admin-actions" : ""}`}>
           {isAuathenticated && checkuseradm === true ? <>

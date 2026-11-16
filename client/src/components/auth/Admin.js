@@ -6,6 +6,7 @@ const navGroups = [
   { label: "WORKSPACE", items: [
     { to: "/admin/homeadmin", label: "Tổng quan", icon: "▦" },
     { to: "/admin/additem", label: "Quản lý sản phẩm", icon: "▤" },
+    { to: "/admin/blog", label: "Quản lý Blog", icon: "▧" },
     { to: "/admin/listorders", label: "Quản lý đơn hàng", icon: "▣" },
     { to: "/admin/listmember", label: "Khách hàng & tài khoản", icon: "♙" },
     { to: "/admin/statistical", label: "Báo cáo thống kê", icon: "▥" }

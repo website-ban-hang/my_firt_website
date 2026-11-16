@@ -25,6 +25,8 @@ import Listorders from "./View/Listorders";
 import ListoderContextProvider from "./contexts/ListoderContext";
 import Statistical from "./View/Statistical";
 import Returnguest from "./components/returnguest/Returnguest";
+import BlogPage from "./components/pages/BlogPage";
+import AdminBlog from "./components/auth/interfaceAdmin/AdminBlog";
 
 function RequireCustomer({ children }) {
   const { authState: { authloading, isAuathenticated }, checkuseradm } = React.useContext(Authcontext);
@@ -53,6 +55,8 @@ function AppRoutes() {
       )}
       <Routes>
       <Route path="/" element={<Returnguest />} />
+      <Route path="/blog" element={<BlogPage />} />
+      <Route path="/blog/:id" element={<BlogPage />} />
       <Route path="/products/:id" element={<Detailcrat />} />
       <Route path="/contact" element={<Contact />} />
       <Route path="/login" element={<LoginForm />} />
@@ -70,6 +74,7 @@ function AppRoutes() {
         <Route path="addmember" element={<AddMember />} />
         <Route path="homeadmin" element={<Home />} />
         <Route path="additem" element={<AddItem />} />
+        <Route path="blog" element={<AdminBlog />} />
         <Route path="listorders" element={<Listorders />} />
         <Route path="listmember" element={<Listmember />} />
         <Route path="statistical" element={<Statistical />} />

@@ -8,6 +8,7 @@ const StoreSchema = new Schema({
   imageData: { type: String },
   imageContentType: { type: String },
   status: { type: String },
+  category: { type: String, enum: ["Máy bơm", "Tủ lạnh", "Quạt điện", "Thiết bị điện", "Đèn chiếu sáng", "Khác"], default: "Khác" },
   uer: { type: Schema.Types.ObjectId, ref: "users" },
   money: { type: Number },
   stock: { type: Number, min: 0, default: 0 },

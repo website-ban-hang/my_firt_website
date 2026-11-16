@@ -11,6 +11,7 @@ const AddItem = () => {
   const [saving, setSaving] = useState(false);
   const [title, setTitle] = useState("");
   const [status, setStatus] = useState("");
+  const [category, setCategory] = useState("Khác");
   const [money, setMoney] = useState("");
   const [stock, setStock] = useState("0");
   const [isHot, setIsHot] = useState(false);
@@ -21,13 +22,13 @@ const AddItem = () => {
   const filtered = useMemo(() => listpost.filter(item => [item.title,item.status].some(value => String(value || "").toLocaleLowerCase("vi").includes(query.toLocaleLowerCase("vi")))), [listpost,query]);
   const pages = Math.max(1, Math.ceil(filtered.length / pageSize));
   const rows = filtered.slice((page-1)*pageSize,page*pageSize);
-  const clearForm = () => { setEditing(null); setTitle(""); setStatus(""); setMoney(""); setStock("0"); setIsHot(false); setIsBestSelling(false); setFile(null); setPreview(""); };
+  const clearForm = () => { setEditing(null); setTitle(""); setStatus(""); setCategory("Khác"); setMoney(""); setStock("0"); setIsHot(false); setIsBestSelling(false); setFile(null); setPreview(""); };
   const chooseFile = event => { const selected = event.target.files?.[0] || null; setFile(selected); setPreview(selected ? URL.createObjectURL(selected) : ""); };
-  const startEdit = item => { setEditing(item); setTitle(item.title || ""); setStatus(item.status || ""); setMoney(String(item.money ?? "")); setStock(String(item.stock ?? 0)); setIsHot(Boolean(item.isHot)); setIsBestSelling(Boolean(item.isBestSelling)); setFile(null); setPreview(item.img ? (String(item.img).startsWith("http") ? item.img : PORT + String(item.img).replace(/^\/+/, "")) : ""); window.scrollTo({top:0,behavior:"smooth"}); };
+  const startEdit = item => { setEditing(item); setTitle(item.title || ""); setStatus(item.status || ""); setCategory(item.category || "Khác"); setMoney(String(item.money ?? "")); setStock(String(item.stock ?? 0)); setIsHot(Boolean(item.isHot)); setIsBestSelling(Boolean(item.isBestSelling)); setFile(null); setPreview(item.img ? (String(item.img).startsWith("http") ? item.img : PORT + String(item.img).replace(/^\/+/, "")) : ""); window.scrollTo({top:0,behavior:"smooth"}); };
   const submit = async event => {
     event.preventDefault();
     if (!title.trim() || !money || (!editing && !file)) { setalert({type:"danger",message:"Vui lòng nhập tên, giá bán và chọn ảnh cho sản phẩm mới."}); return; }
-    const form = new FormData(); form.append("title",title.trim()); form.append("status",status); form.append("money",money); form.append("stock",stock); form.append("isHot",String(isHot)); form.append("isBestSelling",String(isBestSelling)); if(file) form.append("file",file);
+    const form = new FormData(); form.append("title",title.trim()); form.append("status",status); form.append("category",category); form.append("money",money); form.append("stock",stock); form.append("isHot",String(isHot)); form.append("isBestSelling",String(isBestSelling)); if(file) form.append("file",file);
     setSaving(true);
     const result = editing ? await EditCartItem2(editing,form) : await send(form);
     setSaving(false);
@@ -42,6 +43,7 @@ const AddItem = () => {
       <section className="ha-panel ha-product-form"><div className="ha-panel-heading"><div><h2>{editing ? "Chỉnh sửa sản phẩm" : "Thêm sản phẩm mới"}</h2><p>Thông tin đang được lưu qua API cửa hàng hiện tại</p></div></div>
         <Form onSubmit={submit}>
           <Form.Group className="mb-3"><Form.Label>Tên sản phẩm <span>*</span></Form.Label><Form.Control value={title} onChange={e=>setTitle(e.target.value)} placeholder="VD: Máy bơm nước 750W" required /></Form.Group>
+          <Form.Group className="mb-3"><Form.Label>Danh mục sản phẩm <span>*</span></Form.Label><Form.Select value={category} onChange={e=>setCategory(e.target.value)} required><option value="Máy bơm">Máy bơm</option><option value="Tủ lạnh">Tủ lạnh</option><option value="Quạt điện">Quạt điện</option><option value="Thiết bị điện">Thiết bị điện</option><option value="Đèn chiếu sáng">Đèn chiếu sáng</option><option value="Khác">Khác</option></Form.Select><Form.Text>Khách hàng có thể chọn danh mục này để lọc sản phẩm trên trang chủ.</Form.Text></Form.Group>
           <Form.Group className="mb-3"><Form.Label>Giá bán (VNĐ) <span>*</span></Form.Label><Form.Control type="number" min="0" value={money} onChange={e=>setMoney(e.target.value)} placeholder="Nhập giá bán" required /></Form.Group>
           <Form.Group className="mb-3"><Form.Label>Số lượng tồn kho (sản phẩm) <span>*</span></Form.Label><Form.Control type="number" min="0" step="1" value={stock} onChange={e=>setStock(e.target.value)} placeholder="Nhập số lượng tồn kho" required /></Form.Group>
           <Form.Group className="mb-3"><Form.Label>Mô tả sản phẩm</Form.Label><Form.Control as="textarea" rows={4} value={status} onChange={e=>setStatus(e.target.value)} placeholder="Thông số, công dụng, bảo hành..." /></Form.Group>
@@ -54,8 +56,8 @@ const AddItem = () => {
       </section>
       <section className="ha-panel ha-product-list"><div className="ha-panel-heading"><div><h2>Danh sách sản phẩm</h2><p>Tìm kiếm và thao tác trên dữ liệu thật</p></div></div>
         <div className="ha-search"><span>⌕</span><input value={query} onChange={e=>{setQuery(e.target.value);setPage(1);}} placeholder="Tìm theo tên hoặc mô tả sản phẩm..."/></div>
-        <div className="ha-product-table-wrap"><table className="ha-product-table"><thead><tr><th>SẢN PHẨM</th><th>GIÁ BÁN</th><th>TỒN KHO</th><th>NỔI BẬT</th><th>THAO TÁC</th></tr></thead><tbody>
-          {rows.map(item=><tr key={item._id}><td><div className="ha-product-cell"><img src={item.img ? (String(item.img).startsWith("http") ? item.img : PORT+String(item.img).replace(/^\/+/, "")) : ""} alt="" onError={e=>{e.currentTarget.style.opacity=0;}}/><div><b>{item.title || "Chưa đặt tên"}</b><small>{item.status || "Chưa có mô tả"}</small></div></div></td><td><strong>{Number(item.money || 0).toLocaleString("vi-VN")} ₫</strong></td><td><strong>{item.stock == null ? "Chưa cập nhật" : `${item.stock} sản phẩm`}</strong></td><td><div className="ha-admin-product-flags">{item.isHot && <span className="ha-admin-hot">🔥 HOT</span>}{item.isBestSelling && <span className="ha-admin-best">🏆 Bán chạy</span>}{!item.isHot && !item.isBestSelling && <small>—</small>}</div></td><td><div className="ha-row-actions"><button onClick={()=>startEdit(item)}>Sửa</button><button className="danger" onClick={()=>remove(item)}>Xóa</button></div></td></tr>)}
+        <div className="ha-product-table-wrap"><table className="ha-product-table"><thead><tr><th>SẢN PHẨM</th><th>DANH MỤC</th><th>GIÁ BÁN</th><th>TỒN KHO</th><th>NỔI BẬT</th><th>THAO TÁC</th></tr></thead><tbody>
+          {rows.map(item=><tr key={item._id}><td><div className="ha-product-cell"><img src={item.img ? (String(item.img).startsWith("http") ? item.img : PORT+String(item.img).replace(/^\/+/, "")) : ""} alt="" onError={e=>{e.currentTarget.style.opacity=0;}}/><div><b>{item.title || "Chưa đặt tên"}</b><small>{item.status || "Chưa có mô tả"}</small></div></div></td><td><span className="ha-admin-category">{item.category || "Khác"}</span></td><td><strong>{Number(item.money || 0).toLocaleString("vi-VN")} ₫</strong></td><td><strong>{item.stock == null ? "Chưa cập nhật" : `${item.stock} sản phẩm`}</strong></td><td><div className="ha-admin-product-flags">{item.isHot && <span className="ha-admin-hot">🔥 HOT</span>}{item.isBestSelling && <span className="ha-admin-best">🏆 Bán chạy</span>}{!item.isHot && !item.isBestSelling && <small>—</small>}</div></td><td><div className="ha-row-actions"><button onClick={()=>startEdit(item)}>Sửa</button><button className="danger" onClick={()=>remove(item)}>Xóa</button></div></td></tr>)}
         </tbody></table></div>
         {!rows.length && <div className="ha-empty">Không tìm thấy sản phẩm phù hợp.</div>}
         <div className="ha-pagination"><span>Trang {page}/{pages} · {filtered.length} sản phẩm</span><div><button disabled={page===1} onClick={()=>setPage(page-1)}>←</button><button disabled={page===pages} onClick={()=>setPage(page+1)}>→</button></div></div>

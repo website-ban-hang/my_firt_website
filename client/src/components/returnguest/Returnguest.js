@@ -23,6 +23,8 @@ import brandLogo from "../../assets/logo.svg";
 import "./Returnguest.css";
 
 const PAGE_SIZE = 12;
+const PRODUCT_CATEGORIES = ["Máy bơm", "Tủ lạnh", "Quạt điện", "Thiết bị điện", "Đèn chiếu sáng", "Khác"];
+const getCategory = (item) => PRODUCT_CATEGORIES.includes(item.category) ? item.category : "Khác";
 
 const formatPrice = (value) => {
   const amount = Number(value);
@@ -53,6 +55,7 @@ const Returnguest = () => {
   const products = Array.isArray(listpost) ? listpost : [];
   const [search, setSearch] = useState("");
   const [sort, setSort] = useState("featured");
+  const [category, setCategory] = useState("Tất cả");
   const [page, setPage] = useState(1);
 
   const filteredProducts = useMemo(() => {
@@ -60,7 +63,9 @@ const Returnguest = () => {
     const result = products.filter((item) => {
       const title = String(item.title || "").toLocaleLowerCase("vi");
       const description = String(item.status || "").toLocaleLowerCase("vi");
-      return !keyword || title.includes(keyword) || description.includes(keyword);
+      const matchesKeyword = !keyword || title.includes(keyword) || description.includes(keyword);
+      const matchesCategory = category === "Tất cả" || getCategory(item) === category;
+      return matchesKeyword && matchesCategory;
     });
 
     if (sort === "price-low") {
@@ -71,14 +76,14 @@ const Returnguest = () => {
       result.sort((a, b) => String(a.title || "").localeCompare(String(b.title || ""), "vi"));
     }
     return result;
-  }, [products, search, sort]);
+  }, [products, search, sort, category]);
 
   const totalPages = Math.max(1, Math.ceil(filteredProducts.length / PAGE_SIZE));
   const visibleProducts = filteredProducts.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
 
   useEffect(() => {
     setPage(1);
-  }, [search, sort]);
+  }, [search, sort, category]);
 
     return (
     <main className="guest-shop">
@@ -161,6 +166,10 @@ const Returnguest = () => {
           <div className="guest-product-count"><strong>{products.length}</strong><span>sản phẩm<br />đang có</span></div>
         </div>
 
+        <div className="guest-category-filter" role="group" aria-label="Lọc theo danh mục">
+          {["Tất cả", ...PRODUCT_CATEGORIES].map((item) => <button key={item} type="button" className={category === item ? "active" : ""} aria-pressed={category === item} onClick={() => setCategory(item)}>{item}</button>)}
+        </div>
+
         <div className="guest-toolbar">
           <label className="guest-search">
             <FiSearch />
@@ -205,7 +214,7 @@ const Returnguest = () => {
                     {(item.isHot || item.isBestSelling) && <span className={`guest-product-trend ${item.isHot ? "is-hot" : "is-best"}`}>{item.isHot ? <><FiZap /> ĐANG HOT</> : <>🏆 BÁN CHẠY</>}</span>}
                   </button>
                   <div className="guest-product-info">
-                    <span className="guest-product-category">THIẾT BỊ ĐIỆN</span>
+                    <span className="guest-product-category">{getCategory(item).toLocaleUpperCase("vi")}</span>
                     <h3>{item.title || "Sản phẩm"}</h3>
                     <p>{item.status || "Thông tin sản phẩm đang được cập nhật."}</p>
                     <div className="guest-product-bottom">
@@ -227,11 +236,11 @@ const Returnguest = () => {
         ) : (
           <div className="guest-empty-state">
             <div className="guest-empty-icon"><FiPackage /></div>
-            <span className="guest-empty-kicker">{search ? "CHƯA TÌM THẤY KẾT QUẢ" : "CỬA HÀNG ĐANG CHUẨN BỊ"}</span>
-            <h3>{search ? "Chưa tìm thấy sản phẩm phù hợp" : "Danh mục sản phẩm đang được cập nhật"}</h3>
-            <p>{search ? "Thử một từ khóa khác hoặc xóa nội dung tìm kiếm để xem toàn bộ sản phẩm." : "Danh mục máy bơm và thiết bị điện đang được cập nhật. Vui lòng quay lại sau."}</p>
-            {search ? (
-              <button type="button" className="guest-primary-btn" onClick={() => setSearch("")}>Xem tất cả sản phẩm <FiArrowRight /></button>
+            <span className="guest-empty-kicker">{search || category !== "Tất cả" ? "CHƯA TÌM THẤY KẾT QUẢ" : "CỬA HÀNG ĐANG CHUẨN BỊ"}</span>
+            <h3>{search || category !== "Tất cả" ? "Chưa tìm thấy sản phẩm phù hợp" : "Danh mục sản phẩm đang được cập nhật"}</h3>
+            <p>{search || category !== "Tất cả" ? "Thử chọn danh mục khác hoặc xóa bộ lọc để xem thêm sản phẩm." : "Danh mục máy bơm và thiết bị điện đang được cập nhật. Vui lòng quay lại sau."}</p>
+            {search || category !== "Tất cả" ? (
+              <button type="button" className="guest-primary-btn" onClick={() => { setSearch(""); setCategory("Tất cả"); }}>Xem tất cả sản phẩm <FiArrowRight /></button>
             ) : (
               <Link to="/register" className="guest-primary-btn">Đăng ký để cập nhật <FiArrowRight /></Link>
             )}

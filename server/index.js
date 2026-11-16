@@ -110,12 +110,14 @@ app.use(async (req, res, next) => {
 const authRouter = require("./routers/auth");
 const postRouter = require("./routers/Post");
 const storeRouter = require("./routers/Store");
+const articlesRouter = require("./routers/Articles");
 const storageCartRouter = require("./routers/StorageCart");
 const theOderRouter = require("./routers/TheOderRouter");
 
 app.use("/auth", authRouter);
 app.use("/post", postRouter);
 app.use("/store", storeRouter);
+app.use("/articles", articlesRouter);
 app.use("/storagecart", storageCartRouter);
 app.use("/theoder", theOderRouter);
 

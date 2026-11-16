@@ -166,9 +166,12 @@ const Returnguest = () => {
           <div className="guest-product-count"><strong>{products.length}</strong><span>sản phẩm<br />đang có</span></div>
         </div>
 
-        <div className="guest-category-filter" role="group" aria-label="Lọc theo danh mục">
-          {["Tất cả", ...PRODUCT_CATEGORIES].map((item) => <button key={item} type="button" className={category === item ? "active" : ""} aria-pressed={category === item} onClick={() => setCategory(item)}>{item}</button>)}
-        </div>
+        <label className="guest-category-filter">
+          <span>Danh mục sản phẩm:</span>
+          <select value={category} onChange={(event) => setCategory(event.target.value)} aria-label="Chọn danh mục sản phẩm">
+            {["Tất cả", ...PRODUCT_CATEGORIES].map((item) => <option key={item} value={item}>{item}</option>)}
+          </select>
+        </label>
 
         <div className="guest-toolbar">
           <label className="guest-search">

@@ -1057,3 +1057,10 @@
 .guest-category-filter button{border:1px solid #d7e4ed;background:#fff;color:#36546a;border-radius:999px;padding:9px 16px;font:600 12px "DM Sans",sans-serif;cursor:pointer;transition:background .18s,border-color .18s,color .18s;}
 .guest-category-filter button:hover,.guest-category-filter button.active{background:#0874b7;border-color:#0874b7;color:#fff;}
 @media(max-width:600px){.guest-category-filter{gap:7px}.guest-category-filter button{padding:8px 12px;font-size:11px;}}
+
+
+/* Category filter as a compact dropdown */
+.guest-category-filter{display:flex;align-items:center;gap:12px;margin:0 0 18px;color:#36546a;font-size:13px;font-weight:750}
+.guest-category-filter select{min-width:220px;min-height:44px;padding:0 42px 0 14px;border:1px solid #cbdde9;border-radius:11px;background:#fff;color:#123b58;font:700 13px "DM Sans",sans-serif;box-shadow:0 5px 16px rgba(8,54,84,.055);cursor:pointer;outline:none}
+.guest-category-filter select:focus{border-color:#0874b7;box-shadow:0 0 0 3px rgba(8,116,183,.12)}
+@media(max-width:600px){.guest-category-filter{align-items:stretch;flex-direction:column;gap:7px}.guest-category-filter select{width:100%;min-width:0}}

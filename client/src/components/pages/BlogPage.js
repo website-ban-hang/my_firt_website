@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import axios from "axios";
-import { FiArrowLeft, FiArrowRight, FiBookOpen, FiCalendar, FiChevronRight, FiLeaf } from "react-icons/fi";
+import { FiArrowLeft, FiArrowRight, FiBookOpen, FiCalendar, FiChevronRight, FiFeather } from "react-icons/fi";
 import { PORT } from "../../constants";
 import "./BlogPage.css";
 
@@ -50,7 +50,7 @@ function BlogPage() {
       <div className="ha-article-hero-inner">
         <div className="ha-article-breadcrumb"><Link to="/">Trang chủ</Link><FiChevronRight/><Link to="/blog">Về chúng tôi</Link><FiChevronRight/><span>{loading ? "Đang tải bài viết" : article?.category || "Bài viết"}</span></div>
         {loading ? <div className="ha-blog-state">Đang tải bài viết...</div> : error ? <div className="ha-blog-state">{error}</div> : article && <>
-          <span className="ha-article-eyebrow"><FiLeaf/> CÂU CHUYỆN TỪ HOÀNG ÁNH ĐIỆN MÁY</span>
+          <span className="ha-article-eyebrow"><FiFeather/> CÂU CHUYỆN TỪ HOÀNG ÁNH ĐIỆN MÁY</span>
           <h1>{article.title}</h1>
           <p>{article.excerpt}</p>
           <div className="ha-article-meta"><span><FiCalendar/> {dateFor(article.publishedAt || article.createdAt)}</span><i/> <span><FiBookOpen/> {article.category || "Tin cửa hàng"}</span></div>
@@ -60,14 +60,14 @@ function BlogPage() {
     </section>
     {article && !loading && !error && <div className="ha-article-layout">
       <article className="ha-article-paper">
-        <div className="ha-article-paper-top"><span><FiLeaf/> HOÀNG ÁNH ĐIỆN MÁY</span><span>CHIA SẺ & KẾT NỐI</span></div>
+        <div className="ha-article-paper-top"><span><FiFeather/> HOÀNG ÁNH ĐIỆN MÁY</span><span>CHIA SẺ & KẾT NỐI</span></div>
         {article.hasCoverImage && <img className="ha-article-cover" src={imageFor(article._id)} alt={article.title}/>}
         <ArticleBody content={article.content}/>
-        <div className="ha-article-signoff"><span className="ha-article-signoff-leaf"><FiLeaf/></span><div><strong>HOÀNG ÁNH ĐIỆN MÁY</strong><p>Chân thành cảm ơn quý khách đã luôn tin tưởng và đồng hành.</p></div></div>
+        <div className="ha-article-signoff"><span className="ha-article-signoff-leaf"><FiFeather/></span><div><strong>HOÀNG ÁNH ĐIỆN MÁY</strong><p>Chân thành cảm ơn quý khách đã luôn tin tưởng và đồng hành.</p></div></div>
         <Link to="/blog" className="ha-blog-return"><FiArrowLeft/> Khám phá thêm bài viết</Link>
       </article>
       <aside className="ha-article-aside">
-        <div className="ha-article-aside-card"><span className="ha-aside-leaf"><FiLeaf/></span><span className="ha-blog-eyebrow">LỜI CHÀO TỪ CHÚNG TÔI</span><h3>Cuộc sống tiện nghi bắt đầu từ những lựa chọn tốt.</h3><p>Hoàng Ánh Điện Máy luôn mong muốn đồng hành cùng gia đình bạn trong từng khoảnh khắc thường ngày.</p><Link to="/">Khám phá cửa hàng <FiArrowRight/></Link></div>
+        <div className="ha-article-aside-card"><span className="ha-aside-leaf"><FiFeather/></span><span className="ha-blog-eyebrow">LỜI CHÀO TỪ CHÚNG TÔI</span><h3>Cuộc sống tiện nghi bắt đầu từ những lựa chọn tốt.</h3><p>Hoàng Ánh Điện Máy luôn mong muốn đồng hành cùng gia đình bạn trong từng khoảnh khắc thường ngày.</p><Link to="/">Khám phá cửa hàng <FiArrowRight/></Link></div>
         <Link to="/blog" className="ha-article-aside-link"><FiBookOpen/> Xem tất cả bài viết <FiArrowRight/></Link>
       </aside>
     </div>}

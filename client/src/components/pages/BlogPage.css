@@ -7,7 +7,7 @@
 .ha-blog-article-page .ha-blog-back{color:#3c704b}
 .ha-article-hero{position:relative;isolation:isolate;overflow:hidden;min-height:365px;padding:35px max(calc((100% - 1160px)/2),6%) 65px;background:linear-gradient(112deg,#123e2b 0%,#286b43 55%,#78a96b 100%);color:#fff}
 .ha-article-hero:before{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(90deg,rgba(12,51,34,.95) 0%,rgba(19,68,42,.82) 48%,rgba(29,83,47,.28) 100%)}
-.ha-article-hero-leaf{position:absolute;z-index:-1;right:-55px;top:-100px;width:min(66vw,790px);height:590px;background:url("/leaf-botanical.svg") center/contain no-repeat;opacity:.95;pointer-events:none}
+.ha-article-hero-leaf{position:absolute;z-index:-1;right:-55px;top:-100px;width:min(66vw,790px);height:590px;background:url("./leaf-botanical.svg") center/contain no-repeat;opacity:.95;pointer-events:none}
 .ha-article-hero-inner{position:relative;z-index:1;max-width:780px}
 .ha-article-breadcrumb{display:flex;align-items:center;gap:9px;margin:0 0 42px;color:rgba(255,255,255,.72);font-size:11px}
 .ha-article-breadcrumb a{color:#e0f0d7}
@@ -40,7 +40,7 @@
 .ha-blog-article-page .ha-blog-return{margin-top:26px;background:#edf5e8;color:#367448}
 .ha-article-aside{position:sticky;top:25px;display:grid;gap:14px}
 .ha-article-aside-card{position:relative;overflow:hidden;padding:25px 22px;border:1px solid #dfead8;border-radius:18px;background:linear-gradient(150deg,#fff 0%,#f1f8eb 100%);box-shadow:0 12px 35px rgba(36,78,44,.07)}
-.ha-article-aside-card:after{content:"";position:absolute;right:-38px;top:-48px;width:150px;height:150px;background:url("/leaf-botanical.svg") center/contain no-repeat;opacity:.25;pointer-events:none}
+.ha-article-aside-card:after{content:"";position:absolute;right:-38px;top:-48px;width:150px;height:150px;background:url("./leaf-botanical.svg") center/contain no-repeat;opacity:.25;pointer-events:none}
 .ha-aside-leaf{width:39px;height:39px;display:grid;place-items:center;margin-bottom:17px;border-radius:13px;background:#e3f0d9;color:#397849;font-size:19px}
 .ha-article-aside-card .ha-blog-eyebrow{color:#6b9562;font-size:9px}
 .ha-article-aside-card h3{position:relative;z-index:1;margin:12px 0;color:#2d603a;font-family:Georgia,serif;font-size:22px;line-height:1.35}
